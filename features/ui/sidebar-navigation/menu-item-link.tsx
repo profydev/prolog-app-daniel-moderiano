@@ -33,7 +33,7 @@ export const Anchor = styled.a`
   text-decoration: none;
 `;
 
-export const Icon = styled.img<{ isCollapsed?: boolean }>`
+export const Icon = styled.img`
   width: ${space(6)};
   margin-right: ${space(3)};
 `;
