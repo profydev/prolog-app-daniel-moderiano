@@ -24,6 +24,19 @@ describe("Sidebar Navigation", () => {
 
       cy.get("nav").contains("Settings").click();
       cy.url().should("eq", "http://localhost:3000/dashboard/settings");
+
+      // Get window object to access it methods for stubs
+      cy.window().then((win) => {
+        // alias window.open function so it can be referenced later with '@open'
+        cy.stub(win, "open").as("open");
+      });
+
+      // This opens the new window (mail client) and should trigger the stubbed window.open method
+      cy.get("nav").contains("Support").click();
+      cy.get("@open").should(
+        "be.always.calledWith",
+        "mailto:support@prolog-app.com?subject=Support Request:"
+      );
     });
 
     it("is collapsible", () => {
