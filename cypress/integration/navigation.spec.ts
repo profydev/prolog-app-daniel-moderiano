@@ -31,7 +31,7 @@ describe("Sidebar Navigation", () => {
         cy.stub(win, "open").as("open");
       });
 
-      // This opens the new window (mail client) and should trigger the stubben window.open method
+      // This opens the new window (mail client) and should trigger the stubbed window.open method
       cy.get("nav").contains("Support").click();
       cy.get("@open").should(
         "be.always.calledWith",
