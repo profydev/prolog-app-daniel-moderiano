@@ -27,11 +27,11 @@ describe("Sidebar Navigation", () => {
 
       // Get window object to access it methods for stubs
       cy.window().then((win) => {
-        // alias window.open function with 'open' so it be referenced later with '@open'
+        // alias window.open function so it can be referenced later with '@open'
         cy.stub(win, "open").as("open");
       });
 
-      // This opens the new window (mail client)
+      // This opens the new window (mail client) and should trigger the stubben window.open method
       cy.get("nav").contains("Support").click();
       cy.get("@open").should(
         "be.always.calledWith",
