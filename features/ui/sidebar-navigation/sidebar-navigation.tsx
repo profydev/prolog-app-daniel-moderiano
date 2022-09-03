@@ -6,7 +6,7 @@ import { NavigationContext } from "./navigation-context";
 import { MenuItemButton } from "./menu-item-button";
 import { MenuItemLink } from "./menu-item-link";
 import { Button } from "@features/ui";
-import { breakpoint, color, space, zIndex } from "@styles/theme";
+import { breakpoint, color, theme, space, zIndex } from "@styles/theme";
 
 const menuItems = [
   { text: "Projects", iconSrc: "/icons/projects.svg", href: Routes.projects },
@@ -68,11 +68,29 @@ const Header = styled.header`
   }
 `;
 
-const Logo = styled.img`
+const Logo = styled.picture`
   width: 7.375rem;
+
+  /* Ensure the mobile logo is preferentially displayed on smaller screens */
+  /* &.desktopLogo {
+    display: none;
+  }
+
+  &.mobileLogo {
+    display: block;
+  } */
 
   @media (min-width: ${breakpoint("desktop")}) {
     margin: ${space(0, 4)};
+
+    /* Ensure the dynamic desktop logo is preferentially displayed on larger screens */
+    /* &.desktopLogo {
+      display: block;
+    }
+
+    &.mobileLogo {
+      display: none;
+    } */
   }
 `;
 
@@ -162,14 +180,36 @@ export function SidebarNavigation() {
     <Container isCollapsed={isSidebarCollapsed}>
       <FixedContainer>
         <Header>
+          {/* <Logo
+            className="mobileLogo"
+            src="/icons/logo-large.svg"
+            alt="logo"
+          />
           <Logo
+            className="desktopLogo"
             src={
               isSidebarCollapsed
                 ? "/icons/logo-small.svg"
                 : "/icons/logo-large.svg"
             }
             alt="logo"
-          />
+          /> */}
+
+          <Logo>
+            <source
+              media={`(max-width: ${theme.breakpoint.desktop})`}
+              srcSet="/icons/logo-large.svg"
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={
+                isSidebarCollapsed
+                  ? "/icons/logo-small.svg"
+                  : "/icons/logo-large.svg"
+              }
+              alt="logo"
+            />
+          </Logo>
           <MenuButton onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}>
             <MenuIcon
               src={isMobileMenuOpen ? "/icons/close.svg" : "/icons/menu.svg"}
