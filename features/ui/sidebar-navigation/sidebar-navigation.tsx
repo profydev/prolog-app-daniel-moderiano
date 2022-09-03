@@ -71,26 +71,8 @@ const Header = styled.header`
 const Logo = styled.picture`
   width: 7.375rem;
 
-  /* Ensure the mobile logo is preferentially displayed on smaller screens */
-  /* &.desktopLogo {
-    display: none;
-  }
-
-  &.mobileLogo {
-    display: block;
-  } */
-
   @media (min-width: ${breakpoint("desktop")}) {
     margin: ${space(0, 4)};
-
-    /* Ensure the dynamic desktop logo is preferentially displayed on larger screens */
-    /* &.desktopLogo {
-      display: block;
-    }
-
-    &.mobileLogo {
-      display: none;
-    } */
   }
 `;
 
@@ -180,21 +162,6 @@ export function SidebarNavigation() {
     <Container isCollapsed={isSidebarCollapsed}>
       <FixedContainer>
         <Header>
-          {/* <Logo
-            className="mobileLogo"
-            src="/icons/logo-large.svg"
-            alt="logo"
-          />
-          <Logo
-            className="desktopLogo"
-            src={
-              isSidebarCollapsed
-                ? "/icons/logo-small.svg"
-                : "/icons/logo-large.svg"
-            }
-            alt="logo"
-          /> */}
-
           <Logo>
             <source
               media={`(max-width: ${theme.breakpoint.desktop})`}
