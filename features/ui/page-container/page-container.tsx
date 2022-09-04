@@ -14,6 +14,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   background: ${color("gray", 900)};
+  height: 100vh;
 
   @media (min-width: ${breakpoint("desktop")}) {
     flex-direction: row;
@@ -27,21 +28,22 @@ const MainContainer = styled.div`
 `;
 
 const Main = styled.main`
-  flex: 1;
+  height: 100%;
 `;
 
 const ContentContainer = styled.div`
-  min-height: calc(
+  /* min-height: calc(
     100vh - 2 * ${space(8)} - ${({ theme }) => theme.size.headerHeight}
-  );
+  ); */
   margin-top: ${({ theme }) => theme.size.headerHeight};
-  padding: ${space(8, 3)};
+  padding: ${space(8, 3, 0, 3)};
   background: white;
+  height: 100%;
 
   @media (min-width: ${breakpoint("desktop")}) {
-    min-height: calc(100vh - ${space(3)} - 2 * ${space(8)});
+    /* min-height: calc(100vh - ${space(3)} - 2 * ${space(8)}); */
     margin-top: ${space(3)};
-    padding: ${space(8)};
+    padding: ${space(8, 8, 0, 8)};
     border-top-left-radius: ${space(10)};
   }
 `;
