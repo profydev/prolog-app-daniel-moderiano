@@ -19,6 +19,12 @@ const languageNames = {
   [ProjectLanguage.python]: "Python",
 };
 
+const statusNames = {
+  [ProjectStatus.info]: "Stable",
+  [ProjectStatus.warning]: "Warning",
+  [ProjectStatus.error]: "Critical",
+};
+
 const statusColors = {
   [ProjectStatus.info]: BadgeColor.success,
   [ProjectStatus.warning]: BadgeColor.warning,
@@ -106,20 +112,6 @@ const ViewIssuesAnchor = styled.a`
 export function ProjectCard({ project }: ProjectCardProps) {
   const { name, language, numIssues, numEvents24h, status } = project;
 
-  // Used to switch out the default status text returned from API to a preferred text for the UI
-  const modifyStatusTextForUI = (statusText: string) => {
-    switch (statusText) {
-      case "warning":
-        return "Warning";
-      case "info":
-        return "Stable";
-      case "error":
-        return "Critical";
-      default:
-        break;
-    }
-  };
-
   return (
     <Container>
       <TopContainer>
@@ -140,9 +132,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
             <IssuesNumber>{numEvents24h}</IssuesNumber>
           </Issues>
           <Status>
-            <Badge color={statusColors[status]}>
-              {modifyStatusTextForUI(status)}
-            </Badge>
+            <Badge color={statusColors[status]}>{statusNames[status]}</Badge>
           </Status>
         </InfoContainer>
       </TopContainer>
