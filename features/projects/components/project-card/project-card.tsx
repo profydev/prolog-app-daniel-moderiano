@@ -106,6 +106,21 @@ const ViewIssuesAnchor = styled.a`
 
 export function ProjectCard({ project }: ProjectCardProps) {
   const { name, language, numIssues, numEvents24h, status } = project;
+
+  // Used to switch out the default status text returned from API to a preferred text for the UI
+  const modifyStatusTextForUI = (statusText: string) => {
+    switch (statusText) {
+      case "warning":
+        return "Warning";
+      case "info":
+        return "Stable";
+      case "error":
+        return "Critical";
+      default:
+        break;
+    }
+  };
+
   return (
     <Container>
       <TopContainer>
@@ -126,7 +141,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
             <IssuesNumber>{numEvents24h}</IssuesNumber>
           </Issues>
           <Status>
-            <Badge color={statusColors[status]}>{capitalize(status)}</Badge>
+            <Badge color={statusColors[status]}>
+              {modifyStatusTextForUI(status)}
+            </Badge>
           </Status>
         </InfoContainer>
       </TopContainer>
