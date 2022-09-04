@@ -58,6 +58,7 @@ const Container = styled.div<{ size: BadgeSize; color: BadgeColor }>`
           background: ${color("gray", 100)};
           color: ${color("gray", 700)};
         `;
+
       default:
         return css`
           background: ${color(props.color, 50)};

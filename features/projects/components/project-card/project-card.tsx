@@ -1,6 +1,5 @@
 import Link from "next/link";
 import styled from "styled-components";
-import capitalize from "lodash/capitalize";
 import { Badge, BadgeColor } from "@features/ui";
 import {
   Project,
@@ -21,9 +20,9 @@ const languageNames = {
 };
 
 const statusColors = {
-  [ProjectStatus.stable]: BadgeColor.success,
+  [ProjectStatus.info]: BadgeColor.success,
   [ProjectStatus.warning]: BadgeColor.warning,
-  [ProjectStatus.critical]: BadgeColor.error,
+  [ProjectStatus.error]: BadgeColor.error,
 };
 
 const Container = styled.div`
@@ -106,6 +105,21 @@ const ViewIssuesAnchor = styled.a`
 
 export function ProjectCard({ project }: ProjectCardProps) {
   const { name, language, numIssues, numEvents24h, status } = project;
+
+  // Used to switch out the default status text returned from API to a preferred text for the UI
+  const modifyStatusTextForUI = (statusText: string) => {
+    switch (statusText) {
+      case "warning":
+        return "Warning";
+      case "info":
+        return "Stable";
+      case "error":
+        return "Critical";
+      default:
+        break;
+    }
+  };
+
   return (
     <Container>
       <TopContainer>
@@ -126,7 +140,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
             <IssuesNumber>{numEvents24h}</IssuesNumber>
           </Issues>
           <Status>
-            <Badge color={statusColors[status]}>{capitalize(status)}</Badge>
+            <Badge color={statusColors[status]}>
+              {modifyStatusTextForUI(status)}
+            </Badge>
           </Status>
         </InfoContainer>
       </TopContainer>
