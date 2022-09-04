@@ -39,7 +39,10 @@ const ContentContainer = styled.div`
   background: white;
 
   @media (min-width: ${breakpoint("desktop")}) {
-    min-height: calc(100vh - ${space(3)} - 2 * ${space(8)});
+    min-height: calc(
+      100vh - ${space(3)} - 2 * ${space(8)} -
+        ${({ theme }) => theme.size.footerHeight}
+    );
     margin-top: ${space(3)};
     padding: ${space(8)};
     border-top-left-radius: ${space(10)};
