@@ -1,6 +1,5 @@
 import Link from "next/link";
 import styled from "styled-components";
-import capitalize from "lodash/capitalize";
 import { Badge, BadgeColor } from "@features/ui";
 import {
   Project,
@@ -21,9 +20,9 @@ const languageNames = {
 };
 
 const statusColors = {
-  [ProjectStatus.stable]: BadgeColor.success,
+  [ProjectStatus.info]: BadgeColor.success,
   [ProjectStatus.warning]: BadgeColor.warning,
-  [ProjectStatus.critical]: BadgeColor.error,
+  [ProjectStatus.error]: BadgeColor.error,
 };
 
 const Container = styled.div`
