@@ -15,12 +15,22 @@ export function Footer() {
   return (
     <Container>
       <div className="version">14.5.1</div>
-      <ul>
-        <li>Docs</li>
-        <li>Help</li>
-        <li>API</li>
-        <li>Community</li>
-      </ul>
+      <nav>
+        <ul>
+          <li>
+            <a href="/docs">Docs</a>
+          </li>
+          <li>
+            <a href="/help">Help</a>
+          </li>
+          <li>
+            <a href="/api">API</a>
+          </li>
+          <li>
+            <a href="/community">Community</a>
+          </li>
+        </ul>
+      </nav>
       <div className="logo">Logo</div>
     </Container>
   );
