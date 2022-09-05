@@ -1,12 +1,14 @@
 import styled from "styled-components";
-import { color } from "@styles/theme";
+import { color, breakpoint } from "@styles/theme";
 
 const Container = styled.footer`
-  height: ${({ theme }) => theme.size.footerHeight};
-  /* margin-top: 2rem; */
+  height: ${({ theme }) => theme.size.mobileFooterHeight};
   background-color: ${color("gray", 50)};
   color: ${color("gray", 500)};
-  /* flex-grow: 1; */
+
+  @media (min-width: ${breakpoint("desktop")}) {
+    height: ${({ theme }) => theme.size.desktopFooterHeight};
+  }
 `;
 
 export function Footer() {
