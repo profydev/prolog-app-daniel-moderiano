@@ -12,5 +12,16 @@ const Container = styled.footer`
 `;
 
 export function Footer() {
-  return <Container>Footer</Container>;
+  return (
+    <Container>
+      <div className="version">14.5.1</div>
+      <ul>
+        <li>Docs</li>
+        <li>Help</li>
+        <li>API</li>
+        <li>Community</li>
+      </ul>
+      <div className="logo">Logo</div>
+    </Container>
+  );
 }
