@@ -4,20 +4,39 @@ import Link from "next/link";
 import { version } from "config/version";
 
 const Container = styled.footer`
+  display: grid;
+  grid-template-areas:
+    "nav"
+    "logo"
+    "version";
+
   height: ${({ theme }) => theme.size.mobileFooterHeight};
   background-color: ${color("gray", 50)};
   color: ${color("gray", 500)};
 
   @media (min-width: ${breakpoint("desktop")}) {
     height: ${({ theme }) => theme.size.desktopFooterHeight};
+    grid-template-areas: "version nav logo";
   }
+`;
+
+const Version = styled.span`
+  grid-area: version;
+`;
+
+const Logo = styled.img`
+  grid-area: logo;
+`;
+
+const Nav = styled.nav`
+  grid-area: nav;
 `;
 
 export function Footer() {
   return (
     <Container>
-      <div className="version">{version}</div>
-      <nav>
+      <Version className="version">{version}</Version>
+      <Nav>
         <ul>
           <li>
             <Link href="/docs">
@@ -40,9 +59,9 @@ export function Footer() {
             </Link>
           </li>
         </ul>
-      </nav>
+      </Nav>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img alt="logo" src="/icons/logo-small.svg" />
+      <Logo alt="logo" src="/icons/logo-small.svg" />
     </Container>
   );
 }
