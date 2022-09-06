@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { color, breakpoint } from "@styles/theme";
 import Link from "next/link";
+import { version } from "config/version";
 
 const Container = styled.footer`
   height: ${({ theme }) => theme.size.mobileFooterHeight};
@@ -15,7 +16,7 @@ const Container = styled.footer`
 export function Footer() {
   return (
     <Container>
-      <div className="version">14.5.1</div>
+      <div className="version">{version}</div>
       <nav>
         <ul>
           <li>

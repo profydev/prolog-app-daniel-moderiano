@@ -3,8 +3,8 @@
   "version": "14.5.1",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "genversion config/version.js --es6 && next dev",
+    "build": "genversion config/version.js --es6 && next build",
     "start": "next start",
     "lint": "next lint",
     "prettier": "prettier --check .",
@@ -51,6 +51,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-storybook": "^0.5.7",
+    "genversion": "^3.1.1",
     "husky": "^7.0.4",
     "jest": "^27.5.1",
     "lint-staged": "^12.3.5",
