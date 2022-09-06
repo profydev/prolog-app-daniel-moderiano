@@ -33,13 +33,13 @@ export function ProjectList() {
 
   return (
     <div>
-      <List>
+      {/* <List>
         {data?.map((project) => (
           <li key={project.id}>
             <ProjectCard project={project} />
           </li>
         ))}
-      </List>
+      </List> */}
       <Spinner />
     </div>
   );
