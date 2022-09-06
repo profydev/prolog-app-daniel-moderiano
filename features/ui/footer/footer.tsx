@@ -18,6 +18,7 @@ const Container = styled.footer`
   @media (min-width: ${breakpoint("desktop")}) {
     height: calc(${({ theme }) => theme.size.desktopFooterHeight} - 2 * 13.5px);
     grid-template-areas: "version nav logo";
+    grid-template-columns: repeat(3, 1fr);
     padding: 13.5px 32px;
   }
 `;
