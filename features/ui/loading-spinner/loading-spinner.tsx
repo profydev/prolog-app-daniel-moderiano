@@ -1,3 +1,3 @@
 export const Spinner = () => {
-  return <div>Spinner</div>;
+  return <div data-cy="spinner">Spinner</div>;
 };
