@@ -37,7 +37,6 @@ const Version = styled.span`
 const Logo = styled.img`
   grid-area: logo;
   place-self: center center;
-  width: 23px;
 
   @media (min-width: ${breakpoint("desktop")}) {
     place-self: center end;
