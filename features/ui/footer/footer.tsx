@@ -9,16 +9,16 @@ const Container = styled.footer`
     "nav"
     "logo"
     "version";
-  grid-template-rows: repeat(3, 1fr);
-  justify-items: center;
   padding: ${space(6)};
-
-  height: ${({ theme }) => theme.size.mobileFooterHeight};
+  height: calc(
+    ${({ theme }) => theme.size.mobileFooterHeight} - 2 * ${space(6)}
+  );
   background-color: ${color("gray", 50)};
 
   @media (min-width: ${breakpoint("desktop")}) {
-    height: ${({ theme }) => theme.size.desktopFooterHeight};
+    height: calc(${({ theme }) => theme.size.desktopFooterHeight} - 2 * 13.5px);
     grid-template-areas: "version nav logo";
+    padding: 13.5px 32px;
   }
 `;
 
@@ -27,16 +27,29 @@ const Version = styled.span`
   place-self: end center;
   color: ${color("gray", 400)};
   ${textFont("md", "regular")};
+
+  @media (min-width: ${breakpoint("desktop")}) {
+    place-self: center start;
+  }
 `;
 
 const Logo = styled.img`
   grid-area: logo;
   place-self: center center;
+  width: 23px;
+
+  @media (min-width: ${breakpoint("desktop")}) {
+    place-self: center end;
+  }
 `;
 
 const Nav = styled.nav`
   grid-area: nav;
   place-self: start center;
+
+  @media (min-width: ${breakpoint("desktop")}) {
+    place-self: center center;
+  }
 `;
 
 const LinkList = styled.ul`

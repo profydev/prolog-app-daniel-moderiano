@@ -151,7 +151,7 @@ export const theme = {
   size: {
     headerHeight: "4rem",
     desktopFooterHeight: "60px",
-    mobileFooterHeight: "129px",
+    mobileFooterHeight: "177px",
   },
   breakpoint: {
     desktop: "64em",
