@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { color, breakpoint, textFont } from "@styles/theme";
+import { color, breakpoint, textFont, space } from "@styles/theme";
 import Link from "next/link";
 import { version } from "config/version";
 
@@ -9,6 +9,9 @@ const Container = styled.footer`
     "nav"
     "logo"
     "version";
+  grid-template-rows: repeat(3, 1fr);
+  justify-items: center;
+  padding: ${space(6)};
 
   height: ${({ theme }) => theme.size.mobileFooterHeight};
   background-color: ${color("gray", 50)};
@@ -21,25 +24,31 @@ const Container = styled.footer`
 
 const Version = styled.span`
   grid-area: version;
+  place-self: end center;
   color: ${color("gray", 400)};
   ${textFont("md", "regular")};
 `;
 
 const Logo = styled.img`
   grid-area: logo;
+  place-self: center center;
 `;
 
 const Nav = styled.nav`
   grid-area: nav;
+  place-self: start center;
 `;
 
 const LinkList = styled.ul`
   list-style: none;
+  display: flex;
   padding: 0;
   margin: 0;
 `;
 
-const ListItem = styled.li``;
+const ListItem = styled.li`
+  padding: ${space(0, 3)};
+`;
 
 const Anchor = styled.a`
   text-decoration: none;
@@ -50,7 +59,7 @@ const Anchor = styled.a`
 export function Footer() {
   return (
     <Container>
-      <Version className="version">{version}</Version>
+      <Version className="version">Version: {version}</Version>
       <Nav>
         <LinkList>
           <ListItem>
@@ -59,13 +68,13 @@ export function Footer() {
             </Link>
           </ListItem>
           <ListItem>
-            <Link href="/help" passHref>
-              <Anchor>Help</Anchor>
+            <Link href="/api" passHref>
+              <Anchor>API</Anchor>
             </Link>
           </ListItem>
           <ListItem>
-            <Link href="/api" passHref>
-              <Anchor>API</Anchor>
+            <Link href="/help" passHref>
+              <Anchor>Help</Anchor>
             </Link>
           </ListItem>
           <ListItem>
