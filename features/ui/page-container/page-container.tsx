@@ -32,8 +32,8 @@ const Main = styled.main`
 
 const ContentContainer = styled.div`
   min-height: calc(
-    100vh - 2 * ${space(8)} - ${({ theme }) => theme.size.headerHeight} -
-      ${({ theme }) => theme.size.mobileFooterHeight}
+    100vh - 2 * ${space(8)} - (${({ theme }) => theme.size.headerHeight}) -
+      (${({ theme }) => theme.size.mobileFooterHeight})
   );
   margin-top: ${({ theme }) => theme.size.headerHeight};
   padding: ${space(8, 3)};
@@ -42,7 +42,7 @@ const ContentContainer = styled.div`
   @media (min-width: ${breakpoint("desktop")}) {
     min-height: calc(
       100vh - ${space(3)} - 2 * ${space(8)} -
-        ${({ theme }) => theme.size.desktopFooterHeight}
+        (${({ theme }) => theme.size.desktopFooterHeight})
     );
     margin-top: ${space(3)};
     padding: ${space(8)};
