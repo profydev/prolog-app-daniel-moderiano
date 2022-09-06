@@ -32,12 +32,15 @@ export function ProjectList() {
   }
 
   return (
-    <List>
-      {data?.map((project) => (
-        <li key={project.id}>
-          <ProjectCard project={project} />
-        </li>
-      ))}
-    </List>
+    <div>
+      <List>
+        {data?.map((project) => (
+          <li key={project.id}>
+            <ProjectCard project={project} />
+          </li>
+        ))}
+      </List>
+      <Spinner />
+    </div>
   );
 }
