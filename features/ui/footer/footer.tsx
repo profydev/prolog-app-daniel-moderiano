@@ -1,13 +1,14 @@
 import styled from "styled-components";
+import { Routes } from "@config/routes";
 import { color, breakpoint, textFont, space } from "@styles/theme";
 import { version } from "config/version";
 import { FooterItemLink } from "./footer-item-link";
 
 const footerItems = [
-  { text: "Docs", href: "/docs" },
-  { text: "API", href: "/api" },
-  { text: "Help", href: "/help" },
-  { text: "Community", href: "/community" },
+  { text: "Docs", href: Routes.docs },
+  { text: "API", href: Routes.api },
+  { text: "Help", href: Routes.help },
+  { text: "Community", href: Routes.community },
 ];
 
 const Container = styled.footer`
