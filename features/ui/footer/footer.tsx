@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { color, breakpoint } from "@styles/theme";
+import Link from "next/link";
 
 const Container = styled.footer`
   height: ${({ theme }) => theme.size.mobileFooterHeight};
@@ -18,16 +19,24 @@ export function Footer() {
       <nav>
         <ul>
           <li>
-            <a href="/docs">Docs</a>
+            <Link href="/docs">
+              <a>Docs</a>
+            </Link>
           </li>
           <li>
-            <a href="/help">Help</a>
+            <Link href="/help">
+              <a>Help</a>
+            </Link>
           </li>
           <li>
-            <a href="/api">API</a>
+            <Link href="/api">
+              <a>API</a>
+            </Link>
           </li>
           <li>
-            <a href="/community">Community</a>
+            <Link href="/community">
+              <a>Community</a>
+            </Link>
           </li>
         </ul>
       </nav>
