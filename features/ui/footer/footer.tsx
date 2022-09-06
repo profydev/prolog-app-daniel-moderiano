@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import { color, breakpoint, textFont, space } from "@styles/theme";
-import Link from "next/link";
 import { version } from "config/version";
+import { FooterItemLink } from "./footer-item-link";
 
-const footerLinks = [
+const footerItems = [
   { text: "Docs", href: "/docs" },
   { text: "API", href: "/api" },
   { text: "Help", href: "/help" },
@@ -66,28 +66,14 @@ const LinkList = styled.ul`
   margin: 0;
 `;
 
-const ListItem = styled.li`
-  padding: ${space(0, 3)};
-`;
-
-const Anchor = styled.a`
-  text-decoration: none;
-  color: ${color("gray", 500)};
-  ${textFont("md", "medium")};
-`;
-
 export function Footer() {
   return (
     <Container>
       <Version className="version">Version: {version}</Version>
       <Nav>
         <LinkList>
-          {footerLinks.map((footerLink, index) => (
-            <ListItem key={index}>
-              <Link href={footerLink.href} passHref>
-                <Anchor>{footerLink.text}</Anchor>
-              </Link>
-            </ListItem>
+          {footerItems.map((footerItem, index) => (
+            <FooterItemLink key={index} {...footerItem} />
           ))}
         </LinkList>
       </Nav>

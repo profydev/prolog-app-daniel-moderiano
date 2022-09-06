@@ -5,4 +5,8 @@ export const Routes = {
   alerts: "/dashboard/alerts",
   users: "/dashboard/users",
   settings: "/dashboard/settings",
+  docs: "/docs",
+  help: "/help",
+  api: "/api",
+  community: "/community",
 };
