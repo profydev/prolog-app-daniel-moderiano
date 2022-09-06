@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { color, breakpoint } from "@styles/theme";
+import { color, breakpoint, textFont } from "@styles/theme";
 import Link from "next/link";
 import { version } from "config/version";
 
@@ -21,6 +21,8 @@ const Container = styled.footer`
 
 const Version = styled.span`
   grid-area: version;
+  color: ${color("gray", 400)};
+  ${textFont("md", "regular")};
 `;
 
 const Logo = styled.img`
@@ -42,6 +44,7 @@ const ListItem = styled.li``;
 const Anchor = styled.a`
   text-decoration: none;
   color: ${color("gray", 500)};
+  ${textFont("md", "medium")};
 `;
 
 export function Footer() {
