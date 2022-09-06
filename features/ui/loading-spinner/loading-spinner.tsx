@@ -1,39 +1,23 @@
 import styled from "styled-components";
 
 const Loader = styled.div`
-  /* The bulk of the spinner 'body' that rotates */
-  width: 300px;
-  height: 300px;
-  border: 30px solid grey;
-  border-bottom-color: #ff3d00;
-  border-radius: 50%;
-  display: inline-block;
-  box-sizing: border-box;
-  animation: rotation 2s linear infinite;
   position: relative;
+  width: 58px;
+  height: 58px;
+`;
 
-  /* Essentially two rounded 'caps' on either end of the spinner body */
-  &:before,
-  &:after {
-    content: "";
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: #ff3d00;
-    position: absolute;
-  }
+const Background = styled.img`
+  position: absolute;
+  width: 58px;
+`;
 
-  /* Position at one end of the spinner body */
-  &:before {
-    bottom: 11px;
-    left: 8px;
-  }
-
-  /* Position at the other end of the spinner body */
-  &:after {
-    bottom: 11px;
-    right: 8px;
-  }
+// Positioning using half pixels here is largely guesswork, i.e. not based on a mathemtical relationship. However, it renders well on Chrome, Edge, FF on both 2160p and 1080p displays.
+const Line = styled.img`
+  position: absolute;
+  right: 0;
+  width: 32.5px;
+  transform-origin: 3.5px 29px;
+  animation: rotation 1s linear infinite;
 
   @keyframes rotation {
     0% {
@@ -46,5 +30,10 @@ const Loader = styled.div`
 `;
 
 export const Spinner = () => {
-  return <Loader data-cy="spinner"></Loader>;
+  return (
+    <Loader data-cy="spinner">
+      <Background src="./icons/spinner-background.svg" />
+      <Line src="/icons/spinner-line.svg" />
+    </Loader>
+  );
 };
