@@ -40,3 +40,25 @@ describe("Project List", () => {
     });
   });
 });
+
+describe("Project page loading spinner", () => {
+  it("shows the loading spinner while loading projects and then hide it once loaded", () => {
+    // setup request mock
+    cy.intercept("GET", "https://prolog-api.profy.dev/project", {
+      fixture: "projects.json",
+      delay: 1000,
+    }).as("getProjects");
+
+    // open projects page
+    cy.visit("http://localhost:3000/dashboard");
+
+    // check spinner is present during loading state
+    cy.get("[data-cy='spinner']").should("be.visible");
+
+    // wait for request to resolve
+    cy.wait("@getProjects");
+
+    // check spinner has disappeared once data has loaded
+    cy.get("[data-cy='spinner']").should("not.exist");
+  });
+});
