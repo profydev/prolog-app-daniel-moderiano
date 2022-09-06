@@ -41,7 +41,8 @@ export function Footer() {
           </li>
         </ul>
       </nav>
-      <div className="logo">Logo</div>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img alt="logo" src="/icons/logo-small.svg" />
     </Container>
   );
 }
