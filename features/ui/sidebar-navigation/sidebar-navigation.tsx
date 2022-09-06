@@ -184,7 +184,8 @@ export function SidebarNavigation() {
             />
           </MenuButton>
         </Header>
-        <Nav isMobileMenuOpen={isMobileMenuOpen}>
+        <MenuOverlay isMobileMenuOpen={isMobileMenuOpen} />
+        <Nav isMobileMenuOpen={isMobileMenuOpen} data-cyid="sidebarNav">
           <LinkList>
             {menuItems.map((menuItem, index) => (
               <MenuItemLink
