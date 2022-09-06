@@ -3,6 +3,13 @@ import { color, breakpoint, textFont, space } from "@styles/theme";
 import Link from "next/link";
 import { version } from "config/version";
 
+const footerLinks = [
+  { text: "Docs", href: "/docs" },
+  { text: "API", href: "/api" },
+  { text: "Help", href: "/help" },
+  { text: "Community", href: "/community" },
+];
+
 const Container = styled.footer`
   display: grid;
   grid-template-areas:
@@ -75,26 +82,13 @@ export function Footer() {
       <Version className="version">Version: {version}</Version>
       <Nav>
         <LinkList>
-          <ListItem>
-            <Link href="/docs" passHref>
-              <Anchor>Docs</Anchor>
-            </Link>
-          </ListItem>
-          <ListItem>
-            <Link href="/api" passHref>
-              <Anchor>API</Anchor>
-            </Link>
-          </ListItem>
-          <ListItem>
-            <Link href="/help" passHref>
-              <Anchor>Help</Anchor>
-            </Link>
-          </ListItem>
-          <ListItem>
-            <Link href="/community" passHref>
-              <Anchor>Community</Anchor>
-            </Link>
-          </ListItem>
+          {footerLinks.map((footerLink, index) => (
+            <ListItem key={index}>
+              <Link href={footerLink.href} passHref>
+                <Anchor>{footerLink.text}</Anchor>
+              </Link>
+            </ListItem>
+          ))}
         </LinkList>
       </Nav>
       {/* eslint-disable-next-line @next/next/no-img-element */}
