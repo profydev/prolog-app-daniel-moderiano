@@ -7,15 +7,14 @@ interface ProjectErrorProps {
 }
 
 const Container = styled.div`
+  display: flex;
+  justify-content: space-between;
+  background-color: ${color("error", 25)};
   border: 1px solid ${color("error", 300)};
   border-radius: 8px;
-  background-color: ${color("error", 25)};
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  padding: ${space(4)};
   color: ${color("error", 700)};
   ${textFont("sm", "medium")};
-  padding: 1rem 1rem 1rem 1.1rem;
 `;
 
 const ErrorButton = styled(Button)`
@@ -30,7 +29,6 @@ const ErrorButton = styled(Button)`
 
 const LeftContainer = styled.div`
   display: flex;
-  align-items: center;
 `;
 
 const ErrorMessage = styled.span`
@@ -46,16 +44,17 @@ export const ProjectError = ({ refetchProjects }: ProjectErrorProps) => {
     <Container>
       <LeftContainer>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/icons/error.svg" alt="arrow pointing to the right" />
+        <img src="/icons/error.svg" alt="Error icon" />
         <ErrorMessage>
           There was a problem while loading the project data
         </ErrorMessage>
       </LeftContainer>
       <ErrorButton onClick={refetchProjects}>
-        <span>Try again</span>
+        {/* <span>Try again</span> */}
+        Try again
         <ArrowIcon
           src="/icons/arrow-right.svg"
-          alt="arrow pointing to the right"
+          alt="Arrow pointing to the right"
         />
       </ErrorButton>
     </Container>

@@ -32,6 +32,8 @@ export function ProjectList() {
     return <ProjectError refetchProjects={refetch} />;
   }
 
+  return <ProjectError refetchProjects={refetch} />;
+
   return (
     <div>
       <List>
