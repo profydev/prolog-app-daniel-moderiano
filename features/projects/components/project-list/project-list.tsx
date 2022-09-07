@@ -24,6 +24,7 @@ export function ProjectList() {
   const { data, isLoading, isError, error, refetch } = useProjects();
 
   if (isLoading) {
+    return <ProjectError refetchProjects={refetch} />;
     return <Spinner />;
   }
 
@@ -34,13 +35,14 @@ export function ProjectList() {
 
   return (
     <div>
-      <List>
+      {/* <List>
         {data?.map((project) => (
           <li key={project.id}>
             <ProjectCard project={project} />
           </li>
         ))}
-      </List>
+      </List> */}
+      <ProjectError refetchProjects={refetch} />
     </div>
   );
 }

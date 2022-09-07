@@ -108,7 +108,7 @@ describe("Project error page", () => {
       .contains(/there was a problem/i)
       .should("not.exist");
 
-    // check that projects now exist
+    // check that projects now exist in the DOM
     cy.get("main")
       .find("li")
       .each(($el, index) => {
