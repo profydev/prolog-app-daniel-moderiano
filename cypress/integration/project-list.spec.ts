@@ -62,3 +62,24 @@ describe("Project page loading spinner", () => {
     cy.get("[data-cy='spinner']").should("not.exist");
   });
 });
+
+describe("Project error page", () => {
+  it("shows the error message on failed request", () => {
+    // setup request mock to deliver a server error
+    cy.intercept("GET", "https://prolog-api.profy.dev/project", {
+      statusCode: 500,
+    }).as("getServerFailure");
+
+    // open projects page
+    cy.visit("http://localhost:3000/dashboard");
+
+    // check error message is now visible
+    cy.get("main")
+      .contains(/there was a problem/i)
+      .should("exist");
+  });
+
+  it("retries request when clicking 'Try Again' button, and hides error page on successful request", () => {
+    // TODO
+  });
+});
