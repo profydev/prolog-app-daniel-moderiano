@@ -41,10 +41,23 @@ const Line = styled.img`
   }
 `;
 
+// Visible to screen readers only
+const HiddenLabel = styled.span`
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+`;
+
 export const Spinner = () => {
   return (
     <Container>
-      <Loader data-cy="spinner">
+      <Loader data-cy="spinner" role="status">
+        <HiddenLabel className="sr-only">Loading...</HiddenLabel>
         <Background src="./icons/spinner-background.svg" />
         <Line src="/icons/spinner-line.svg" />
       </Loader>
