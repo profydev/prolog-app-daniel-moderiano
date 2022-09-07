@@ -3,6 +3,7 @@ import { ProjectCard } from "../project-card";
 import { useProjects } from "../../api/use-projects";
 import { breakpoint, space } from "@styles/theme";
 import { Spinner } from "@features/ui";
+import { ProjectError } from "../project-error";
 
 const List = styled.ul`
   display: grid;
@@ -20,7 +21,7 @@ const List = styled.ul`
 `;
 
 export function ProjectList() {
-  const { data, isLoading, isError, error } = useProjects();
+  const { data, isLoading, isError, error, refetch } = useProjects();
 
   if (isLoading) {
     return <Spinner />;
@@ -28,7 +29,7 @@ export function ProjectList() {
 
   if (isError) {
     console.error(error);
-    return <div>Error: {error.message}</div>;
+    return <ProjectError refetchProjects={refetch} />;
   }
 
   return (

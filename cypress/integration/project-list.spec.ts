@@ -62,3 +62,57 @@ describe("Project page loading spinner", () => {
     cy.get("[data-cy='spinner']").should("not.exist");
   });
 });
+
+describe("Project error page", () => {
+  it("shows the error message on failed request", () => {
+    // setup request mock to deliver a server error
+    cy.intercept("GET", "https://prolog-api.profy.dev/project", {
+      forceNetworkError: true,
+    }).as("getServerFailure");
+
+    // open projects page
+    cy.visit("http://localhost:3000/dashboard");
+
+    // check error message is now visible
+    cy.get("main")
+      // Timeout must be manually increased to allow for React Query retries
+      .contains(/there was a problem/i, { timeout: 10000 })
+      .should("exist");
+  });
+
+  it("retries request when clicking 'Try Again' button, and hides error page on successful request", () => {
+    // setup request mock to deliver a server error
+    cy.intercept("GET", "https://prolog-api.profy.dev/project", {
+      forceNetworkError: true,
+    }).as("getServerFailure");
+
+    // open projects page
+    cy.visit("http://localhost:3000/dashboard");
+
+    // Wait for error msg to click retry button
+    cy.get("main")
+      // Timeout must be manually increased to allow for React Query retries
+      .contains(/try again/i, { timeout: 10000 })
+      .click();
+
+    // Re-intercept but this time return succesful response
+    cy.intercept("GET", "https://prolog-api.profy.dev/project", {
+      fixture: "projects.json",
+    }).as("getProjects");
+
+    // wait for request to resolve
+    cy.wait("@getProjects");
+
+    // check error message has disappeared
+    cy.get("main")
+      .contains(/there was a problem/i)
+      .should("not.exist");
+
+    // check that projects now exist in the DOM
+    cy.get("main")
+      .find("li")
+      .each(($el, index) => {
+        cy.wrap($el).contains(mockProjects[index].name);
+      });
+  });
+});
