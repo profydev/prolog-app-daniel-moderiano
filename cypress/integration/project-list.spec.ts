@@ -67,7 +67,8 @@ describe("Project error page", () => {
   it("shows the error message on failed request", () => {
     // setup request mock to deliver a server error
     cy.intercept("GET", "https://prolog-api.profy.dev/project", {
-      statusCode: 500,
+      // statusCode: 500,
+      forceNetworkError: true,
     }).as("getServerFailure");
 
     // open projects page
@@ -75,7 +76,8 @@ describe("Project error page", () => {
 
     // check error message is now visible
     cy.get("main")
-      .contains(/there was a problem/i)
+      // Timeout must be manually increased to allow for React Query retries
+      .contains(/there was a problem/i, { timeout: 10000 })
       .should("exist");
   });
 
