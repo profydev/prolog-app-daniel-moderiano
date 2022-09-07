@@ -50,7 +50,6 @@ export const ProjectError = ({ refetchProjects }: ProjectErrorProps) => {
         </ErrorMessage>
       </LeftContainer>
       <ErrorButton onClick={refetchProjects}>
-        {/* <span>Try again</span> */}
         Try again
         <ArrowIcon
           src="/icons/arrow-right.svg"
