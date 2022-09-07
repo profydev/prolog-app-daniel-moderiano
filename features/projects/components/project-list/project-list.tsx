@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { ProjectCard } from "../project-card";
 import { useProjects } from "../../api/use-projects";
 import { breakpoint, space } from "@styles/theme";
+import { Spinner } from "@features/ui";
 
 const List = styled.ul`
   display: grid;
@@ -22,7 +23,7 @@ export function ProjectList() {
   const { data, isLoading, isError, error } = useProjects();
 
   if (isLoading) {
-    return <div>Loading</div>;
+    return <Spinner />;
   }
 
   if (isError) {
@@ -31,12 +32,14 @@ export function ProjectList() {
   }
 
   return (
-    <List>
-      {data?.map((project) => (
-        <li key={project.id}>
-          <ProjectCard project={project} />
-        </li>
-      ))}
-    </List>
+    <div>
+      <List>
+        {data?.map((project) => (
+          <li key={project.id}>
+            <ProjectCard project={project} />
+          </li>
+        ))}
+      </List>
+    </div>
   );
 }
