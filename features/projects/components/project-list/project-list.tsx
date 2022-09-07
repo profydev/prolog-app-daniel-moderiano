@@ -21,7 +21,7 @@ const List = styled.ul`
 `;
 
 export function ProjectList() {
-  const { data, isLoading, isError, error } = useProjects();
+  const { data, isLoading, isError, error, refetch } = useProjects();
 
   if (isLoading) {
     return <Spinner />;
@@ -29,7 +29,7 @@ export function ProjectList() {
 
   if (isError) {
     console.error(error);
-    return <ProjectError />;
+    return <ProjectError refetchProjects={refetch} />;
   }
 
   return (
