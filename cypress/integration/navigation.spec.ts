@@ -44,7 +44,7 @@ describe("Sidebar Navigation", () => {
       cy.get("nav").contains("Collapse").click();
 
       // check that links still exist and are functionable
-      cy.get("[data-cyid='sidebarNav']")
+      cy.get("[data-cy='sidebarNav']")
         .find("a")
         .should("have.length", 5)
         .eq(1)
@@ -92,7 +92,7 @@ describe("Sidebar Navigation", () => {
       isInViewport("nav");
 
       // check that all links are rendered
-      cy.get("[data-cyid='sidebarNav']").find("a").should("have.length", 5);
+      cy.get("[data-cy='sidebarNav']").find("a").should("have.length", 5);
 
       // Support button should be rendered but Collapse button not
       cy.get("nav").contains("Support").should("exist");

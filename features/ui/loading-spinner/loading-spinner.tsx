@@ -42,7 +42,7 @@ const Line = styled.img`
 `;
 
 // Visible to screen readers only
-const HiddenLabel = styled.span`
+const AccessibleLabel = styled.span`
   clip: rect(1px, 1px, 1px, 1px);
   clip-path: inset(50%);
   height: 1px;
@@ -57,7 +57,7 @@ export const Spinner = () => {
   return (
     <Container>
       <Loader data-cy="spinner" role="status">
-        <HiddenLabel className="sr-only">Loading...</HiddenLabel>
+        <AccessibleLabel className="sr-only">Loading...</AccessibleLabel>
         <Background src="./icons/spinner-background.svg" />
         <Line src="/icons/spinner-line.svg" />
       </Loader>
