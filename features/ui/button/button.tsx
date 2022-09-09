@@ -1,6 +1,11 @@
 import styled from "styled-components";
 
-export const Button = styled.button`
+interface ButtonProps {
+  children: React.ReactNode;
+  onClick: () => void;
+}
+
+export const StyledButton = styled.button`
   cursor: pointer;
 
   // remove default button styles
@@ -18,3 +23,7 @@ export const Button = styled.button`
     padding: 0;
   }
 `;
+
+export function Button({ children, onClick }: ButtonProps) {
+  return <StyledButton onClick={onClick}>{children}</StyledButton>;
+}
