@@ -1,4 +1,4 @@
-import { color, textFont } from "@styles/theme";
+import { color, space, textFont } from "@styles/theme";
 import styled, { css } from "styled-components";
 
 export enum ButtonSize {
@@ -26,6 +26,7 @@ export enum IconOptions {
 
 interface ButtonProps {
   children: React.ReactNode;
+  label?: string;
   icon?: IconOptions;
   disabled?: boolean;
   size?: ButtonSize;
@@ -33,11 +34,8 @@ interface ButtonProps {
   onClick?: () => void;
 }
 
-export const Container = styled.button<{
-  size: ButtonSize;
-  color: ButtonColor;
-  icon: IconOptions;
-}>`
+// Used in place of the previous "Button" export whose only purpose was essentially providing a CSS reset to button styles
+export const ButtonCSSReset = css`
   cursor: pointer;
 
   // remove default button styles
@@ -54,6 +52,14 @@ export const Container = styled.button<{
     border: 0;
     padding: 0;
   }
+`;
+
+export const Container = styled.button<{
+  size: ButtonSize;
+  color: ButtonColor;
+  icon: IconOptions;
+}>`
+  ${ButtonCSSReset}
 
   /* Add new default styles */
   box-sizing: border-box;
@@ -61,6 +67,7 @@ export const Container = styled.button<{
   justify-content: center;
   align-items: center;
   border-radius: 8px;
+  gap: ${space(2)};
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
 
   /* Dynamically set styles based on button size prop */
@@ -239,11 +246,11 @@ export const Container = styled.button<{
         `;
 
       case IconOptions.leading:
-        return css``;
+        return css`
+          flex-direction: row-reverse;
+        `;
 
-      case IconOptions.trailing:
-        return css``;
-
+      // Trailing case is not required as a trailing icon requires no additional changes from default CSS
       // Default case is not required, as "none" is the default value and requires no additional CSS
     }
   }}
@@ -251,6 +258,7 @@ export const Container = styled.button<{
 
 export function Button({
   children,
+  label,
   icon = IconOptions.none,
   disabled = false,
   size = ButtonSize.md,
@@ -265,6 +273,7 @@ export function Button({
       disabled={disabled}
       icon={icon}
     >
+      {label}
       {children}
     </Container>
   );

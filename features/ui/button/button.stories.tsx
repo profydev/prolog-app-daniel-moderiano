@@ -7,32 +7,14 @@ export default {
   component: Button,
 } as ComponentMeta<typeof Button>;
 
-const Template: ComponentStory<typeof Button> = (args) => {
-  if (args.icon === "none") {
-    return (
-      <Button {...args}>
-        <span>Button CTA</span>
-      </Button>
-    );
-  }
-
-  if (args.icon === "only") {
-    return (
-      <Button {...args}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/icons/alert.svg" alt="alert" />
-      </Button>
-    );
-  }
-
-  return (
-    <Button {...args}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/icons/alert.svg" alt="alert" />
-      <span>Button CTA</span>
-    </Button>
-  );
-};
+const Template: ComponentStory<typeof Button> = (args) => (
+  <Button {...args}>
+    {args.icon !== "none" && (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img src="/icons/test-icon.svg" alt="circle" />
+    )}
+  </Button>
+);
 
 export const Default = Template.bind({});
 Default.args = {
@@ -40,4 +22,5 @@ Default.args = {
   color: ButtonColor.primary,
   disabled: false,
   icon: IconOptions.none,
+  label: "Button CTA",
 };
