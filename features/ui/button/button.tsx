@@ -36,7 +36,6 @@ interface ButtonProps {
   disabled?: boolean;
   size: ButtonSize;
   color: ButtonColor;
-  onClick?: () => void;
 }
 
 // Used in place of the previous "Button" export whose only purpose was essentially providing a CSS reset to button styles
@@ -66,27 +65,25 @@ export const Container = styled.button<{
 }>`
   ${ButtonCSSReset}
 
-  /* Add new default styles */
   box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 8px;
-  gap: ${space(2)};
+  gap: ${space(2)}; // relevant for spacing an icon if present
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  ${textFont("sm", "medium")}
 
   /* Dynamically set styles based on button size prop */
   ${(props) => {
     switch (props.size) {
       case ButtonSize.sm:
         return css`
-          ${textFont("sm", "medium")}
           padding: 8px 14px;
         `;
 
       case ButtonSize.md:
         return css`
-          ${textFont("sm", "medium")}
           padding: 10px 16px;
         `;
 
