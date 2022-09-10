@@ -1,4 +1,4 @@
-import { Button } from "./button";
+import { Button, ButtonColor, ButtonSize } from "./button";
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
@@ -7,8 +7,13 @@ export default {
   component: Button,
 } as ComponentMeta<typeof Button>;
 
-const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />;
+const Template: ComponentStory<typeof Button> = (args) => (
+  <Button {...args}>Button CTA</Button>
+);
 
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+  size: ButtonSize.md,
+  color: ButtonColor.primary,
+};
 Default.parameters = {};

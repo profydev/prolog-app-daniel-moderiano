@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import { color, space, textFont } from "@styles/theme";
+import styled, { css } from "styled-components";
 
 export enum ButtonSize {
   sm = "sm",
@@ -43,6 +44,50 @@ export const Container = styled.button<{
     border: 0;
     padding: 0;
   }
+
+  /* Add new default styles */
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+
+  /* Dynamically set props based on button size prop */
+  ${(props) => {
+    switch (props.size) {
+      case ButtonSize.sm:
+        return css``;
+      case ButtonSize.md:
+        return css`
+          padding: 10px 18px;
+        `;
+      case ButtonSize.lg:
+        return css``;
+
+      case ButtonSize.xl:
+        return css``;
+
+      default:
+        return css``;
+    }
+  }}
+
+  /* Dynamically set props based on button color prop */
+  ${(props) => {
+    switch (props.color) {
+      case ButtonColor.primary:
+        return css`
+          background: ${color("primary", 600)};
+          color: #ffffff;
+          ${textFont("sm", "medium")}
+          border: 1px solid ${color("primary", 600)};
+        `;
+
+      default:
+        return css``;
+    }
+  }}
 `;
 
 export function Button({
