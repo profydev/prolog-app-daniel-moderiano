@@ -1,11 +1,32 @@
 import styled from "styled-components";
 
+export enum ButtonSize {
+  sm = "sm",
+  md = "md",
+  lg = "lg",
+  xl = "lg",
+}
+
+export enum ButtonColor {
+  primary = "primary",
+  secondary = "secondary",
+  empty = "empty",
+  emptyGray = "emptyGray",
+  gray = "gray",
+  error = "error",
+}
+
 interface ButtonProps {
   children: React.ReactNode;
+  size?: ButtonSize;
+  color?: ButtonColor;
   onClick: () => void;
 }
 
-export const StyledButton = styled.button`
+export const Container = styled.button<{
+  size: ButtonSize;
+  color: ButtonColor;
+}>`
   cursor: pointer;
 
   // remove default button styles
@@ -24,6 +45,15 @@ export const StyledButton = styled.button`
   }
 `;
 
-export function Button({ children, onClick }: ButtonProps) {
-  return <StyledButton onClick={onClick}>{children}</StyledButton>;
+export function Button({
+  children,
+  size = ButtonSize.md,
+  color = ButtonColor.primary,
+  onClick,
+}: ButtonProps) {
+  return (
+    <Container onClick={onClick} size={size} color={color}>
+      {children}
+    </Container>
+  );
 }
