@@ -33,8 +33,8 @@ interface ButtonProps {
   text?: string;
   icon?: IconOptions;
   disabled?: boolean;
-  size?: ButtonSize;
-  color?: ButtonColor;
+  size: ButtonSize;
+  color: ButtonColor;
   onClick?: () => void;
 }
 
@@ -99,12 +99,6 @@ export const Container = styled.button<{
         return css`
           ${textFont("md", "medium")}
           padding: 12px 20px;
-        `;
-
-      default:
-        return css`
-          ${textFont("sm", "medium")}
-          padding: 10px 16px;
         `;
     }
   }}
@@ -219,25 +213,6 @@ export const Container = styled.button<{
             border-color: ${color("error", 200)};
           }
         `;
-
-      default:
-        return css`
-          background: ${color("primary", 600)};
-          color: #ffffff;
-          border: 1px solid ${color("primary", 600)};
-          &:hover {
-            background: ${color("primary", 700)};
-            border-color: ${color("primary", 700)};
-          }
-          &:focus {
-            box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05),
-              0px 0px 0px 4px ${color("primary", 100)};
-          }
-          &:disabled {
-            background: ${color("primary", 200)};
-            border-color: ${color("primary", 200)};
-          }
-        `;
     }
   }}
 
@@ -255,7 +230,6 @@ export const Container = styled.button<{
         `;
 
       // Trailing case is not required as a trailing icon requires no additional changes from default CSS
-      // Default case is not required, as "none" is the default value and requires no additional CSS
     }
   }}
 `;
