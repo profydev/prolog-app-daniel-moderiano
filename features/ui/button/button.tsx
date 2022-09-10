@@ -1,4 +1,4 @@
-import { color, space, textFont } from "@styles/theme";
+import { color, textFont } from "@styles/theme";
 import styled, { css } from "styled-components";
 
 export enum ButtonSize {
@@ -96,6 +96,10 @@ export const Container = styled.button<{
           background: ${color("primary", 600)};
           color: #ffffff;
           border: 1px solid ${color("primary", 600)};
+          &:hover {
+            background: ${color("primary", 700)};
+            border-color: ${color("primary", 700)};
+          }
         `;
 
       case ButtonColor.secondary:
@@ -103,6 +107,10 @@ export const Container = styled.button<{
           background: ${color("primary", 50)};
           color: ${color("primary", 700)};
           border: 1px solid ${color("primary", 50)};
+          &:hover {
+            background: ${color("primary", 100)};
+            border-color: ${color("primary", 100)};
+          }
         `;
 
       case ButtonColor.gray:
@@ -110,6 +118,10 @@ export const Container = styled.button<{
           background: #ffffff;
           color: ${color("gray", 700)};
           border: 1px solid ${color("gray", 300)};
+          &:hover {
+            background: ${color("gray", 50)};
+            color: ${color("gray", 800)};
+          }
         `;
 
       case ButtonColor.empty:
@@ -118,6 +130,9 @@ export const Container = styled.button<{
           color: ${color("primary", 700)};
           border: none;
           box-shadow: none;
+          &:hover {
+            background: ${color("primary", 50)};
+          }
         `;
 
       case ButtonColor.emptyGray:
@@ -126,6 +141,10 @@ export const Container = styled.button<{
           color: ${color("gray", 500)};
           border: none;
           box-shadow: none;
+          &:hover {
+            background: ${color("gray", 50)};
+            color: ${color("gray", 600)};
+          }
         `;
 
       case ButtonColor.error:
@@ -133,6 +152,10 @@ export const Container = styled.button<{
           background: ${color("error", 600)};
           color: #ffffff;
           border: 1px solid ${color("error", 600)};
+          &:hover {
+            background: ${color("error", 700)};
+            border-color: ${color("error", 700)};
+          }
         `;
 
       default:
