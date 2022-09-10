@@ -124,6 +124,10 @@ export const Container = styled.button<{
             box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05),
               0px 0px 0px 4px ${color("primary", 100)};
           }
+          &:disabled {
+            background: ${color("primary", 25)};
+            color: ${color("primary", 300)};
+          }
         `;
 
       case ButtonColor.gray:
@@ -139,6 +143,11 @@ export const Container = styled.button<{
             box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05),
               0px 0px 0px 4px ${color("gray", 100)};
           }
+          &:disabled {
+            background: #ffffff;
+            border: 1px solid ${color("gray", 200)};
+            color: ${color("gray", 300)};
+          }
         `;
 
       case ButtonColor.empty:
@@ -149,6 +158,10 @@ export const Container = styled.button<{
           box-shadow: none;
           &:hover {
             background: ${color("primary", 50)};
+          }
+          &:disabled {
+            background: #ffffff;
+            color: ${color("gray", 300)};
           }
         `;
 
@@ -161,6 +174,10 @@ export const Container = styled.button<{
           &:hover {
             background: ${color("gray", 50)};
             color: ${color("gray", 600)};
+          }
+          &:disabled {
+            background: #ffffff;
+            color: ${color("gray", 300)};
           }
         `;
 
@@ -176,6 +193,10 @@ export const Container = styled.button<{
           &:focus {
             box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05),
               0px 0px 0px 4px ${color("error", 100)};
+          }
+          &:disabled {
+            background: ${color("error", 200)};
+            border-color: ${color("error", 200)};
           }
         `;
 
