@@ -16,4 +16,5 @@ export const Default = Template.bind({});
 Default.args = {
   size: ButtonSize.md,
   color: ButtonColor.primary,
+  disabled: false,
 };

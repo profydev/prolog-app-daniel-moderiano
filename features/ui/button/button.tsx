@@ -19,6 +19,7 @@ export enum ButtonColor {
 
 interface ButtonProps {
   children: React.ReactNode;
+  disabled?: boolean;
   size?: ButtonSize;
   color?: ButtonColor;
   onClick?: () => void;
@@ -104,6 +105,10 @@ export const Container = styled.button<{
             box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05),
               0px 0px 0px 4px ${color("primary", 100)};
           }
+          &:disabled {
+            background: ${color("primary", 200)};
+            border-color: ${color("primary", 200)};
+          }
         `;
 
       case ButtonColor.secondary:
@@ -186,12 +191,13 @@ export const Container = styled.button<{
 
 export function Button({
   children,
+  disabled = false,
   size = ButtonSize.md,
   color = ButtonColor.primary,
   onClick,
 }: ButtonProps) {
   return (
-    <Container onClick={onClick} size={size} color={color}>
+    <Container onClick={onClick} size={size} color={color} disabled={disabled}>
       {children}
     </Container>
   );
