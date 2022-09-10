@@ -26,8 +26,9 @@ export enum IconOptions {
 
 interface ButtonProps {
   children: React.ReactNode;
-  label?: string;
+  text?: string;
   icon?: IconOptions;
+  iconSrc?: string;
   disabled?: boolean;
   size?: ButtonSize;
   color?: ButtonColor;
@@ -257,8 +258,8 @@ export const Container = styled.button<{
 `;
 
 export function Button({
-  children,
-  label,
+  text,
+  iconSrc,
   icon = IconOptions.none,
   disabled = false,
   size = ButtonSize.md,
@@ -273,8 +274,11 @@ export function Button({
       disabled={disabled}
       icon={icon}
     >
-      {label}
-      {children}
+      {text}
+      {iconSrc && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={iconSrc} alt={`${text} icon`} />
+      )}
     </Container>
   );
 }
