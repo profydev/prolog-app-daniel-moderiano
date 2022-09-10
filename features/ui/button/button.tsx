@@ -17,8 +17,16 @@ export enum ButtonColor {
   error = "error",
 }
 
+export enum IconOptions {
+  none = "none",
+  only = "only",
+  leading = "leading",
+  trailing = "trailing",
+}
+
 interface ButtonProps {
   children: React.ReactNode;
+  icon?: IconOptions;
   disabled?: boolean;
   size?: ButtonSize;
   color?: ButtonColor;
@@ -28,6 +36,7 @@ interface ButtonProps {
 export const Container = styled.button<{
   size: ButtonSize;
   color: ButtonColor;
+  icon: IconOptions;
 }>`
   cursor: pointer;
 
@@ -54,7 +63,7 @@ export const Container = styled.button<{
   border-radius: 8px;
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
 
-  /* Dynamically set props based on button size prop */
+  /* Dynamically set styles based on button size prop */
   ${(props) => {
     switch (props.size) {
       case ButtonSize.sm:
@@ -89,7 +98,7 @@ export const Container = styled.button<{
     }
   }}
 
-  /* Dynamically set props based on button color prop */
+  /* Dynamically set styles based on button color prop */
   ${(props) => {
     switch (props.color) {
       case ButtonColor.primary:
@@ -220,17 +229,42 @@ export const Container = styled.button<{
         `;
     }
   }}
+
+  /* Dynamically set styles based on presence and position of an icon */
+  ${(props) => {
+    switch (props.icon) {
+      case IconOptions.only:
+        return css`
+          padding: 10px;
+        `;
+
+      case IconOptions.leading:
+        return css``;
+
+      case IconOptions.trailing:
+        return css``;
+
+      // Default case is not required, as "none" is the default value and requires no additional CSS
+    }
+  }}
 `;
 
 export function Button({
   children,
+  icon = IconOptions.none,
   disabled = false,
   size = ButtonSize.md,
   color = ButtonColor.primary,
   onClick,
 }: ButtonProps) {
   return (
-    <Container onClick={onClick} size={size} color={color} disabled={disabled}>
+    <Container
+      onClick={onClick}
+      size={size}
+      color={color}
+      disabled={disabled}
+      icon={icon}
+    >
       {children}
     </Container>
   );
