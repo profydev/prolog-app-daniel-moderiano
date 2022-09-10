@@ -1,4 +1,4 @@
-import { Button } from "@features/ui";
+import { ButtonCSSReset } from "@features/ui";
 import { color, textFont, space } from "@styles/theme";
 import styled from "styled-components";
 
@@ -17,7 +17,8 @@ const Container = styled.div`
   ${textFont("sm", "medium")};
 `;
 
-const ErrorButton = styled(Button)`
+const ErrorButton = styled.button`
+  ${ButtonCSSReset}
   display: flex;
   align-items: center;
   justify-content: space-between;

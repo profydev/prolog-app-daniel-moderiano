@@ -5,8 +5,8 @@ import { Routes } from "@config/routes";
 import { NavigationContext } from "./navigation-context";
 import { MenuItemButton } from "./menu-item-button";
 import { MenuItemLink } from "./menu-item-link";
-import { Button } from "@features/ui";
 import { breakpoint, color, theme, space, zIndex } from "@styles/theme";
+import { ButtonCSSReset } from "@features/ui";
 
 const menuItems = [
   { text: "Projects", iconSrc: "/icons/projects.svg", href: Routes.projects },
@@ -76,7 +76,8 @@ const Logo = styled.picture`
   }
 `;
 
-const MenuButton = styled(Button)`
+const MenuButton = styled.button`
+  ${ButtonCSSReset}
   @media (min-width: ${breakpoint("desktop")}) {
     display: none;
   }
