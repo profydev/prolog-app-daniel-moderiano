@@ -214,22 +214,10 @@ export const Container = styled.button<{
     }
   }}
 
-  /* Dynamically set styles for different desired icon positions */
-  ${(props) => {
-    switch (props.iconDisplay) {
-      case IconDisplay.only:
-        return css`
-          padding: 10px;
-        `;
-
-      case IconDisplay.leading:
-        return css`
-          flex-direction: row-reverse;
-        `;
-
-      // Trailing case is not required as a trailing icon requires no additional changes from default CSS
-    }
-  }}
+  /* Please leave these declarations last so that they can take precedence over other styles above */
+  flex-direction: ${(props) =>
+    props.iconDisplay === IconDisplay.leading ? "row-reverse" : "row"};
+  padding: ${(props) => props.iconDisplay === IconDisplay.only && "10px"};
 `;
 
 export function Button({
