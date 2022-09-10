@@ -205,6 +205,18 @@ export const Container = styled.button<{
           background: ${color("primary", 600)};
           color: #ffffff;
           border: 1px solid ${color("primary", 600)};
+          &:hover {
+            background: ${color("primary", 700)};
+            border-color: ${color("primary", 700)};
+          }
+          &:focus {
+            box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05),
+              0px 0px 0px 4px ${color("primary", 100)};
+          }
+          &:disabled {
+            background: ${color("primary", 200)};
+            border-color: ${color("primary", 200)};
+          }
         `;
     }
   }}
