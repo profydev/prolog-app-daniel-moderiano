@@ -1,4 +1,4 @@
-import { Button, ButtonColor, ButtonSize, IconOptions } from "./button";
+import { Button, ButtonColor, ButtonSize, IconDisplay } from "./button";
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
@@ -14,7 +14,9 @@ Default.args = {
   size: ButtonSize.md,
   color: ButtonColor.primary,
   disabled: false,
-  icon: IconOptions.leading,
-  iconSrc: "/icons/test-icon.svg",
+  icon: {
+    src: "/icons/test-icon.svg",
+    display: IconDisplay.leading,
+  },
   text: "Button CTA",
 };

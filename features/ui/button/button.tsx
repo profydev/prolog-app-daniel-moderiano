@@ -17,18 +17,21 @@ export enum ButtonColor {
   error = "error",
 }
 
-export enum IconOptions {
+export enum IconDisplay {
   none = "none",
   only = "only",
   leading = "leading",
   trailing = "trailing",
 }
 
+export interface IconOptions {
+  src: string;
+  display: IconDisplay;
+}
+
 interface ButtonProps {
-  children: React.ReactNode;
   text?: string;
   icon?: IconOptions;
-  iconSrc?: string;
   disabled?: boolean;
   size?: ButtonSize;
   color?: ButtonColor;
@@ -58,7 +61,7 @@ export const ButtonCSSReset = css`
 export const Container = styled.button<{
   size: ButtonSize;
   color: ButtonColor;
-  icon: IconOptions;
+  iconDisplay: IconDisplay;
 }>`
   ${ButtonCSSReset}
 
@@ -240,13 +243,13 @@ export const Container = styled.button<{
 
   /* Dynamically set styles based on presence and position of an icon */
   ${(props) => {
-    switch (props.icon) {
-      case IconOptions.only:
+    switch (props.iconDisplay) {
+      case IconDisplay.only:
         return css`
           padding: 10px;
         `;
 
-      case IconOptions.leading:
+      case IconDisplay.leading:
         return css`
           flex-direction: row-reverse;
         `;
@@ -259,8 +262,7 @@ export const Container = styled.button<{
 
 export function Button({
   text,
-  iconSrc,
-  icon = IconOptions.none,
+  icon,
   disabled = false,
   size = ButtonSize.md,
   color = ButtonColor.primary,
@@ -272,12 +274,12 @@ export function Button({
       size={size}
       color={color}
       disabled={disabled}
-      icon={icon}
+      iconDisplay={icon ? icon.display : IconDisplay.none}
     >
       {text}
-      {iconSrc && (
+      {icon && (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={iconSrc} alt={`${text} icon`} />
+        <img src={icon.src} alt={`${text} icon`} />
       )}
     </Container>
   );
