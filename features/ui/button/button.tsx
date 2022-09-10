@@ -24,6 +24,7 @@ export enum IconDisplay {
   trailing = "trailing",
 }
 
+// These props have been grouped into a single object because it would'nt make sense to ever specify only one of them
 export interface IconOptions {
   src: string;
   display: IconDisplay;
@@ -216,7 +217,7 @@ export const Container = styled.button<{
     }
   }}
 
-  /* Dynamically set styles based on presence and position of an icon */
+  /* Dynamically set styles for different desired icon positions */
   ${(props) => {
     switch (props.iconDisplay) {
       case IconDisplay.only:
@@ -240,11 +241,9 @@ export function Button({
   disabled = false,
   size = ButtonSize.md,
   color = ButtonColor.primary,
-  onClick,
 }: ButtonProps) {
   return (
     <Container
-      onClick={onClick}
       size={size}
       color={color}
       disabled={disabled}
