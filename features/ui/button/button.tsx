@@ -21,7 +21,7 @@ interface ButtonProps {
   children: React.ReactNode;
   size?: ButtonSize;
   color?: ButtonColor;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export const Container = styled.button<{
@@ -61,11 +61,13 @@ export const Container = styled.button<{
           ${textFont("sm", "medium")}
           padding: 8px 14px;
         `;
+
       case ButtonSize.md:
         return css`
           ${textFont("sm", "medium")}
           padding: 10px 16px;
         `;
+
       case ButtonSize.lg:
         return css`
           ${textFont("md", "medium")}
@@ -78,7 +80,11 @@ export const Container = styled.button<{
           padding: 12px 20px;
         `;
 
-      // TODO: Default case
+      default:
+        return css`
+          ${textFont("sm", "medium")}
+          padding: 10px 16px;
+        `;
     }
   }}
 
@@ -89,12 +95,52 @@ export const Container = styled.button<{
         return css`
           background: ${color("primary", 600)};
           color: #ffffff;
-
           border: 1px solid ${color("primary", 600)};
         `;
 
+      case ButtonColor.secondary:
+        return css`
+          background: ${color("primary", 50)};
+          color: ${color("primary", 700)};
+          border: 1px solid ${color("primary", 50)};
+        `;
+
+      case ButtonColor.gray:
+        return css`
+          background: #ffffff;
+          color: ${color("gray", 700)};
+          border: 1px solid ${color("gray", 300)};
+        `;
+
+      case ButtonColor.empty:
+        return css`
+          background: #ffffff;
+          color: ${color("primary", 700)};
+          border: none;
+          box-shadow: none;
+        `;
+
+      case ButtonColor.emptyGray:
+        return css`
+          background: #ffffff;
+          color: ${color("gray", 500)};
+          border: none;
+          box-shadow: none;
+        `;
+
+      case ButtonColor.error:
+        return css`
+          background: ${color("error", 600)};
+          color: #ffffff;
+          border: 1px solid ${color("error", 600)};
+        `;
+
       default:
-        return css``;
+        return css`
+          background: ${color("primary", 600)};
+          color: #ffffff;
+          border: 1px solid ${color("primary", 600)};
+        `;
     }
   }}
 `;
