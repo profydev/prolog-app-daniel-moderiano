@@ -12,8 +12,8 @@ const Template: ComponentStory<typeof Button> = (args) => (
 );
 
 export const Default = Template.bind({});
+
 Default.args = {
   size: ButtonSize.md,
   color: ButtonColor.primary,
 };
-Default.parameters = {};

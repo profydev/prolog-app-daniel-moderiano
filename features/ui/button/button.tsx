@@ -5,7 +5,7 @@ export enum ButtonSize {
   sm = "sm",
   md = "md",
   lg = "lg",
-  xl = "lg",
+  xl = "xl",
 }
 
 export enum ButtonColor {
@@ -57,19 +57,28 @@ export const Container = styled.button<{
   ${(props) => {
     switch (props.size) {
       case ButtonSize.sm:
-        return css``;
+        return css`
+          ${textFont("sm", "medium")}
+          padding: 8px 14px;
+        `;
       case ButtonSize.md:
         return css`
-          padding: 10px 18px;
+          ${textFont("sm", "medium")}
+          padding: 10px 16px;
         `;
       case ButtonSize.lg:
-        return css``;
+        return css`
+          ${textFont("md", "medium")}
+          padding: 10px 18px;
+        `;
 
       case ButtonSize.xl:
-        return css``;
+        return css`
+          ${textFont("md", "medium")}
+          padding: 12px 20px;
+        `;
 
-      default:
-        return css``;
+      // TODO: Default case
     }
   }}
 
@@ -80,7 +89,7 @@ export const Container = styled.button<{
         return css`
           background: ${color("primary", 600)};
           color: #ffffff;
-          ${textFont("sm", "medium")}
+
           border: 1px solid ${color("primary", 600)};
         `;
 
