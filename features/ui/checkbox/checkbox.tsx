@@ -46,6 +46,11 @@ const Box = styled.input<{
       ? color("gray", 300)
       : color("primary", 600)};
   border-radius: 6px;
+
+  &:hover {
+    border-color: ${color("primary", 600)};
+    background-color: ${color("primary", 50)};
+  }
 `;
 
 const Checkmark = styled.div<{
