@@ -51,6 +51,14 @@ const Box = styled.input<{
     border-color: ${color("primary", 600)};
     background-color: ${color("primary", 50)};
   }
+
+  &:focus {
+    box-shadow: 0px 0px 0px 4px ${color("primary", 100)};
+    border-color: ${(props) =>
+      props.checkboxState === CheckboxState.unchecked
+        ? color("primary", 300)
+        : color("primary", 600)};
+  }
 `;
 
 const Checkmark = styled.div<{
