@@ -40,16 +40,16 @@ const Box = styled.input<{
   border-radius: 6px;
 `;
 
-const Checkmark = styled.svg<{
+const Checkmark = styled.img<{
   checkboxSize: CheckboxSize;
 }>`
   position: absolute;
 
   /* Left spacing will always equal ((Checkbox Width - Checkmark Width) / 2) to center the checkmark */
   left: ${(props) =>
-    props.checkboxSize === CheckboxSize.sm ? space(1) : space(1)};
+    props.checkboxSize === CheckboxSize.sm ? "0.1875rem" : space(1)};
   width: ${(props) =>
-    props.checkboxSize === CheckboxSize.sm ? space(2) : space(3)};
+    props.checkboxSize === CheckboxSize.sm ? "0.625rem" : space(3)};
 `;
 
 const Label = styled.label`
@@ -76,22 +76,19 @@ export function Checkbox({
         disabled={disabled}
         checked={checkboxState === CheckboxState.checked ? true : false}
       />
-      <Checkmark
-        checkboxSize={size}
-        width="12"
-        height="9"
-        viewBox="0 0 12 9"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M10.6666 1.5L4.24992 7.91667L1.33325 5"
-          stroke="#7F56D9"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
+
+      {checkboxState !== CheckboxState.unchecked && (
+        <Checkmark
+          checkboxSize={size}
+          src={
+            checkboxState === CheckboxState.checked
+              ? "/icons/checkbox-tick.svg"
+              : "/icons/checkbox-line.svg"
+          }
+          alt=""
         />
-      </Checkmark>
+      )}
+
       <span>{label}</span>
     </Label>
   );
