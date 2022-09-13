@@ -48,10 +48,13 @@ const Box = styled.input<{
   border-radius: 6px;
 `;
 
-const Checkmark = styled.img<{
+const Checkmark = styled.div<{
   checkboxSize: CheckboxSize;
 }>`
   position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   /* Left spacing will always equal ((Checkbox Width - Checkmark Width) / 2) to center the checkmark */
   left: ${(props) =>
@@ -99,15 +102,41 @@ export function Checkbox({
       />
 
       {checkboxState !== CheckboxState.unchecked && (
-        <Checkmark
-          checkboxSize={size}
-          src={
-            checkboxState === CheckboxState.checked
-              ? "/icons/checkbox-tick.svg"
-              : "/icons/checkbox-line.svg"
-          }
-          alt=""
-        />
+        <Checkmark checkboxSize={size}>
+          {checkboxState === CheckboxState.checked ? (
+            <svg
+              width="12"
+              height="9"
+              viewBox="0 0 12 9"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M10.6666 1.5L4.24992 7.91667L1.33325 5"
+                stroke="#7F56D9"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          ) : (
+            <svg
+              width="12"
+              height="2"
+              viewBox="0 0 12 2"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M1.91675 1H10.0834"
+                stroke="#7F56D9"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          )}
+        </Checkmark>
       )}
 
       <Text checkboxSize={size}>{label}</Text>

@@ -14,6 +14,6 @@ const Template: ComponentStory<typeof Checkbox> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   size: CheckboxSize.md,
-  checkboxState: CheckboxState.checked,
+  checkboxState: CheckboxState.unchecked,
   label: "Label",
 };
