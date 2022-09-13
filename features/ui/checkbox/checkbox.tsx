@@ -35,7 +35,6 @@ const Box = styled.input<{
     props.checkboxState === CheckboxState.unchecked
       ? "#FFFFFF"
       : color("primary", 50)};
-  padding: 0;
   height: ${(props) =>
     props.checkboxSize === CheckboxSize.sm ? space(4) : space(5)};
   width: ${(props) =>
@@ -99,13 +98,13 @@ const CheckboxLine = styled.svg<{
     props.disabled ? color("gray", 200) : color("primary", 600)};
 `;
 
-const Label = styled.label`
+const Container = styled.label`
   position: relative;
   display: flex;
   align-items: center;
 `;
 
-const LabelText = styled.span<{
+const Label = styled.span<{
   checkboxSize: CheckboxSize;
   disabled: boolean;
 }>`
@@ -127,7 +126,7 @@ export function Checkbox({
   size = CheckboxSize.md,
 }: CheckboxProps) {
   return (
-    <Label htmlFor={name}>
+    <Container htmlFor={name}>
       <Box
         // Cannot simply use the name 'size' otherwise there's a clash with existing generic HTMLInput props
         checkboxSize={size}
@@ -177,9 +176,9 @@ export function Checkbox({
         </Checkmark>
       )}
 
-      <LabelText disabled={disabled} checkboxSize={size}>
+      <Label disabled={disabled} checkboxSize={size}>
         {label}
-      </LabelText>
-    </Label>
+      </Label>
+    </Container>
   );
 }
