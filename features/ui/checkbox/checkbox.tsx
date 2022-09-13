@@ -59,6 +59,11 @@ const Box = styled.input<{
         ? color("primary", 300)
         : color("primary", 600)};
   }
+
+  &:disabled {
+    border-color: ${color("gray", 200)};
+    background-color: ${color("gray", 100)};
+  }
 `;
 
 const Checkmark = styled.div<{
@@ -74,6 +79,24 @@ const Checkmark = styled.div<{
     props.checkboxSize === CheckboxSize.sm ? "0.1875rem" : space(1)};
   width: ${(props) =>
     props.checkboxSize === CheckboxSize.sm ? "0.625rem" : space(3)};
+
+  &:disabled {
+    color: ${color("gray", 200)};
+  }
+`;
+
+const CheckboxTick = styled.svg<{
+  disabled: boolean;
+}>`
+  stroke: ${(props) =>
+    props.disabled ? color("gray", 200) : color("primary", 600)};
+`;
+
+const CheckboxLine = styled.svg<{
+  disabled: boolean;
+}>`
+  stroke: ${(props) =>
+    props.disabled ? color("gray", 200) : color("primary", 600)};
 `;
 
 const Label = styled.label`
@@ -82,8 +105,9 @@ const Label = styled.label`
   align-items: center;
 `;
 
-const Text = styled.span<{
+const LabelText = styled.span<{
   checkboxSize: CheckboxSize;
+  disabled: boolean;
 }>`
   ${(props) =>
     props.checkboxSize === CheckboxSize.sm
@@ -91,7 +115,8 @@ const Text = styled.span<{
       : textFont("md", "medium")}
   padding-left: ${(props) =>
     props.checkboxSize === CheckboxSize.sm ? space(2) : space(3)};
-  color: ${color("gray", 700)};
+  color: ${(props) =>
+    props.disabled ? color("gray", 300) : color("gray", 700)};
 `;
 
 export function Checkbox({
@@ -117,7 +142,8 @@ export function Checkbox({
       {checkboxState !== CheckboxState.unchecked && (
         <Checkmark checkboxSize={size}>
           {checkboxState === CheckboxState.checked ? (
-            <svg
+            <CheckboxTick
+              disabled={disabled}
               width="12"
               height="9"
               viewBox="0 0 12 9"
@@ -126,14 +152,14 @@ export function Checkbox({
             >
               <path
                 d="M10.6666 1.5L4.24992 7.91667L1.33325 5"
-                stroke="#7F56D9"
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
-            </svg>
+            </CheckboxTick>
           ) : (
-            <svg
+            <CheckboxLine
+              disabled={disabled}
               width="12"
               height="2"
               viewBox="0 0 12 2"
@@ -142,17 +168,18 @@ export function Checkbox({
             >
               <path
                 d="M1.91675 1H10.0834"
-                stroke="#7F56D9"
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
-            </svg>
+            </CheckboxLine>
           )}
         </Checkmark>
       )}
 
-      <Text checkboxSize={size}>{label}</Text>
+      <LabelText disabled={disabled} checkboxSize={size}>
+        {label}
+      </LabelText>
     </Label>
   );
 }
