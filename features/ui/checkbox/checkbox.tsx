@@ -1,5 +1,5 @@
-import { color, space } from "@styles/theme";
-import styled, { StyledFunction } from "styled-components";
+import { color, space, textFont } from "@styles/theme";
+import styled from "styled-components";
 
 export enum CheckboxSize {
   sm = "sm",
@@ -22,6 +22,7 @@ interface CheckboxProps {
 
 const Box = styled.input<{
   checkboxSize: CheckboxSize;
+  checkboxState: CheckboxState;
 }>`
   /* Hide the native checkbox */
   appearance: none;
@@ -30,13 +31,20 @@ const Box = styled.input<{
   margin: 0;
 
   /* Add custom checkbox styling */
-  background-color: ${color("primary", 50)};
+  background-color: ${(props) =>
+    props.checkboxState === CheckboxState.unchecked
+      ? "#FFFFFF"
+      : color("primary", 50)};
   padding: 0;
   height: ${(props) =>
     props.checkboxSize === CheckboxSize.sm ? space(4) : space(5)};
   width: ${(props) =>
     props.checkboxSize === CheckboxSize.sm ? space(4) : space(5)};
-  border: 1px solid ${color("primary", 600)};
+  border: 1px solid;
+  border-color: ${(props) =>
+    props.checkboxState === CheckboxState.unchecked
+      ? color("gray", 300)
+      : color("primary", 600)};
   border-radius: 6px;
 `;
 
@@ -58,6 +66,18 @@ const Label = styled.label`
   align-items: center;
 `;
 
+const Text = styled.span<{
+  checkboxSize: CheckboxSize;
+}>`
+  ${(props) =>
+    props.checkboxSize === CheckboxSize.sm
+      ? textFont("sm", "medium")
+      : textFont("md", "medium")}
+  padding-left: ${(props) =>
+    props.checkboxSize === CheckboxSize.sm ? space(2) : space(3)};
+  color: ${color("gray", 700)};
+`;
+
 export function Checkbox({
   label,
   name,
@@ -70,6 +90,7 @@ export function Checkbox({
       <Box
         // Cannot simply use the name 'size' otherwise there's a clash with existing generic HTMLInput props
         checkboxSize={size}
+        checkboxState={checkboxState}
         type="checkbox"
         name={name}
         id={name}
@@ -89,7 +110,7 @@ export function Checkbox({
         />
       )}
 
-      <span>{label}</span>
+      <Text checkboxSize={size}>{label}</Text>
     </Label>
   );
 }
