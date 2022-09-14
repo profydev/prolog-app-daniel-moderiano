@@ -14,12 +14,6 @@ const Container = styled.div`
   }
 `;
 
-const Loader = styled.div`
-  position: relative;
-  width: 66px;
-  height: 66px;
-`;
-
 const Icon = styled.svg`
   animation: rotation 1s linear infinite;
 
@@ -48,7 +42,7 @@ const AccessibleLabel = styled.span`
 export const Spinner = () => {
   return (
     <Container>
-      <Loader data-cy="spinner" role="status">
+      <div data-cy="spinner" role="status">
         <AccessibleLabel className="sr-only">Loading...</AccessibleLabel>
         <Icon
           width="67"
@@ -72,7 +66,7 @@ export const Spinner = () => {
             strokeLinejoin="round"
           />
         </Icon>
-      </Loader>
+      </div>
     </Container>
   );
 };
