@@ -34,7 +34,7 @@ export function ProjectList() {
 
   return (
     <div>
-      <List>
+      <List data-cy="projectList">
         {data?.map((project) => (
           <li key={project.id}>
             <ProjectCard project={project} />
