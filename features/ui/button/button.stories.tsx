@@ -7,7 +7,9 @@ export default {
   component: Button,
 } as ComponentMeta<typeof Button>;
 
-const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />;
+const Template: ComponentStory<typeof Button> = (args) => (
+  <Button {...args}>Button CTA</Button>
+);
 
 export const Default = Template.bind({});
 Default.args = {
@@ -18,5 +20,8 @@ Default.args = {
     src: "/icons/test-icon.svg",
     display: IconDisplay.leading,
   },
-  text: "Button CTA",
+};
+
+Default.parameters = {
+  viewMode: "docs",
 };

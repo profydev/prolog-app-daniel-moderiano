@@ -1,4 +1,5 @@
 import { color, space, textFont } from "@styles/theme";
+import { ButtonHTMLAttributes } from "react";
 import styled, { css } from "styled-components";
 
 export enum ButtonSize {
@@ -28,15 +29,15 @@ export enum IconDisplay {
 export interface IconOptions {
   src: string;
   display: IconDisplay;
+  // Critical for icon-only buttons. If not specified, an empty string alt text will be used
+  altText?: string;
 }
 
-interface ButtonProps {
-  text?: string;
+export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   icon?: IconOptions;
-  disabled?: boolean;
   size: ButtonSize;
   color: ButtonColor;
-}
+};
 
 // Used in place of the previous "Button" export whose only purpose was essentially providing a CSS reset to button styles
 export const ButtonCSSReset = css`
@@ -79,24 +80,24 @@ export const Container = styled.button<{
     switch (props.size) {
       case ButtonSize.sm:
         return css`
-          padding: 8px 14px;
+          padding: 0.5rem 0.875rem;
         `;
 
       case ButtonSize.md:
         return css`
-          padding: 10px 16px;
+          padding: 0.625rem 1rem;
         `;
 
       case ButtonSize.lg:
         return css`
           ${textFont("md", "medium")}
-          padding: 10px 18px;
+          padding: 0.625rem 1.125rem;
         `;
 
       case ButtonSize.xl:
         return css`
           ${textFont("md", "medium")}
-          padding: 12px 20px;
+          padding: 0.75rem 1.25rem;
         `;
     }
   }}
@@ -217,27 +218,26 @@ export const Container = styled.button<{
   /* Please leave these declarations last so that they can take precedence over other styles above */
   flex-direction: ${(props) =>
     props.iconDisplay === IconDisplay.leading ? "row-reverse" : "row"};
-  padding: ${(props) => props.iconDisplay === IconDisplay.only && "10px"};
+  padding: ${(props) => props.iconDisplay === IconDisplay.only && "0.625rem"};
 `;
 
 export function Button({
-  text,
   icon,
-  disabled = false,
   size = ButtonSize.md,
   color = ButtonColor.primary,
+  ...ButtonProps
 }: ButtonProps) {
   return (
     <Container
       size={size}
       color={color}
-      disabled={disabled}
       iconDisplay={icon ? icon.display : IconDisplay.none}
+      {...ButtonProps}
     >
-      {text}
+      {ButtonProps.children}
       {icon && (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={icon.src} alt={`${text} icon`} />
+        <img src={icon.src} alt={icon.altText ? icon.altText : ""} />
       )}
     </Container>
   );

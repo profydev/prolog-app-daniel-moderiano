@@ -7,6 +7,7 @@ import { MenuItemButton } from "./menu-item-button";
 import { MenuItemLink } from "./menu-item-link";
 import { breakpoint, color, theme, space, zIndex } from "@styles/theme";
 import { ButtonCSSReset } from "@features/ui";
+import { Button } from "@features/ui";
 
 const menuItems = [
   { text: "Projects", iconSrc: "/icons/projects.svg", href: Routes.projects },
