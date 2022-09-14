@@ -109,10 +109,6 @@ describe("Project error page", () => {
       .should("not.exist");
 
     // check that projects now exist in the DOM
-    cy.get("main")
-      .find("li")
-      .each(($el, index) => {
-        cy.wrap($el).contains(mockProjects[index].name);
-      });
+    cy.get("[data-cy='projectList']").should("exist");
   });
 });

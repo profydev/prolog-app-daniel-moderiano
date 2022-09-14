@@ -7,7 +7,6 @@ import { MenuItemButton } from "./menu-item-button";
 import { MenuItemLink } from "./menu-item-link";
 import { breakpoint, color, theme, space, zIndex } from "@styles/theme";
 import { ButtonCSSReset } from "@features/ui";
-import { Button } from "@features/ui";
 
 const menuItems = [
   { text: "Projects", iconSrc: "/icons/projects.svg", href: Routes.projects },
@@ -166,7 +165,7 @@ export function SidebarNavigation() {
         <Header>
           <Logo>
             <source
-              media={`(max-width: ${theme.breakpoint.desktop})`}
+              media={`(max-width: ${breakpoint("desktop")({ theme })})`}
               srcSet="/icons/logo-large.svg"
             />
             {/* eslint-disable-next-line @next/next/no-img-element */}
