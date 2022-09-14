@@ -1,4 +1,5 @@
 import { color, space, textFont } from "@styles/theme";
+import { ButtonHTMLAttributes } from "react";
 import styled, { css } from "styled-components";
 
 export enum ButtonSize {
@@ -28,15 +29,16 @@ export enum IconDisplay {
 export interface IconOptions {
   src: string;
   display: IconDisplay;
+  // Critical for icon-only buttons. If not specified, an empty string alt text will be used
+  altText?: string;
 }
 
-interface ButtonProps {
+export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   text?: string;
   icon?: IconOptions;
-  disabled?: boolean;
   size: ButtonSize;
   color: ButtonColor;
-}
+};
 
 // Used in place of the previous "Button" export whose only purpose was essentially providing a CSS reset to button styles
 export const ButtonCSSReset = css`
@@ -221,23 +223,22 @@ export const Container = styled.button<{
 `;
 
 export function Button({
-  text,
   icon,
-  disabled = false,
   size = ButtonSize.md,
   color = ButtonColor.primary,
+  ...ButtonProps
 }: ButtonProps) {
   return (
     <Container
       size={size}
       color={color}
-      disabled={disabled}
       iconDisplay={icon ? icon.display : IconDisplay.none}
+      {...ButtonProps}
     >
-      {text}
+      {ButtonProps.children}
       {icon && (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={icon.src} alt={`${text} icon`} />
+        <img src={icon.src} alt={icon.altText ? icon.altText : ""} />
       )}
     </Container>
   );
