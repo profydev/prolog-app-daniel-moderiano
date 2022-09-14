@@ -90,20 +90,6 @@ const Icon = styled.svg<{
     props.disabled ? color("gray", 200) : color("primary", 600)};
 `;
 
-// const CheckboxTick = styled.svg<{
-//   disabled: boolean | undefined;
-// }>`
-//   stroke: ${(props) =>
-//     props.disabled ? color("gray", 200) : color("primary", 600)};
-// `;
-
-// const CheckboxLine = styled.svg<{
-//   disabled: boolean | undefined;
-// }>`
-//   stroke: ${(props) =>
-//     props.disabled ? color("gray", 200) : color("primary", 600)};
-// `;
-
 const Container = styled.label`
   position: relative;
   display: flex;
@@ -145,7 +131,7 @@ export function Checkbox({
       {checkboxState !== CheckboxState.unchecked && (
         <Checkmark checkboxSize={checkboxSize}>
           {checkboxState === CheckboxState.checked ? (
-            <Icon
+            <Icon // Tick icon
               disabled={CheckboxProps.disabled}
               width="12"
               height="9"
@@ -161,7 +147,7 @@ export function Checkbox({
               />
             </Icon>
           ) : (
-            <Icon
+            <Icon // Line icon
               disabled={CheckboxProps.disabled}
               width="12"
               height="2"
