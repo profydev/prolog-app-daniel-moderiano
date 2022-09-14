@@ -25,18 +25,14 @@ describe("Sidebar Navigation", () => {
       cy.get("nav").contains("Settings").click();
       cy.url().should("eq", "http://localhost:3000/dashboard/settings");
 
-      // Get window object to access it methods for stubs
-      cy.window().then((win) => {
-        // alias window.open function so it can be referenced later with '@open'
-        cy.stub(win, "open").as("open");
-      });
-
-      // This opens the new window (mail client) and should trigger the stubbed window.open method
-      cy.get("nav").contains("Support").click();
-      cy.get("@open").should(
-        "be.always.calledWith",
-        "mailto:support@prolog-app.com?subject=Support Request:"
-      );
+      // Do not click this link because it opens an external application
+      cy.get("nav")
+        .contains("Support")
+        .should(
+          "have.attr",
+          "href",
+          "mailto:support@prolog-app.com?subject=Support Request:"
+        );
     });
 
     it("is collapsible", () => {
@@ -46,7 +42,7 @@ describe("Sidebar Navigation", () => {
       // check that links still exist and are functionable
       cy.get("[data-cy='sidebarNav']")
         .find("a")
-        .should("have.length", 5)
+        .should("have.length", 6)
         .eq(1)
         .click();
       cy.url().should("eq", "http://localhost:3000/dashboard/issues");
@@ -92,7 +88,7 @@ describe("Sidebar Navigation", () => {
       isInViewport("nav");
 
       // check that all links are rendered
-      cy.get("[data-cy='sidebarNav']").find("a").should("have.length", 5);
+      cy.get("[data-cy='sidebarNav']").find("a").should("have.length", 6);
 
       // Support button should be rendered but Collapse button not
       cy.get("nav").contains("Support").should("exist");
