@@ -1,4 +1,5 @@
 import { color, space, textFont } from "@styles/theme";
+import { InputHTMLAttributes } from "react";
 import styled from "styled-components";
 
 export enum CheckboxSize {
@@ -12,15 +13,13 @@ export enum CheckboxState {
   indeterminate = "indeterminate",
 }
 
-interface CheckboxProps {
-  label: string;
-  name: string;
+export type CheckboxProps = InputHTMLAttributes<HTMLInputElement> & {
   checkboxState: CheckboxState;
-  disabled: boolean;
-  size: CheckboxSize;
-}
+  label: string;
+  checkboxSize: CheckboxSize;
+};
 
-const Box = styled.input<{
+const Input = styled.input<{
   checkboxSize: CheckboxSize;
   checkboxState: CheckboxState;
 }>`
@@ -84,19 +83,26 @@ const Checkmark = styled.div<{
   }
 `;
 
-const CheckboxTick = styled.svg<{
-  disabled: boolean;
+const Icon = styled.svg<{
+  disabled: boolean | undefined;
 }>`
   stroke: ${(props) =>
     props.disabled ? color("gray", 200) : color("primary", 600)};
 `;
 
-const CheckboxLine = styled.svg<{
-  disabled: boolean;
-}>`
-  stroke: ${(props) =>
-    props.disabled ? color("gray", 200) : color("primary", 600)};
-`;
+// const CheckboxTick = styled.svg<{
+//   disabled: boolean | undefined;
+// }>`
+//   stroke: ${(props) =>
+//     props.disabled ? color("gray", 200) : color("primary", 600)};
+// `;
+
+// const CheckboxLine = styled.svg<{
+//   disabled: boolean | undefined;
+// }>`
+//   stroke: ${(props) =>
+//     props.disabled ? color("gray", 200) : color("primary", 600)};
+// `;
 
 const Container = styled.label`
   position: relative;
@@ -106,7 +112,7 @@ const Container = styled.label`
 
 const Label = styled.span<{
   checkboxSize: CheckboxSize;
-  disabled: boolean;
+  disabled: boolean | undefined;
 }>`
   ${(props) =>
     props.checkboxSize === CheckboxSize.sm
@@ -119,30 +125,28 @@ const Label = styled.span<{
 `;
 
 export function Checkbox({
+  checkboxState,
+  checkboxSize,
   label,
-  name,
-  checkboxState = CheckboxState.unchecked,
-  disabled = false,
-  size = CheckboxSize.md,
+  ...CheckboxProps
 }: CheckboxProps) {
   return (
-    <Container htmlFor={name}>
-      <Box
-        // Cannot simply use the name 'size' otherwise there's a clash with existing generic HTMLInput props
-        checkboxSize={size}
+    <Container htmlFor={CheckboxProps.name}>
+      <Input
+        checkboxSize={checkboxSize}
         checkboxState={checkboxState}
         type="checkbox"
-        name={name}
-        id={name}
-        disabled={disabled}
+        id={CheckboxProps.name}
+        name={CheckboxProps.name}
         checked={checkboxState === CheckboxState.checked ? true : false}
+        {...CheckboxProps}
       />
 
       {checkboxState !== CheckboxState.unchecked && (
-        <Checkmark checkboxSize={size}>
+        <Checkmark checkboxSize={checkboxSize}>
           {checkboxState === CheckboxState.checked ? (
-            <CheckboxTick
-              disabled={disabled}
+            <Icon
+              disabled={CheckboxProps.disabled}
               width="12"
               height="9"
               viewBox="0 0 12 9"
@@ -155,10 +159,10 @@ export function Checkbox({
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
-            </CheckboxTick>
+            </Icon>
           ) : (
-            <CheckboxLine
-              disabled={disabled}
+            <Icon
+              disabled={CheckboxProps.disabled}
               width="12"
               height="2"
               viewBox="0 0 12 2"
@@ -171,12 +175,12 @@ export function Checkbox({
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
-            </CheckboxLine>
+            </Icon>
           )}
         </Checkmark>
       )}
 
-      <Label disabled={disabled} checkboxSize={size}>
+      <Label disabled={CheckboxProps.disabled} checkboxSize={checkboxSize}>
         {label}
       </Label>
     </Container>
