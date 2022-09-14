@@ -14,8 +14,8 @@ export enum CheckboxState {
 }
 
 export type CheckboxProps = InputHTMLAttributes<HTMLInputElement> & {
-  checkboxState: CheckboxState;
   label: string;
+  checkboxState: CheckboxState;
   checkboxSize: CheckboxSize;
 };
 
@@ -117,13 +117,11 @@ export function Checkbox({
   ...CheckboxProps
 }: CheckboxProps) {
   return (
-    <Container htmlFor={CheckboxProps.name}>
+    <Container>
       <Input
         checkboxSize={checkboxSize}
         checkboxState={checkboxState}
         type="checkbox"
-        id={CheckboxProps.name}
-        name={CheckboxProps.name}
         checked={checkboxState === CheckboxState.checked ? true : false}
         {...CheckboxProps}
       />
