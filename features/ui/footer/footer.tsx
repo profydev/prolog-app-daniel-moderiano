@@ -18,15 +18,12 @@ const Container = styled.footer`
     "logo"
     "version";
   padding: ${space(6)};
-  height: calc(
-    (${({ theme }) => theme.size.mobileFooterHeight}) - 2 * ${space(6)}
-  );
+  height: ${({ theme }) => theme.size.mobileFooterHeight};
   background-color: ${color("gray", 50)};
+  box-sizing: border-box;
 
   @media (min-width: ${breakpoint("desktop")}) {
-    height: calc(
-      (${({ theme }) => theme.size.desktopFooterHeight}) - 2 * 13.5px
-    );
+    height: ${({ theme }) => theme.size.desktopFooterHeight};
     grid-template-areas: "version nav logo";
     grid-template-columns: repeat(3, 1fr);
     padding: 13.5px 32px;
