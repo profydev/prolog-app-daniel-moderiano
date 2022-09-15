@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { ProjectCard } from "../project-card";
 import { useProjects } from "../../api/use-projects";
 import { breakpoint, space } from "@styles/theme";
-import { Spinner } from "@features/ui";
+import { SelectComponent, Spinner } from "@features/ui";
 import { ProjectError } from "../project-error";
 
 const List = styled.ul`
