@@ -1,16 +1,15 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { Select } from "./select";
+import { SelectComponent } from "./select";
 
 export default {
   title: "UI/Select",
-  component: Select,
-} as ComponentMeta<typeof Select>;
+  component: SelectComponent,
+} as ComponentMeta<typeof SelectComponent>;
 
-const Template: ComponentStory<typeof Select> = () => <Select />;
+const Template: ComponentStory<typeof SelectComponent> = () => (
+  <SelectComponent />
+);
 
 export const Default = Template.bind({});
 Default.args = {};
-Default.parameters = {
-  viewMode: "docs",
-};
