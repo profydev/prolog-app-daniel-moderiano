@@ -1,4 +1,4 @@
-import Select from "react-select";
+import Select, { StylesConfig } from "react-select";
 
 const options = [
   { value: "chocolate", label: "Chocolate" },
@@ -6,6 +6,16 @@ const options = [
   { value: "vanilla", label: "Vanilla" },
 ];
 
+// Sets the CSS styles for React Select component
+const customStyles: StylesConfig = {
+  indicatorSeparator: (provided, state) => ({
+    ...provided,
+    display: "none",
+  }),
+};
+
 export function SelectComponent() {
-  return <Select options={options} />;
+  return (
+    <Select options={options} isSearchable={false} styles={customStyles} />
+  );
 }
