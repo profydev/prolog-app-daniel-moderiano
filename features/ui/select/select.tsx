@@ -67,11 +67,14 @@ const customStyles: StylesConfig = {
       ? "0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #F4EBFF;"
       : "0px 1px 2px rgba(16, 24, 40, 0.05)",
     padding: "10px 14px 10px 14px",
+    backgroundColor: state.isDisabled
+      ? `${color("gray", 50)({ theme })}`
+      : "#FFFFFF",
 
     "&:hover": {
       borderColor: state.isFocused
         ? `${color("primary", 300)({ theme })}`
-        : `1px solid ${color("gray", 300)({ theme })}`,
+        : `${color("gray", 300)({ theme })}`,
       cursor: "pointer",
     },
   }),
