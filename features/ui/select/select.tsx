@@ -1,9 +1,11 @@
 import { color, theme } from "@styles/theme";
 import Select, { Props, StylesConfig } from "react-select";
 import "@fontsource/inter";
+import styled from "styled-components";
+import { ReactNode } from "react";
 
 export type SelectComponentProps = Props & {
-  iconSrc?: string;
+  iconSrc?: string | undefined;
 };
 
 const options = [
@@ -12,8 +14,14 @@ const options = [
   { value: "vanilla", label: "Vanilla" },
 ];
 
+const DropdownIcon = styled.svg`
+  padding: 6px 4px;
+  margin-right: 14px;
+`;
+
+// The default dropdown cannot be styled finely enough to match design specs
 const CustomDropdownIndicator = () => (
-  <svg
+  <DropdownIcon
     width="12"
     height="8"
     viewBox="0 0 12 8"
@@ -27,8 +35,30 @@ const CustomDropdownIndicator = () => (
       strokeLinecap="round"
       strokeLinejoin="round"
     />
-  </svg>
+  </DropdownIcon>
 );
+
+const Icon = styled.img`
+  max-width: 15px;
+  padding-right: 10px;
+`;
+
+// This is used to allow us to include an icon in the placeholder
+const CustomPlaceholder = (
+  placeholder: ReactNode,
+  iconSrc: string | undefined
+) => {
+  if (iconSrc) {
+    return (
+      <>
+        <Icon src={iconSrc} alt="" />
+        {placeholder}
+      </>
+    );
+  } else {
+    return placeholder;
+  }
+};
 
 // Sets the CSS styles for React Select component
 const customStyles: StylesConfig = {
@@ -45,6 +75,11 @@ const customStyles: StylesConfig = {
     maxWidth: "20rem",
   }),
 
+  valueContainer: (provided, state) => ({
+    ...provided,
+    padding: "10px 14px 10px 14px",
+  }),
+
   indicatorSeparator: (provided, state) => ({
     ...provided,
     display: "none",
@@ -59,6 +94,8 @@ const customStyles: StylesConfig = {
     fontWeight: "400",
     fontSize: "1rem",
     lineHeight: "1.5rem",
+    display: "flex",
+    alignContent: "center",
   }),
 };
 
@@ -70,11 +107,16 @@ export function SelectComponent({
     <div>
       <Select
         {...SelectComponentProps}
-        placeholder="Select team member"
+        placeholder={CustomPlaceholder(
+          SelectComponentProps.placeholder,
+          iconSrc
+        )}
         options={options}
         isSearchable={false}
         styles={customStyles}
-        components={{ DropdownIndicator: CustomDropdownIndicator }}
+        components={{
+          DropdownIndicator: CustomDropdownIndicator,
+        }}
       />
     </div>
   );
