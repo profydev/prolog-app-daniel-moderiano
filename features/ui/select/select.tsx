@@ -8,15 +8,9 @@ export type SelectComponentProps = Props & {
   iconSrc?: string | undefined;
 };
 
-const options = [
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
-];
-
 const DropdownIcon = styled.svg`
   padding: 6px 4px;
-  margin-right: 14px;
+  /* margin-right: 14px; */
 `;
 
 // The default dropdown cannot be styled finely enough to match design specs
@@ -40,7 +34,7 @@ const CustomDropdownIndicator = () => (
 
 const Icon = styled.img`
   max-width: 15px;
-  padding-right: 10px;
+  /* padding-right: 10px; */
 `;
 
 // This is used to allow us to include an icon in the placeholder
@@ -65,9 +59,21 @@ const customStyles: StylesConfig = {
   control: (provided, state) => ({
     ...provided,
     maxWidth: "20rem",
-    border: `1px solid ${color("gray", 300)({ theme })}`,
+    border: state.isFocused
+      ? `1px solid ${color("primary", 300)({ theme })}`
+      : `1px solid ${color("gray", 300)({ theme })}`,
     borderRadius: "8px",
-    boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)",
+    boxShadow: state.isFocused
+      ? "0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #F4EBFF;"
+      : "0px 1px 2px rgba(16, 24, 40, 0.05)",
+    padding: "10px 14px 10px 14px",
+
+    "&:hover": {
+      borderColor: state.isFocused
+        ? `${color("primary", 300)({ theme })}`
+        : `1px solid ${color("gray", 300)({ theme })}`,
+      cursor: "pointer",
+    },
   }),
 
   menu: (provided, state) => ({
@@ -77,7 +83,8 @@ const customStyles: StylesConfig = {
 
   valueContainer: (provided, state) => ({
     ...provided,
-    padding: "10px 14px 10px 14px",
+    margin: "0",
+    padding: "0",
   }),
 
   indicatorSeparator: (provided, state) => ({
@@ -96,6 +103,13 @@ const customStyles: StylesConfig = {
     lineHeight: "1.5rem",
     display: "flex",
     alignContent: "center",
+    margin: "0",
+    padding: "0",
+  }),
+
+  singleValue: (provided, state) => ({
+    ...provided,
+    color: `${color("gray", 900)({ theme })}`,
   }),
 };
 
@@ -111,7 +125,6 @@ export function SelectComponent({
           SelectComponentProps.placeholder,
           iconSrc
         )}
-        options={options}
         isSearchable={false}
         styles={customStyles}
         components={{
