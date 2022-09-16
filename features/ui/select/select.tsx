@@ -58,7 +58,7 @@ const CustomPlaceholder = (
 const customStyles: StylesConfig = {
   control: (provided, state) => ({
     ...provided,
-    maxWidth: "20rem",
+    maxWidth: "20rem", // consider removing on completion of component
     border: state.isFocused
       ? `1px solid ${color("primary", 300)({ theme })}`
       : `1px solid ${color("gray", 300)({ theme })}`,
@@ -81,7 +81,29 @@ const customStyles: StylesConfig = {
 
   menu: (provided, state) => ({
     ...provided,
-    maxWidth: "20rem",
+    maxWidth: "20rem", // consider removing on completion of component
+    boxShadow:
+      "0px 12px 16px -4px rgba(16, 24, 40, 0.1), 0px 4px 6px -2px rgba(16, 24, 40, 0.05)",
+    border: "none",
+    borderRadius: "8px",
+    backgroundColor: "#FFFFFF",
+    margin: "0.5rem 0",
+    maxHeight: "20rem", // consider adjusting or removing this
+  }),
+
+  menuList: (provided, state) => ({
+    ...provided,
+    maxHeight: "20rem", // consider adjusting or removing this
+  }),
+
+  option: (provided, state) => ({
+    ...provided,
+    margin: "0",
+    color: `${color("gray", 900)({ theme })}`,
+    fontWeight: "400",
+    fontSize: "1rem",
+    lineHeight: "1.5rem",
+    padding: "10px 14px",
   }),
 
   valueContainer: (provided, state) => ({

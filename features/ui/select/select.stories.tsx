@@ -24,5 +24,6 @@ Default.args = {
     { value: "Natali Craig", label: "Natali Craig" },
     { value: "Drew Cano", label: "Drew Cano" },
   ],
-  isDisabled: true,
+  // isDisabled: true,
+  menuIsOpen: true,
 };
