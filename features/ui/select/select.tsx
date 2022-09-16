@@ -1,6 +1,10 @@
 import { color, theme } from "@styles/theme";
-import Select, { StylesConfig } from "react-select";
+import Select, { Props, StylesConfig } from "react-select";
 import "@fontsource/inter";
+
+export type SelectComponentProps = Props & {
+  iconSrc?: string;
+};
 
 const options = [
   { value: "chocolate", label: "Chocolate" },
@@ -58,14 +62,20 @@ const customStyles: StylesConfig = {
   }),
 };
 
-export function SelectComponent() {
+export function SelectComponent({
+  iconSrc,
+  ...SelectComponentProps
+}: SelectComponentProps) {
   return (
-    <Select
-      placeholder="Select team member"
-      options={options}
-      isSearchable={false}
-      styles={customStyles}
-      components={{ DropdownIndicator: CustomDropdownIndicator }}
-    />
+    <div>
+      <Select
+        {...SelectComponentProps}
+        placeholder="Select team member"
+        options={options}
+        isSearchable={false}
+        styles={customStyles}
+        components={{ DropdownIndicator: CustomDropdownIndicator }}
+      />
+    </div>
   );
 }
