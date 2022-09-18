@@ -25,6 +25,7 @@ Default.args = {
     { value: "Drew Cano", label: "Drew Cano" },
   ],
   // isDisabled: true,
-  menuIsOpen: true,
+  // menuIsOpen: true,
+  label: "Team member",
   iconSrc: "/icons/person.svg",
 };

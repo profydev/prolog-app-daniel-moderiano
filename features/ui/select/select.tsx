@@ -10,6 +10,9 @@ import styled from "styled-components";
 import { ReactNode, useEffect } from "react";
 
 export type SelectComponentProps = Props & {
+  label: string | undefined;
+  hintText: string | undefined;
+  errorText: string | undefined;
   iconSrc?: string | undefined;
 };
 
@@ -224,6 +227,9 @@ const customStyles: StylesConfig = {
 };
 
 export function SelectComponent({
+  label,
+  hintText,
+  errorText,
   iconSrc,
   ...SelectComponentProps
 }: SelectComponentProps) {
@@ -240,6 +246,7 @@ export function SelectComponent({
 
   return (
     <div>
+      <label id="reactSelectId">{label}</label>
       <Select
         {...SelectComponentProps}
         placeholder={CustomPlaceholder(
@@ -252,6 +259,7 @@ export function SelectComponent({
           DropdownIndicator: CustomDropdownIndicator,
           Option: CustomOption,
         }}
+        aria-labelledby="reactSelectId"
       />
     </div>
   );
