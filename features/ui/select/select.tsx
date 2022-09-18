@@ -7,7 +7,7 @@ import Select, {
 } from "react-select";
 import "@fontsource/inter";
 import styled from "styled-components";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 
 export type SelectComponentProps = Props & {
   iconSrc?: string | undefined;
@@ -193,6 +193,17 @@ export function SelectComponent({
   iconSrc,
   ...SelectComponentProps
 }: SelectComponentProps) {
+  // Add the iconSrc to each option to avoid having to manually add it to the options array prop
+  useEffect(() => {
+    if (SelectComponentProps.options && iconSrc) {
+      SelectComponentProps.options.forEach((option) => {
+        if (isValidOptionData(option)) {
+          option.iconSrc = iconSrc;
+        }
+      });
+    }
+  }, [SelectComponentProps.options, iconSrc]);
+
   return (
     <div>
       <Select
