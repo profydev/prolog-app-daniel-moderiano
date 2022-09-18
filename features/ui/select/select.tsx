@@ -18,6 +18,10 @@ const DropdownIcon = styled.svg`
   /* margin-right: 14px; */
 `;
 
+const SelectedIcon = styled.svg`
+  padding: 4.5px 2px;
+`;
+
 interface dataType {
   value: string;
   label: string;
@@ -46,16 +50,35 @@ const CustomOption = (props: OptionProps) => {
   if (props.isSelected) {
     return (
       <Option {...props}>
-        {props.data.iconSrc && <Icon src={props.data.iconSrc} alt="" />}
-        <span>{props.label}</span>
-        {<Icon src="/icons/tick.svg" alt="" />}
+        <div>
+          {props.data.iconSrc && <Icon src={props.data.iconSrc} alt="" />}
+          <span>{props.label}</span>
+        </div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <SelectedIcon
+          width="16"
+          height="11"
+          viewBox="0 0 16 11"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M14.6668 1L5.50016 10.1667L1.3335 6"
+            stroke="#7F56D9"
+            strokeWidth="1.66667"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </SelectedIcon>
       </Option>
     );
   } else {
     return (
       <Option {...props}>
-        {props.data.iconSrc && <Icon src={props.data.iconSrc} alt="" />}
-        <span>{props.label}</span>
+        <div>
+          {props.data.iconSrc && <Icon src={props.data.iconSrc} alt="" />}
+          <span>{props.label}</span>
+        </div>
       </Option>
     );
   }
@@ -82,7 +105,7 @@ const CustomDropdownIndicator = () => (
 
 const Icon = styled.img`
   max-width: 15px;
-  /* padding-right: 10px; */
+  padding-right: 10px;
 `;
 
 // This is used to allow us to include an icon in the placeholder
@@ -180,7 +203,7 @@ const customStyles: StylesConfig = {
     display: "flex",
     alignContent: "center",
     margin: "0",
-    padding: "0",
+    paddingLeft: "0",
   }),
 
   singleValue: (provided, state) => ({
