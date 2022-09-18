@@ -178,6 +178,14 @@ const customStyles: StylesConfig = {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
+    backgroundColor:
+      state.isFocused || state.isSelected
+        ? `${color("primary", 25)({ theme })}`
+        : "#FFFFFF",
+
+    "&:hover": {
+      backgroundColor: `${color("primary", 25)({ theme })}`,
+    },
   }),
 
   valueContainer: (provided, state) => ({
@@ -209,6 +217,9 @@ const customStyles: StylesConfig = {
   singleValue: (provided, state) => ({
     ...provided,
     color: `${color("gray", 900)({ theme })}`,
+    fontWeight: "400",
+    fontSize: "1rem",
+    lineHeight: "1.5rem",
   }),
 };
 
