@@ -14,7 +14,6 @@ const Template: ComponentStory<typeof SelectComponent> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   placeholder: "Select team member",
-  // iconSrc: "icons/alert.svg",
   options: [
     { value: "Phoenix Baker", label: "Phoenix Baker" },
     { value: "Olivia Rhye", label: "Olivia Rhye" },
@@ -28,4 +27,6 @@ Default.args = {
   // menuIsOpen: true,
   label: "Team member",
   iconSrc: "/icons/person.svg",
+  errorText: "This is an error message",
+  // hintText: "This is a hint text to help user"
 };

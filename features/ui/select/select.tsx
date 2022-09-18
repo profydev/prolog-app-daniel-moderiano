@@ -1,4 +1,4 @@
-import { color, theme } from "@styles/theme";
+import { color, textFont, theme } from "@styles/theme";
 import Select, {
   components,
   OptionProps,
@@ -23,6 +23,25 @@ const DropdownIcon = styled.svg`
 
 const SelectedIcon = styled.svg`
   padding: 4.5px 2px;
+`;
+
+const Hint = styled.span`
+  ${textFont("sm", "regular")};
+  color: ${color("gray", 500)};
+`;
+
+const Label = styled.span`
+  ${textFont("sm", "medium")};
+  color: ${color("gray", 700)};
+`;
+
+const Error = styled.span`
+  ${textFont("sm", "regular")};
+  color: ${color("error", 500)};
+`;
+
+const Container = styled.div`'
+
 `;
 
 interface dataType {
@@ -141,6 +160,7 @@ const customStyles: StylesConfig = {
       ? "0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #F4EBFF;"
       : "0px 1px 2px rgba(16, 24, 40, 0.05)",
     padding: "10px 14px 10px 14px",
+    margin: "6px 0",
     backgroundColor: state.isDisabled
       ? `${color("gray", 50)({ theme })}`
       : "#FFFFFF",
@@ -245,8 +265,8 @@ export function SelectComponent({
   }, [SelectComponentProps.options, iconSrc]);
 
   return (
-    <div>
-      <label id="reactSelectId">{label}</label>
+    <Container>
+      {label && <Label id="reactSelectId">{label}</Label>}
       <Select
         {...SelectComponentProps}
         placeholder={CustomPlaceholder(
@@ -261,6 +281,8 @@ export function SelectComponent({
         }}
         aria-labelledby="reactSelectId"
       />
-    </div>
+      {hintText && <Hint>{hintText}</Hint>}
+      {errorText && <Error>{errorText}</Error>}
+    </Container>
   );
 }
