@@ -3,6 +3,7 @@ import Head from "next/head";
 import styled from "styled-components";
 import { SidebarNavigation, Footer } from "@features/ui";
 import { color, displayFont, textFont, space, breakpoint } from "@styles/theme";
+import { SelectComponent } from "../select";
 
 type PageContainerProps = {
   children: React.ReactNode;
@@ -70,7 +71,7 @@ export function PageContainer({ children, title, info }: PageContainerProps) {
         <meta name="description" content="Error monitoring" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
+      <SelectComponent />
       <SidebarNavigation />
       <MainContainer>
         <Main>

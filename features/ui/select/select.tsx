@@ -1,5 +1,10 @@
 import { color, theme } from "@styles/theme";
-import Select, { Props, StylesConfig } from "react-select";
+import Select, {
+  components,
+  OptionProps,
+  Props,
+  StylesConfig,
+} from "react-select";
 import "@fontsource/inter";
 import styled from "styled-components";
 import { ReactNode } from "react";
@@ -12,6 +17,49 @@ const DropdownIcon = styled.svg`
   padding: 6px 4px;
   /* margin-right: 14px; */
 `;
+
+interface dataType {
+  value: string;
+  label: string;
+  iconSrc?: string;
+}
+
+function isValidOptionData(object: unknown): object is dataType {
+  if (!object || typeof object !== "object") {
+    return false;
+  }
+
+  if ("value" in object && "label" in object) {
+    return true;
+  }
+
+  return false;
+}
+
+const { Option } = components;
+
+const CustomOption = (props: OptionProps) => {
+  if (!isValidOptionData(props.data)) {
+    return null;
+  }
+
+  if (props.isSelected) {
+    return (
+      <Option {...props}>
+        {props.data.iconSrc && <Icon src={props.data.iconSrc} alt="" />}
+        <span>{props.label}</span>
+        {<Icon src="/icons/tick.svg" alt="" />}
+      </Option>
+    );
+  } else {
+    return (
+      <Option {...props}>
+        {props.data.iconSrc && <Icon src={props.data.iconSrc} alt="" />}
+        <span>{props.label}</span>
+      </Option>
+    );
+  }
+};
 
 // The default dropdown cannot be styled finely enough to match design specs
 const CustomDropdownIndicator = () => (
@@ -104,6 +152,9 @@ const customStyles: StylesConfig = {
     fontSize: "1rem",
     lineHeight: "1.5rem",
     padding: "10px 14px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
   }),
 
   valueContainer: (provided, state) => ({
@@ -154,6 +205,7 @@ export function SelectComponent({
         styles={customStyles}
         components={{
           DropdownIndicator: CustomDropdownIndicator,
+          Option: CustomOption,
         }}
       />
     </div>

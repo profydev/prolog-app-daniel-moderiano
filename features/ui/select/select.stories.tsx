@@ -16,7 +16,11 @@ Default.args = {
   placeholder: "Select team member",
   // iconSrc: "icons/alert.svg",
   options: [
-    { value: "Phoenix Baker", label: "Phoenix Baker" },
+    {
+      value: "Phoenix Baker",
+      label: "Phoenix Baker",
+      iconSrc: "/icons/alert.svg",
+    },
     { value: "Olivia Rhye", label: "Olivia Rhye" },
     { value: "Lana Steiner", label: "Lana Steiner" },
     { value: "Demi Wilkinson", label: "Demi Wilkinson" },
@@ -26,4 +30,5 @@ Default.args = {
   ],
   // isDisabled: true,
   menuIsOpen: true,
+  iconSrc: "/icons/alert.svg",
 };
