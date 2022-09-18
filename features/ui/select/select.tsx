@@ -11,8 +11,8 @@ import { ReactNode, useEffect } from "react";
 
 export type SelectComponentProps = Props & {
   label: string | undefined;
-  hintText: string | undefined;
-  errorText: string | undefined;
+  hint: string | undefined;
+  error: string | undefined;
   iconSrc?: string | undefined;
 };
 
@@ -248,8 +248,8 @@ const customStyles: StylesConfig = {
 
 export function SelectComponent({
   label,
-  hintText,
-  errorText,
+  hint,
+  error,
   iconSrc,
   ...SelectComponentProps
 }: SelectComponentProps) {
@@ -281,8 +281,9 @@ export function SelectComponent({
         }}
         aria-labelledby="reactSelectId"
       />
-      {hintText && <Hint>{hintText}</Hint>}
-      {errorText && <Error>{errorText}</Error>}
+
+      {/* Always prioritise error message over hint message */}
+      {error ? <Error>{error}</Error> : hint && <Hint>{hint}</Hint>}
     </Container>
   );
 }

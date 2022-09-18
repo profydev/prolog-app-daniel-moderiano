@@ -27,6 +27,6 @@ Default.args = {
   // menuIsOpen: true,
   label: "Team member",
   iconSrc: "/icons/person.svg",
-  errorText: "This is an error message",
-  // hintText: "This is a hint text to help user"
+  // error: "This is an error message",
+  // hint: "This is a hint text to help user"
 };
