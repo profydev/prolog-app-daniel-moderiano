@@ -1,6 +1,7 @@
 import { color, textFont } from "@styles/theme";
-import { InputHTMLAttributes } from "react";
+import { InputHTMLAttributes, useRef } from "react";
 import styled from "styled-components";
+import { nanoid } from "nanoid";
 
 export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   label?: string | undefined;
@@ -99,12 +100,19 @@ export function Input({
   iconSrc,
   ...InputProps
 }: InputProps) {
+  const messageId = useRef(nanoid());
+
   return (
     <Container>
       <LabelText>{label}</LabelText>
       <InputContainer>
         {iconSrc && <Icon src={iconSrc} alt="" />}
-        <StyledInput iconSrc={iconSrc} error={error} {...InputProps} />
+        <StyledInput
+          aria-describedby={messageId.current}
+          {...InputProps}
+          iconSrc={iconSrc}
+          error={error}
+        />
         {error && (
           <ErrorIcon
             width="20"
@@ -127,9 +135,9 @@ export function Input({
       {/* Preferentially display an error message over a hint message when both are present */}
       {/* TODO: Accessibility concerns to associate these with the input */}
       {error && errorMsg ? (
-        <Error>{errorMsg}</Error>
+        <Error id={messageId.current}>{errorMsg}</Error>
       ) : (
-        hintMsg && <Hint>{hintMsg}</Hint>
+        hintMsg && <Hint id={messageId.current}>{hintMsg}</Hint>
       )}
     </Container>
   );
