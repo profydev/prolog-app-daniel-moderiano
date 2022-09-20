@@ -13,5 +13,6 @@ export const Default = Template.bind({});
 Default.args = {
   // label: "Label",
   placeholder: "olivia@untitledui.com",
+  iconSrc: "/icons/mail.svg",
   // disabled: true,
 };

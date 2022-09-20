@@ -9,14 +9,31 @@ export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   hint?: string | undefined;
 };
 
+const Label = styled.label`
+  /* position: relative; */
+`;
+
+const InputContainer = styled.div`
+  position: relative;
+`;
+
+const Icon = styled.img`
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  left: 14px;
+  top: 12px;
+`;
+
 const StyledInput = styled.input<{
   error: string | undefined;
+  iconSrc: string | undefined;
 }>`
   /* display: flex;
-  flex-direction: row;
   align-items: center; */
   box-sizing: border-box;
-  padding: 9px 14px;
+  padding: ${(props) =>
+    props.iconSrc ? "9px 14px 9px 42px" : "9px 14px 9px 14px"};
   width: 20rem;
   background: #ffffff;
   border: 1px solid ${color("gray", 300)};
@@ -50,9 +67,12 @@ export function Input({
   ...InputProps
 }: InputProps) {
   return (
-    <label>
+    <Label>
       <span>{label}</span>
-      <StyledInput error={error} {...InputProps} />
-    </label>
+      <InputContainer>
+        {iconSrc && <Icon src={iconSrc} alt="" />}
+        <StyledInput iconSrc={iconSrc} error={error} {...InputProps} />
+      </InputContainer>
+    </Label>
   );
 }
