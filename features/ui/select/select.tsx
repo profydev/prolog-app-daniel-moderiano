@@ -28,7 +28,6 @@ declare module "react-select/dist/declarations/src/Select" {
 
 const DropdownIcon = styled.svg`
   padding: 6px 4px;
-  /* margin-right: 14px; */
 `;
 
 const SelectedIcon = styled.svg`
@@ -50,24 +49,6 @@ const Error = styled.span`
   color: ${color("error", 500)};
 `;
 
-interface dataType {
-  value: string;
-  label: string;
-  iconSrc?: string;
-}
-
-function isValidOptionData(object: unknown): object is dataType {
-  if (!object || typeof object !== "object") {
-    return false;
-  }
-
-  if ("value" in object && "label" in object) {
-    return true;
-  }
-
-  return false;
-}
-
 const { Option, SingleValue, Placeholder } = components;
 
 const CustomSingleValue = ({ children, ...props }: SingleValueProps) => (
@@ -79,11 +60,7 @@ const CustomSingleValue = ({ children, ...props }: SingleValueProps) => (
   </SingleValue>
 );
 
-const CustomOption = (props: OptionProps) => {
-  if (!isValidOptionData(props.data)) {
-    return null;
-  }
-
+const CustomOption = ({ children, ...props }: OptionProps) => {
   if (props.isSelected) {
     return (
       <Option {...props}>
@@ -91,9 +68,9 @@ const CustomOption = (props: OptionProps) => {
           {props.selectProps.iconSrc && (
             <Icon src={props.selectProps.iconSrc} alt="" />
           )}
-          <span>{props.label}</span>
+          {children}
         </div>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
+
         <SelectedIcon
           width="16"
           height="11"
@@ -118,7 +95,7 @@ const CustomOption = (props: OptionProps) => {
           {props.selectProps.iconSrc && (
             <Icon src={props.selectProps.iconSrc} alt="" />
           )}
-          <span>{props.label}</span>
+          {children}
         </div>
       </Option>
     );
