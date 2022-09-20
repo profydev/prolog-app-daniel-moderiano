@@ -10,7 +10,6 @@ import Select, {
 } from "react-select";
 import "@fontsource/inter";
 import styled from "styled-components";
-import { ReactNode } from "react";
 
 // These props MUST be declared at module level to allow custom components and styles to access them via selectProps
 declare module "react-select/dist/declarations/src/Select" {
@@ -150,23 +149,6 @@ const Icon = styled.img`
   padding-right: 10px;
 `;
 
-// This is used to allow us to include an icon in the placeholder
-// const CustomPlaceholder = (
-//   placeholder: ReactNode,
-//   iconSrc: string | undefined
-// ) => {
-//   if (iconSrc) {
-//     return (
-//       <>
-//         <Icon src={iconSrc} alt="" />
-//         {placeholder}
-//       </>
-//     );
-//   } else {
-//     return placeholder;
-//   }
-// };
-
 const CustomPlaceholder = ({ children, ...props }: PlaceholderProps) => (
   <Placeholder {...props}>
     {props.selectProps.iconSrc && (
@@ -178,7 +160,38 @@ const CustomPlaceholder = ({ children, ...props }: PlaceholderProps) => (
 
 // Sets the CSS styles for React Select component
 const customStyles: StylesConfig = {
-  menu: (provided) => ({
+  control: (provided, state) => ({
+    ...provided,
+    maxWidth: "20rem", // consider removing on completion of component
+    borderWidth: "1px",
+    borderColor: state.selectProps.error
+      ? `${color("error", 300)({ theme })}`
+      : state.isFocused
+      ? `${color("primary", 300)({ theme })}`
+      : `${color("gray", 300)({ theme })}`,
+    borderRadius: "8px",
+    boxShadow: state.isFocused
+      ? state.selectProps.error
+        ? "0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #FEE4E2"
+        : "0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #F4EBFF;"
+      : "0px 1px 2px rgba(16, 24, 40, 0.05)",
+    padding: "10px 14px 10px 14px",
+    margin: "6px 0",
+    backgroundColor: state.isDisabled
+      ? `${color("gray", 50)({ theme })}`
+      : "#FFFFFF",
+
+    "&:hover": {
+      borderColor: state.selectProps.error
+        ? `${color("error", 300)({ theme })}`
+        : state.isFocused
+        ? `${color("primary", 300)({ theme })}`
+        : `${color("gray", 300)({ theme })}`,
+      cursor: "pointer",
+    },
+  }),
+
+  menu: (provided, state) => ({
     ...provided,
     maxWidth: "20rem", // consider removing on completion of component
     boxShadow:
@@ -265,40 +278,9 @@ export function SelectComponent({
       <Select
         {...Props}
         iconSrc={iconSrc}
+        error={error}
         isSearchable={false}
-        styles={{
-          ...customStyles,
-          control: (provided, state) => ({
-            ...provided,
-            maxWidth: "20rem", // consider removing on completion of component
-            borderWidth: "1px",
-            borderColor: error
-              ? `${color("error", 300)({ theme })}`
-              : state.isFocused
-              ? `${color("primary", 300)({ theme })}`
-              : `${color("gray", 300)({ theme })}`,
-            borderRadius: "8px",
-            boxShadow: state.isFocused
-              ? error
-                ? "0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #FEE4E2"
-                : "0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #F4EBFF;"
-              : "0px 1px 2px rgba(16, 24, 40, 0.05)",
-            padding: "10px 14px 10px 14px",
-            margin: "6px 0",
-            backgroundColor: state.isDisabled
-              ? `${color("gray", 50)({ theme })}`
-              : "#FFFFFF",
-
-            "&:hover": {
-              borderColor: error
-                ? `${color("error", 300)({ theme })}`
-                : state.isFocused
-                ? `${color("primary", 300)({ theme })}`
-                : `${color("gray", 300)({ theme })}`,
-              cursor: "pointer",
-            },
-          }),
-        }}
+        styles={customStyles}
         components={{
           DropdownIndicator: CustomDropdownIndicator,
           Option: CustomOption,
