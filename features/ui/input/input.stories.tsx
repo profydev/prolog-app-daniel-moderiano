@@ -11,8 +11,11 @@ const Template: ComponentStory<typeof Input> = (args) => <Input {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  // label: "Label",
+  label: "Email",
   placeholder: "olivia@untitledui.com",
   iconSrc: "/icons/mail.svg",
-  // disabled: true,
+  error: false,
+  errorMsg: "This is an error message.",
+  hintMsg: "This is a hint text to help user",
+  disabled: false,
 };

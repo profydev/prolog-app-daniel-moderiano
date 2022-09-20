@@ -5,8 +5,9 @@ import styled from "styled-components";
 export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   label?: string | undefined;
   iconSrc?: string | undefined;
-  error?: string | undefined;
-  hint?: string | undefined;
+  error?: boolean;
+  errorMsg?: string | undefined;
+  hintMsg?: string | undefined;
 };
 
 const Container = styled.label`
@@ -32,18 +33,29 @@ const Icon = styled.img`
   top: 12px;
 `;
 
+const Error = styled.span`
+  ${textFont("sm", "regular")}
+  color: ${color("error", 500)};
+  padding-top: 6px;
+`;
+
+const Hint = styled.span`
+  ${textFont("sm", "regular")}
+  color: ${color("gray", 500)};
+  padding-top: 6px;
+`;
+
 const StyledInput = styled.input<{
-  error: string | undefined;
+  error: boolean;
   iconSrc: string | undefined;
 }>`
-  /* display: flex;
-  align-items: center; */
   box-sizing: border-box;
   padding: ${(props) =>
     props.iconSrc ? "9px 14px 9px 42px" : "9px 14px 9px 14px"};
   width: 20rem;
   background: #ffffff;
-  border: 1px solid ${color("gray", 300)};
+  border: 1px solid
+    ${(props) => (props.error ? color("error", 300) : color("gray", 300))};
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   border-radius: 8px;
   ${textFont("md", "regular")};
@@ -55,8 +67,10 @@ const StyledInput = styled.input<{
   }
 
   &:focus {
-    border-color: ${color("primary", 300)};
-    box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #f4ebff;
+    border-color: ${(props) =>
+      props.error ? color("error", 300) : color("primary", 300)};
+    box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05),
+      0px 0px 0px 4px ${(props) => (props.error ? "#FEE4E2" : "#F4EBFF")};
     outline: none;
   }
 
@@ -68,8 +82,9 @@ const StyledInput = styled.input<{
 
 export function Input({
   label,
-  error,
-  hint,
+  error = false,
+  errorMsg,
+  hintMsg,
   iconSrc,
   ...InputProps
 }: InputProps) {
@@ -80,6 +95,14 @@ export function Input({
         {iconSrc && <Icon src={iconSrc} alt="" />}
         <StyledInput iconSrc={iconSrc} error={error} {...InputProps} />
       </InputContainer>
+
+      {/* Preferentially display an error message over a hint message when both are present */}
+      {/* TODO: Accessibility concerns to associate these with the input */}
+      {error && errorMsg ? (
+        <Error>{errorMsg}</Error>
+      ) : (
+        hintMsg && <Hint>{hintMsg}</Hint>
+      )}
     </Container>
   );
 }
