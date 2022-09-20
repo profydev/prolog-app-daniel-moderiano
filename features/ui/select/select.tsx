@@ -60,47 +60,34 @@ const CustomSingleValue = ({ children, ...props }: SingleValueProps) => (
   </SingleValue>
 );
 
-const CustomOption = ({ children, ...props }: OptionProps) => {
-  if (props.isSelected) {
-    return (
-      <Option {...props}>
-        <div>
-          {props.selectProps.iconSrc && (
-            <Icon src={props.selectProps.iconSrc} alt="" />
-          )}
-          {children}
-        </div>
+const CustomOption = ({ children, ...props }: OptionProps) => (
+  <Option {...props}>
+    <div>
+      {props.selectProps.iconSrc && (
+        <Icon src={props.selectProps.iconSrc} alt="" />
+      )}
+      {children}
+    </div>
 
-        <SelectedIcon
-          width="16"
-          height="11"
-          viewBox="0 0 16 11"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M14.6668 1L5.50016 10.1667L1.3335 6"
-            stroke="#7F56D9"
-            strokeWidth="1.66667"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </SelectedIcon>
-      </Option>
-    );
-  } else {
-    return (
-      <Option {...props}>
-        <div>
-          {props.selectProps.iconSrc && (
-            <Icon src={props.selectProps.iconSrc} alt="" />
-          )}
-          {children}
-        </div>
-      </Option>
-    );
-  }
-};
+    {props.isSelected && (
+      <SelectedIcon
+        width="16"
+        height="11"
+        viewBox="0 0 16 11"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M14.6668 1L5.50016 10.1667L1.3335 6"
+          stroke="#7F56D9"
+          strokeWidth="1.66667"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </SelectedIcon>
+    )}
+  </Option>
+);
 
 // The default dropdown cannot be styled finely enough to match design specs
 const CustomDropdownIndicator = () => (
@@ -258,13 +245,13 @@ export function SelectComponent({
         error={error}
         isSearchable={false}
         styles={customStyles}
+        aria-labelledby="reactSelectId"
         components={{
           DropdownIndicator: CustomDropdownIndicator,
           Option: CustomOption,
           SingleValue: CustomSingleValue,
           Placeholder: CustomPlaceholder,
         }}
-        aria-labelledby="reactSelectId"
       />
 
       {/* Always prioritise error message over hint message */}
