@@ -289,7 +289,11 @@ export function SelectComponent({
       />
 
       {/* Always prioritise error message over hint message */}
-      {error ? <Error>{errorMsg}</Error> : hintMsg && <Hint>{hintMsg}</Hint>}
+      {error && errorMsg ? (
+        <Error>{errorMsg}</Error>
+      ) : (
+        hintMsg && <Hint>{hintMsg}</Hint>
+      )}
     </div>
   );
 }
