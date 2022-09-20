@@ -13,6 +13,7 @@ export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
 const Container = styled.label`
   display: flex;
   flex-direction: column;
+  max-width: 20rem;
 `;
 
 const LabelText = styled.span`
@@ -33,6 +34,14 @@ const Icon = styled.img`
   top: 12px;
 `;
 
+const ErrorIcon = styled.svg`
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  width: 16px;
+  height: 16px;
+`;
+
 const Error = styled.span`
   ${textFont("sm", "regular")}
   color: ${color("error", 500)};
@@ -50,9 +59,11 @@ const StyledInput = styled.input<{
   iconSrc: string | undefined;
 }>`
   box-sizing: border-box;
-  padding: ${(props) =>
-    props.iconSrc ? "9px 14px 9px 42px" : "9px 14px 9px 14px"};
-  width: 20rem;
+  width: 100%;
+  padding-top: 9px;
+  padding-bottom: 9px;
+  padding-left: ${(props) => (props.iconSrc ? "42px" : "14px")};
+  padding-right: ${(props) => (props.error ? "38px" : "14px")};
   background: #ffffff;
   border: 1px solid
     ${(props) => (props.error ? color("error", 300) : color("gray", 300))};
@@ -94,6 +105,23 @@ export function Input({
       <InputContainer>
         {iconSrc && <Icon src={iconSrc} alt="" />}
         <StyledInput iconSrc={iconSrc} error={error} {...InputProps} />
+        {error && (
+          <ErrorIcon
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10 6.66675V10.0001M10 13.3334H10.0084M18.3334 10.0001C18.3334 14.6025 14.6024 18.3334 10 18.3334C5.39765 18.3334 1.66669 14.6025 1.66669 10.0001C1.66669 5.39771 5.39765 1.66675 10 1.66675C14.6024 1.66675 18.3334 5.39771 18.3334 10.0001Z"
+              stroke="#D92D20"
+              strokeWidth="1.66667"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </ErrorIcon>
+        )}
       </InputContainer>
 
       {/* Preferentially display an error message over a hint message when both are present */}

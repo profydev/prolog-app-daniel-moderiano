@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { ProjectCard } from "../project-card";
 import { useProjects } from "../../api/use-projects";
 import { breakpoint, space } from "@styles/theme";
-import { Spinner } from "@features/ui";
+import { Input, Spinner } from "@features/ui";
 import { ProjectError } from "../project-error";
 
 const List = styled.ul`
@@ -34,6 +34,13 @@ export function ProjectList() {
 
   return (
     <div>
+      <Input
+        placeholder="olivia@untitledui.com"
+        iconSrc="/icons/mail.svg"
+        label="Email"
+        hintMsg="This is a hint text to help user."
+        error={true}
+      />
       <List data-cy="projectList">
         {data?.map((project) => (
           <li key={project.id}>
