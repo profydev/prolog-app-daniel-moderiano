@@ -3,14 +3,16 @@ import Select, {
   components,
   GroupBase,
   OptionProps,
+  PlaceholderProps,
   Props,
   SingleValueProps,
   StylesConfig,
 } from "react-select";
 import "@fontsource/inter";
 import styled from "styled-components";
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 
+// These props MUST be declared at module level to allow custom components and styles to access them via selectProps
 declare module "react-select/dist/declarations/src/Select" {
   export interface Props<
     Option,
@@ -24,10 +26,6 @@ declare module "react-select/dist/declarations/src/Select" {
     iconSrc?: string;
   }
 }
-
-// export interface SelectComponentProps extends Props {
-//   myCustomProps?: string;
-// };
 
 const DropdownIcon = styled.svg`
   padding: 6px 4px;
@@ -71,20 +69,16 @@ function isValidOptionData(object: unknown): object is dataType {
   return false;
 }
 
-const { Option, SingleValue } = components;
+const { Option, SingleValue, Placeholder } = components;
 
-const CustomSingleValue = ({ children, ...props }: SingleValueProps) => {
-  console.log(props.selectProps.iconSrc);
-
-  return (
-    <SingleValue {...props}>
-      {props.selectProps.iconSrc && (
-        <Icon src={props.selectProps.iconSrc} alt="" />
-      )}
-      {children}
-    </SingleValue>
-  );
-};
+const CustomSingleValue = ({ children, ...props }: SingleValueProps) => (
+  <SingleValue {...props}>
+    {props.selectProps.iconSrc && (
+      <Icon src={props.selectProps.iconSrc} alt="" />
+    )}
+    {children}
+  </SingleValue>
+);
 
 const CustomOption = (props: OptionProps) => {
   if (!isValidOptionData(props.data)) {
@@ -95,7 +89,9 @@ const CustomOption = (props: OptionProps) => {
     return (
       <Option {...props}>
         <div>
-          {props.data.iconSrc && <Icon src={props.data.iconSrc} alt="" />}
+          {props.selectProps.iconSrc && (
+            <Icon src={props.selectProps.iconSrc} alt="" />
+          )}
           <span>{props.label}</span>
         </div>
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -120,7 +116,9 @@ const CustomOption = (props: OptionProps) => {
     return (
       <Option {...props}>
         <div>
-          {props.data.iconSrc && <Icon src={props.data.iconSrc} alt="" />}
+          {props.selectProps.iconSrc && (
+            <Icon src={props.selectProps.iconSrc} alt="" />
+          )}
           <span>{props.label}</span>
         </div>
       </Option>
@@ -153,21 +151,30 @@ const Icon = styled.img`
 `;
 
 // This is used to allow us to include an icon in the placeholder
-const CustomPlaceholder = (
-  placeholder: ReactNode,
-  iconSrc: string | undefined
-) => {
-  if (iconSrc) {
-    return (
-      <>
-        <Icon src={iconSrc} alt="" />
-        {placeholder}
-      </>
-    );
-  } else {
-    return placeholder;
-  }
-};
+// const CustomPlaceholder = (
+//   placeholder: ReactNode,
+//   iconSrc: string | undefined
+// ) => {
+//   if (iconSrc) {
+//     return (
+//       <>
+//         <Icon src={iconSrc} alt="" />
+//         {placeholder}
+//       </>
+//     );
+//   } else {
+//     return placeholder;
+//   }
+// };
+
+const CustomPlaceholder = ({ children, ...props }: PlaceholderProps) => (
+  <Placeholder {...props}>
+    {props.selectProps.iconSrc && (
+      <Icon src={props.selectProps.iconSrc} alt="" />
+    )}
+    {children}
+  </Placeholder>
+);
 
 // Sets the CSS styles for React Select component
 const customStyles: StylesConfig = {
@@ -252,25 +259,12 @@ export function SelectComponent({
   iconSrc,
   ...Props
 }: Props) {
-  // Add the iconSrc to each option to avoid having to manually add it to the options array prop
-  // useEffect(() => {
-  //   if (SelectComponentProps.options && iconSrc) {
-  //     SelectComponentProps.options.forEach((option) => {
-  //       if (isValidOptionData(option)) {
-  //         option.iconSrc = iconSrc;
-  //       }
-  //     });
-  //   }
-  // }, [SelectComponentProps.options, iconSrc]);
-
   return (
     <div>
       {label && <Label id="reactSelectId">{label}</Label>}
       <Select
         {...Props}
-        placeholder={CustomPlaceholder(Props.placeholder, iconSrc)}
-        // iconSrc={iconSrc}
-        error={error}
+        iconSrc={iconSrc}
         isSearchable={false}
         styles={{
           ...customStyles,
@@ -309,6 +303,7 @@ export function SelectComponent({
           DropdownIndicator: CustomDropdownIndicator,
           Option: CustomOption,
           SingleValue: CustomSingleValue,
+          Placeholder: CustomPlaceholder,
         }}
         aria-labelledby="reactSelectId"
       />
