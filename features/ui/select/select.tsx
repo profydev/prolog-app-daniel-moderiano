@@ -1,21 +1,33 @@
 import { color, textFont, theme } from "@styles/theme";
 import Select, {
   components,
+  GroupBase,
   OptionProps,
   Props,
+  SingleValueProps,
   StylesConfig,
 } from "react-select";
 import "@fontsource/inter";
 import styled from "styled-components";
 import { ReactNode, useEffect } from "react";
 
-export type SelectComponentProps = Props & {
-  label?: string;
-  hintMsg?: string;
-  error?: boolean;
-  errorMsg?: string;
-  iconSrc?: string;
-};
+declare module "react-select/dist/declarations/src/Select" {
+  export interface Props<
+    Option,
+    IsMulti extends boolean,
+    Group extends GroupBase<Option>
+  > {
+    label?: string;
+    hintMsg?: string;
+    error?: boolean;
+    errorMsg?: string;
+    iconSrc?: string;
+  }
+}
+
+// export interface SelectComponentProps extends Props {
+//   myCustomProps?: string;
+// };
 
 const DropdownIcon = styled.svg`
   padding: 6px 4px;
@@ -59,7 +71,20 @@ function isValidOptionData(object: unknown): object is dataType {
   return false;
 }
 
-const { Option } = components;
+const { Option, SingleValue } = components;
+
+const CustomSingleValue = ({ children, ...props }: SingleValueProps) => {
+  console.log(props.selectProps.iconSrc);
+
+  return (
+    <SingleValue {...props}>
+      {props.selectProps.iconSrc && (
+        <Icon src={props.selectProps.iconSrc} alt="" />
+      )}
+      {children}
+    </SingleValue>
+  );
+};
 
 const CustomOption = (props: OptionProps) => {
   if (!isValidOptionData(props.data)) {
@@ -225,28 +250,27 @@ export function SelectComponent({
   errorMsg,
   error,
   iconSrc,
-  ...SelectComponentProps
-}: SelectComponentProps) {
+  ...Props
+}: Props) {
   // Add the iconSrc to each option to avoid having to manually add it to the options array prop
-  useEffect(() => {
-    if (SelectComponentProps.options && iconSrc) {
-      SelectComponentProps.options.forEach((option) => {
-        if (isValidOptionData(option)) {
-          option.iconSrc = iconSrc;
-        }
-      });
-    }
-  }, [SelectComponentProps.options, iconSrc]);
+  // useEffect(() => {
+  //   if (SelectComponentProps.options && iconSrc) {
+  //     SelectComponentProps.options.forEach((option) => {
+  //       if (isValidOptionData(option)) {
+  //         option.iconSrc = iconSrc;
+  //       }
+  //     });
+  //   }
+  // }, [SelectComponentProps.options, iconSrc]);
 
   return (
     <div>
       {label && <Label id="reactSelectId">{label}</Label>}
       <Select
-        {...SelectComponentProps}
-        placeholder={CustomPlaceholder(
-          SelectComponentProps.placeholder,
-          iconSrc
-        )}
+        {...Props}
+        placeholder={CustomPlaceholder(Props.placeholder, iconSrc)}
+        // iconSrc={iconSrc}
+        error={error}
         isSearchable={false}
         styles={{
           ...customStyles,
@@ -284,6 +308,7 @@ export function SelectComponent({
         components={{
           DropdownIndicator: CustomDropdownIndicator,
           Option: CustomOption,
+          SingleValue: CustomSingleValue,
         }}
         aria-labelledby="reactSelectId"
       />
