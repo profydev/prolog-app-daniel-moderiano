@@ -18,3 +18,7 @@ Default.args = {
   label: "Label",
   disabled: false,
 };
+
+Default.parameters = {
+  viewMode: "docs",
+};
