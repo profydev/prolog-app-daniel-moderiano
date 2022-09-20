@@ -54,6 +54,11 @@ const Error = styled.span`
   color: ${color("error", 500)};
 `;
 
+const LeftContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const SingleValue = ({ children, ...props }: SingleValueProps) => (
   <components.SingleValue {...props}>
     {props.selectProps.iconSrc && (
@@ -65,12 +70,12 @@ const SingleValue = ({ children, ...props }: SingleValueProps) => (
 
 const Option = ({ children, ...props }: OptionProps) => (
   <components.Option {...props}>
-    <div>
+    <LeftContainer>
       {props.selectProps.iconSrc && (
         <Icon src={props.selectProps.iconSrc} alt="" />
       )}
       {children}
-    </div>
+    </LeftContainer>
 
     {props.isSelected && (
       <SelectedIcon
@@ -123,7 +128,7 @@ const Placeholder = ({ children, ...props }: PlaceholderProps) => (
 const customStyles: StylesConfig = {
   control: (provided, state) => ({
     ...provided,
-    maxWidth: "20rem", // consider removing on completion of component
+    maxWidth: "20rem",
     borderWidth: "1px",
     borderColor: state.selectProps.error
       ? `${color("error", 300)({ theme })}`
@@ -136,7 +141,7 @@ const customStyles: StylesConfig = {
         ? "0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #FEE4E2"
         : "0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #F4EBFF;"
       : "0px 1px 2px rgba(16, 24, 40, 0.05)",
-    padding: "10px 14px 10px 14px",
+    padding: "10px 13px 10px 13px",
     margin: "6px 0",
     backgroundColor: state.isDisabled
       ? `${color("gray", 50)({ theme })}`
@@ -152,29 +157,23 @@ const customStyles: StylesConfig = {
     },
   }),
 
-  menu: (provided, state) => ({
+  menu: (provided) => ({
     ...provided,
-    maxWidth: "20rem", // consider removing on completion of component
+    maxWidth: "20rem",
     boxShadow:
       "0px 12px 16px -4px rgba(16, 24, 40, 0.1), 0px 4px 6px -2px rgba(16, 24, 40, 0.05)",
-    border: "1px solid transparent",
     borderRadius: "8px",
-    backgroundColor: "#FFFFFF",
     margin: "0.5rem 0",
-    maxHeight: "20rem", // consider adjusting or removing this
   }),
 
   menuList: (provided) => ({
     ...provided,
-    maxHeight: "20rem", // consider adjusting or removing this
+    maxHeight: "20rem",
   }),
 
   option: (provided, state) => ({
     ...provided,
-    margin: "0",
     color: `${color("gray", 900)({ theme })}`,
-    fontWeight: "400",
-    fontSize: "1rem",
     lineHeight: "1.5rem",
     padding: "10px 14px",
     display: "flex",
@@ -196,36 +195,21 @@ const customStyles: StylesConfig = {
     padding: "0",
   }),
 
-  indicatorSeparator: (provided) => ({
-    ...provided,
-    display: "none",
-  }),
-
   placeholder: (provided) => ({
     ...provided,
     color: `${color("gray", 500)({ theme })}`,
-    // Cannot substitute textFont getter here as these are custom JS/CSS properties
-    fontFamily: "Inter",
-    fontStyle: "normal",
-    fontWeight: "400",
-    fontSize: "1rem",
     lineHeight: "1.5rem",
     display: "flex",
     alignContent: "center",
     margin: "0",
-    paddingLeft: "0",
   }),
 
   singleValue: (provided) => ({
     ...provided,
-    color: `${color("gray", 900)({ theme })}`,
-    fontWeight: "400",
-    fontSize: "1rem",
     lineHeight: "1.5rem",
     display: "flex",
     alignContent: "center",
     margin: "0",
-    paddingLeft: "0",
   }),
 };
 
@@ -252,6 +236,7 @@ export function SelectComponent({
           Option,
           SingleValue,
           Placeholder,
+          IndicatorSeparator: null,
         }}
       />
 

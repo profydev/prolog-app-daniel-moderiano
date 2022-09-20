@@ -45,6 +45,7 @@ export function ProjectList() {
           { value: "Natali Craig", label: "Natali Craig" },
           { value: "Drew Cano", label: "Drew Cano" },
         ]}
+        menuIsOpen={true}
       />
       <List data-cy="projectList">
         {data?.map((project) => (
