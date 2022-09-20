@@ -34,6 +34,19 @@ export function ProjectList() {
 
   return (
     <div>
+      <SelectComponent
+        iconSrc="/icons/person.svg"
+        options={[
+          { value: "Phoenix Baker", label: "Phoenix Baker" },
+          { value: "Olivia Rhye", label: "Olivia Rhye" },
+          { value: "Lana Steiner", label: "Lana Steiner" },
+          { value: "Demi Wilkinson", label: "Demi Wilkinson" },
+          { value: "Candice Wu", label: "Candice Wu" },
+          { value: "Natali Craig", label: "Natali Craig" },
+          { value: "Drew Cano", label: "Drew Cano" },
+        ]}
+        error={true}
+      />
       <List data-cy="projectList">
         {data?.map((project) => (
           <li key={project.id}>
