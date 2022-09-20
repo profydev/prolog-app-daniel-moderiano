@@ -34,7 +34,11 @@ export function ProjectList() {
 
   return (
     <div>
-      <Input placeholder="olivia@untitledui.com" iconSrc="/icons/mail.svg" />
+      <Input
+        placeholder="olivia@untitledui.com"
+        iconSrc="/icons/mail.svg"
+        label="Email"
+      />
       <List data-cy="projectList">
         {data?.map((project) => (
           <li key={project.id}>

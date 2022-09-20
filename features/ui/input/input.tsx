@@ -9,8 +9,15 @@ export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   hint?: string | undefined;
 };
 
-const Label = styled.label`
-  /* position: relative; */
+const Container = styled.label`
+  display: flex;
+  flex-direction: column;
+`;
+
+const LabelText = styled.span`
+  ${textFont("sm", "medium")}
+  color: ${color("gray", 700)};
+  padding-bottom: 6px;
 `;
 
 const InputContainer = styled.div`
@@ -67,12 +74,12 @@ export function Input({
   ...InputProps
 }: InputProps) {
   return (
-    <Label>
-      <span>{label}</span>
+    <Container>
+      <LabelText>{label}</LabelText>
       <InputContainer>
         {iconSrc && <Icon src={iconSrc} alt="" />}
         <StyledInput iconSrc={iconSrc} error={error} {...InputProps} />
       </InputContainer>
-    </Label>
+    </Container>
   );
 }
