@@ -23,10 +23,6 @@ Default.args = {
     { value: "Natali Craig", label: "Natali Craig" },
     { value: "Drew Cano", label: "Drew Cano" },
   ],
-  // isDisabled: true,
-  // menuIsOpen: true,
   label: "Team member",
   iconSrc: "/icons/person.svg",
-  // error: "This is an error message",
-  // hint: "This is a hint text to help user"
 };

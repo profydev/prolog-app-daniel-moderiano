@@ -26,6 +26,11 @@ declare module "react-select/dist/declarations/src/Select" {
   }
 }
 
+const Icon = styled.img`
+  max-width: 15px;
+  padding-right: 10px;
+`;
+
 const DropdownIcon = styled.svg`
   padding: 6px 4px;
 `;
@@ -49,19 +54,17 @@ const Error = styled.span`
   color: ${color("error", 500)};
 `;
 
-const { Option, SingleValue, Placeholder } = components;
-
-const CustomSingleValue = ({ children, ...props }: SingleValueProps) => (
-  <SingleValue {...props}>
+const SingleValue = ({ children, ...props }: SingleValueProps) => (
+  <components.SingleValue {...props}>
     {props.selectProps.iconSrc && (
       <Icon src={props.selectProps.iconSrc} alt="" />
     )}
     {children}
-  </SingleValue>
+  </components.SingleValue>
 );
 
-const CustomOption = ({ children, ...props }: OptionProps) => (
-  <Option {...props}>
+const Option = ({ children, ...props }: OptionProps) => (
+  <components.Option {...props}>
     <div>
       {props.selectProps.iconSrc && (
         <Icon src={props.selectProps.iconSrc} alt="" />
@@ -86,11 +89,10 @@ const CustomOption = ({ children, ...props }: OptionProps) => (
         />
       </SelectedIcon>
     )}
-  </Option>
+  </components.Option>
 );
 
-// The default dropdown cannot be styled finely enough to match design specs
-const CustomDropdownIndicator = () => (
+const DropdownIndicator = () => (
   <DropdownIcon
     width="12"
     height="8"
@@ -108,18 +110,13 @@ const CustomDropdownIndicator = () => (
   </DropdownIcon>
 );
 
-const Icon = styled.img`
-  max-width: 15px;
-  padding-right: 10px;
-`;
-
-const CustomPlaceholder = ({ children, ...props }: PlaceholderProps) => (
-  <Placeholder {...props}>
+const Placeholder = ({ children, ...props }: PlaceholderProps) => (
+  <components.Placeholder {...props}>
     {props.selectProps.iconSrc && (
       <Icon src={props.selectProps.iconSrc} alt="" />
     )}
     {children}
-  </Placeholder>
+  </components.Placeholder>
 );
 
 // Sets the CSS styles for React Select component
@@ -247,10 +244,10 @@ export function SelectComponent({
         styles={customStyles}
         aria-labelledby="reactSelectId"
         components={{
-          DropdownIndicator: CustomDropdownIndicator,
-          Option: CustomOption,
-          SingleValue: CustomSingleValue,
-          Placeholder: CustomPlaceholder,
+          DropdownIndicator,
+          Option,
+          SingleValue,
+          Placeholder,
         }}
       />
 
