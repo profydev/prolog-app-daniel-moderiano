@@ -27,52 +27,6 @@ const InputContainer = styled.div`
   position: relative;
 `;
 
-const Icon = styled.img`
-  position: absolute;
-  height: 20px;
-  width: 20px;
-  left: 14px;
-  top: 12px;
-`;
-
-const StyledErrorIcon = styled.svg`
-  position: absolute;
-  right: 14px;
-  top: 14px;
-  width: 16px;
-  height: 16px;
-`;
-
-const ErrorIcon = (
-  <StyledErrorIcon
-    width="20"
-    height="20"
-    viewBox="0 0 20 20"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M10 6.66675V10.0001M10 13.3334H10.0084M18.3334 10.0001C18.3334 14.6025 14.6024 18.3334 10 18.3334C5.39765 18.3334 1.66669 14.6025 1.66669 10.0001C1.66669 5.39771 5.39765 1.66675 10 1.66675C14.6024 1.66675 18.3334 5.39771 18.3334 10.0001Z"
-      stroke="#D92D20"
-      strokeWidth="1.66667"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </StyledErrorIcon>
-);
-
-const Error = styled.span`
-  ${textFont("sm", "regular")}
-  color: ${color("error", 500)};
-  padding-top: 6px;
-`;
-
-const Hint = styled.span`
-  ${textFont("sm", "regular")}
-  color: ${color("gray", 500)};
-  padding-top: 6px;
-`;
-
 const StyledInput = styled.input<{
   error: boolean;
   iconSrc: string | undefined;
@@ -110,6 +64,52 @@ const StyledInput = styled.input<{
   }
 `;
 
+const Icon = styled.img`
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  left: 14px;
+  top: 12px;
+`;
+
+const Error = styled.span`
+  ${textFont("sm", "regular")}
+  color: ${color("error", 500)};
+  padding-top: 6px;
+`;
+
+const Hint = styled.span`
+  ${textFont("sm", "regular")}
+  color: ${color("gray", 500)};
+  padding-top: 6px;
+`;
+
+const StyledErrorIcon = styled.svg`
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  width: 16px;
+  height: 16px;
+`;
+
+const ErrorIcon = (
+  <StyledErrorIcon
+    width="20"
+    height="20"
+    viewBox="0 0 20 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M10 6.66675V10.0001M10 13.3334H10.0084M18.3334 10.0001C18.3334 14.6025 14.6024 18.3334 10 18.3334C5.39765 18.3334 1.66669 14.6025 1.66669 10.0001C1.66669 5.39771 5.39765 1.66675 10 1.66675C14.6024 1.66675 18.3334 5.39771 18.3334 10.0001Z"
+      stroke="#D92D20"
+      strokeWidth="1.66667"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </StyledErrorIcon>
+);
+
 export function Input({
   label,
   error = false,
@@ -127,9 +127,9 @@ export function Input({
         {iconSrc && <Icon src={iconSrc} alt="" />}
         <StyledInput
           aria-describedby={messageId.current}
-          {...InputProps}
           iconSrc={iconSrc}
           error={error}
+          {...InputProps}
         />
         {error && ErrorIcon}
       </InputContainer>
