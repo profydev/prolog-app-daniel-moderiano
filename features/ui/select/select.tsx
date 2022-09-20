@@ -157,7 +157,7 @@ const customStyles: StylesConfig = {
     maxWidth: "20rem", // consider removing on completion of component
     boxShadow:
       "0px 12px 16px -4px rgba(16, 24, 40, 0.1), 0px 4px 6px -2px rgba(16, 24, 40, 0.05)",
-    border: "none",
+    border: "1px solid transparent",
     borderRadius: "8px",
     backgroundColor: "#FFFFFF",
     margin: "0.5rem 0",
@@ -222,6 +222,10 @@ const customStyles: StylesConfig = {
     fontWeight: "400",
     fontSize: "1rem",
     lineHeight: "1.5rem",
+    display: "flex",
+    alignContent: "center",
+    margin: "0",
+    paddingLeft: "0",
   }),
 };
 
