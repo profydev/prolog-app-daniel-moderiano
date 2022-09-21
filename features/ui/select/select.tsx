@@ -124,7 +124,6 @@ const Placeholder = ({ children, ...props }: PlaceholderProps) => (
   </components.Placeholder>
 );
 
-// Sets the CSS styles for React Select component
 const customStyles: StylesConfig = {
   control: (provided, state) => ({
     ...provided,
@@ -227,7 +226,7 @@ export function SelectComponent({
       <Select
         {...Props}
         iconSrc={iconSrc}
-        error={error}
+        error={Props.isDisabled ? false : error}
         isSearchable={false}
         styles={customStyles}
         aria-labelledby="reactSelectId"
