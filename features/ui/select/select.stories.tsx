@@ -27,4 +27,5 @@ Default.args = {
   iconSrc: "/icons/person.svg",
   error: false,
   isDisabled: false,
+  menuIsOpen: true,
 };

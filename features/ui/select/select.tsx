@@ -1,6 +1,7 @@
 import { color, textFont, theme } from "@styles/theme";
 import Select, {
   components,
+  DropdownIndicatorProps,
   GroupBase,
   OptionProps,
   PlaceholderProps,
@@ -8,7 +9,7 @@ import Select, {
   SingleValueProps,
   StylesConfig,
 } from "react-select";
-import "@fontsource/inter";
+import "@fontsource/inter"; // required to pass into react-select component (cannot access otherwise)
 import styled from "styled-components";
 
 // These props MUST be declared at module level to allow custom components and styles to access them via selectProps
@@ -27,16 +28,20 @@ declare module "react-select/dist/declarations/src/Select" {
 }
 
 const Icon = styled.img`
-  max-width: 15px;
-  padding-right: 10px;
+  max-width: 0.9375rem;
+  padding-right: 0.625rem;
 `;
 
-const DropdownIcon = styled.svg`
-  padding: 6px 4px;
+const DownCaret = styled.svg<{
+  menuIsOpen: boolean;
+}>`
+  padding: 0.375rem 0.25rem;
+  transform: ${(props) =>
+    props.menuIsOpen ? "rotate(180deg)" : "rotate(0deg)"};
 `;
 
-const SelectedIcon = styled.svg`
-  padding: 4.5px 2px;
+const Tick = styled.svg`
+  padding: 0.28rem 0.125rem;
 `;
 
 const Hint = styled.span`
@@ -78,7 +83,7 @@ const Option = ({ children, ...props }: OptionProps) => (
     </LeftContainer>
 
     {props.isSelected && (
-      <SelectedIcon
+      <Tick
         width="16"
         height="11"
         viewBox="0 0 16 11"
@@ -92,13 +97,14 @@ const Option = ({ children, ...props }: OptionProps) => (
           strokeLinecap="round"
           strokeLinejoin="round"
         />
-      </SelectedIcon>
+      </Tick>
     )}
   </components.Option>
 );
 
-const DropdownIndicator = () => (
-  <DropdownIcon
+const DropdownIndicator = ({ ...props }: DropdownIndicatorProps) => (
+  <DownCaret
+    menuIsOpen={props.selectProps.menuIsOpen}
     width="12"
     height="8"
     viewBox="0 0 12 8"
@@ -112,7 +118,7 @@ const DropdownIndicator = () => (
       strokeLinecap="round"
       strokeLinejoin="round"
     />
-  </DropdownIcon>
+  </DownCaret>
 );
 
 const Placeholder = ({ children, ...props }: PlaceholderProps) => (
@@ -140,7 +146,7 @@ const customStyles: StylesConfig = {
         ? "0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #FEE4E2"
         : "0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #F4EBFF;"
       : "0px 1px 2px rgba(16, 24, 40, 0.05)",
-    padding: "10px 13px 10px 13px",
+    padding: "0.625rem 0.8125rem",
     margin: "6px 0",
     backgroundColor: state.isDisabled
       ? `${color("gray", 50)({ theme })}`
@@ -174,7 +180,7 @@ const customStyles: StylesConfig = {
     ...provided,
     color: `${color("gray", 900)({ theme })}`,
     lineHeight: "1.5rem",
-    padding: "10px 14px",
+    padding: "0.625rem 0.875rem",
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
