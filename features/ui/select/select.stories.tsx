@@ -25,7 +25,5 @@ Default.args = {
   ],
   label: "Team member",
   iconSrc: "/icons/person.svg",
-  error: false,
   isDisabled: false,
-  menuIsOpen: true,
 };
