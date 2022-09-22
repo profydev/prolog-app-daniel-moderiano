@@ -92,7 +92,7 @@ const StyledErrorIcon = styled.svg`
   height: 16px;
 `;
 
-const ErrorIcon = (
+const ErrorIcon = () => (
   <StyledErrorIcon
     width="20"
     height="20"
@@ -131,7 +131,7 @@ export function Input({
           error={error}
           {...InputProps}
         />
-        {error && ErrorIcon}
+        {error && <ErrorIcon />}
       </InputContainer>
 
       {/* Preferentially display an error message over a hint message when both are present */}
