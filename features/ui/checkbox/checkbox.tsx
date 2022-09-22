@@ -15,6 +15,7 @@ export enum CheckboxState {
 
 export type CheckboxProps = InputHTMLAttributes<HTMLInputElement> & {
   label: string;
+  // The 'checkbox' prefix is used here mainly to avoid a clash with the native HTML Input attribute 'size'
   checkboxState: CheckboxState;
   checkboxSize: CheckboxSize;
 };
