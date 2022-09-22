@@ -126,7 +126,7 @@ export function Input({
       <InputContainer>
         {iconSrc && <Icon src={iconSrc} alt="" />}
         <StyledInput
-          aria-describedby={messageId.current}
+          aria-describedby={errorMsg || hintMsg ? messageId.current : undefined}
           iconSrc={iconSrc}
           error={error}
           {...InputProps}
