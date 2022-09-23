@@ -1,8 +1,10 @@
 import { color, textFont, theme } from "@styles/theme";
 import Select, {
+  ActionMeta,
   components,
   DropdownIndicatorProps,
   GroupBase,
+  OnChangeValue,
   OptionProps,
   PlaceholderProps,
   Props,
@@ -25,6 +27,11 @@ declare module "react-select/dist/declarations/src/Select" {
     errorMsg?: string;
     iconSrc?: string;
     disabled?: boolean;
+    clearable?: boolean;
+    onChange: (
+      newValue: OnChangeValue<Option, IsMulti>,
+      actionMeta: ActionMeta<Option>
+    ) => void;
   }
 }
 
@@ -226,6 +233,8 @@ export function SelectComponent({
   hasError,
   iconSrc,
   disabled,
+  clearable,
+  onChange,
   ...Props
 }: Props) {
   // Always prioritis error message over hint message
@@ -242,6 +251,8 @@ export function SelectComponent({
       <Select
         {...Props}
         isDisabled={disabled}
+        isClearable={clearable}
+        onChange={onChange}
         iconSrc={iconSrc}
         hasError={disabled ? false : hasError}
         isSearchable={false}
