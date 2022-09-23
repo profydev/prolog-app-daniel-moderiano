@@ -41,7 +41,7 @@ const StyledInput = styled.input<{
   border: 1px solid
     ${(props) => (props.error ? color("error", 300) : color("gray", 300))};
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
-  border-radius: 8px;
+  border-radius: ${space(2)};
   ${textFont("md", "regular")};
   color: ${color("gray", 900)};
 
