@@ -44,7 +44,7 @@ const Input = styled.input<{
     props.checkboxState === CheckboxState.unchecked
       ? color("gray", 300)
       : color("primary", 600)};
-  border-radius: 6px;
+  border-radius: 0.375rem;
 
   &:hover {
     border-color: ${color("primary", 600)};
