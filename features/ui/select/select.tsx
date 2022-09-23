@@ -24,6 +24,7 @@ declare module "react-select/dist/declarations/src/Select" {
     hasError?: boolean;
     errorMsg?: string;
     iconSrc?: string;
+    disabled?: boolean;
   }
 }
 
@@ -224,6 +225,7 @@ export function SelectComponent({
   errorMsg,
   hasError,
   iconSrc,
+  disabled,
   ...Props
 }: Props) {
   // Always prioritis error message over hint message
@@ -239,8 +241,9 @@ export function SelectComponent({
       {label && <Label id="reactSelectId">{label}</Label>}
       <Select
         {...Props}
+        isDisabled={disabled}
         iconSrc={iconSrc}
-        hasError={Props.isDisabled ? false : hasError}
+        hasError={disabled ? false : hasError}
         isSearchable={false}
         styles={customStyles}
         aria-labelledby="reactSelectId"
