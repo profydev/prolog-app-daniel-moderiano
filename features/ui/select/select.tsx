@@ -14,25 +14,33 @@ import Select, {
 import "@fontsource/inter"; // required to pass into react-select component (cannot access otherwise)
 import styled from "styled-components";
 
-// These props MUST be declared at module level to allow custom components and styles to access them via selectProps
+// Add new props here to cover any required features of the select component. This lets us avoid directly using react-select props across the codebase, thereby avoiding such tight coupling to react-select.
+type SelectProps<
+  Option,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> = {
+  label?: string;
+  hintMsg?: string;
+  hasError?: boolean;
+  errorMsg?: string;
+  iconSrc?: string;
+  disabled?: boolean;
+  clearable?: boolean;
+  onOptionChange?: (
+    newValue: OnChangeValue<Option, IsMulti>,
+    actionMeta: ActionMeta<Option>
+  ) => void;
+};
+
+// use SelectProps to define the react-select props
 declare module "react-select/dist/declarations/src/Select" {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
   export interface Props<
     Option,
     IsMulti extends boolean,
     Group extends GroupBase<Option>
-  > {
-    label?: string;
-    hintMsg?: string;
-    hasError?: boolean;
-    errorMsg?: string;
-    iconSrc?: string;
-    disabled?: boolean;
-    clearable?: boolean;
-    onChange: (
-      newValue: OnChangeValue<Option, IsMulti>,
-      actionMeta: ActionMeta<Option>
-    ) => void;
-  }
+  > extends SelectProps<Option, IsMulti, Group> {}
 }
 
 const Icon = styled.img`
@@ -234,7 +242,7 @@ export function SelectComponent({
   iconSrc,
   disabled,
   clearable,
-  onChange,
+  onOptionChange,
   ...Props
 }: Props) {
   // Always prioritis error message over hint message
@@ -252,8 +260,8 @@ export function SelectComponent({
         {...Props}
         isDisabled={disabled}
         isClearable={clearable}
-        onChange={onChange}
         iconSrc={iconSrc}
+        onChange={onOptionChange}
         hasError={disabled ? false : hasError}
         isSearchable={false}
         styles={customStyles}

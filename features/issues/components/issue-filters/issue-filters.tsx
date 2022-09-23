@@ -31,8 +31,16 @@ const Container = styled.div`
 export function IssueFilters() {
   return (
     <Container>
-      <SelectComponent placeholder="Status" options={statusOptions} />
-      <SelectComponent placeholder="Level" options={levelOptions} />
+      <SelectComponent
+        placeholder="Status"
+        options={statusOptions}
+        clearable={true}
+      />
+      <SelectComponent
+        placeholder="Level"
+        options={levelOptions}
+        clearable={true}
+      />
       <Input placeholder="Project Name" iconSrc="/icons/search.svg" />
     </Container>
   );
