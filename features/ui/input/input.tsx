@@ -6,7 +6,7 @@ import { nanoid } from "nanoid";
 export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   label?: string | undefined;
   iconSrc?: string | undefined;
-  error?: boolean;
+  hasError?: boolean;
   errorMsg?: string | undefined;
   hintMsg?: string | undefined;
 };
@@ -28,7 +28,7 @@ const InputContainer = styled.div`
 `;
 
 const StyledInput = styled.input<{
-  error: boolean;
+  hasError: boolean;
   iconSrc: string | undefined;
 }>`
   box-sizing: border-box;
@@ -36,10 +36,10 @@ const StyledInput = styled.input<{
   padding-top: 0.5625rem;
   padding-bottom: 0.5625rem;
   padding-left: ${(props) => (props.iconSrc ? "2.625rem" : "0.875rem")};
-  padding-right: ${(props) => (props.error ? "2.375rem" : "0.875rem")};
+  padding-right: ${(props) => (props.hasError ? "2.375rem" : "0.875rem")};
   background: #ffffff;
   border: 1px solid
-    ${(props) => (props.error ? color("error", 300) : color("gray", 300))};
+    ${(props) => (props.hasError ? color("error", 300) : color("gray", 300))};
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   border-radius: ${space(2)};
   ${textFont("md", "regular")};
@@ -52,11 +52,11 @@ const StyledInput = styled.input<{
 
   &:focus {
     border-color: ${(props) =>
-      props.error ? color("error", 300) : color("primary", 300)};
+      props.hasError ? color("error", 300) : color("primary", 300)};
     box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05),
       0px 0px 0px 4px
         ${(props) =>
-          props.error ? color("error", 100) : color("primary", 100)};
+          props.hasError ? color("error", 100) : color("primary", 100)};
     outline: none;
   }
 
@@ -114,13 +114,21 @@ const ErrorIcon = () => (
 
 export function Input({
   label,
-  error = false,
+  hasError = false,
   errorMsg,
   hintMsg,
   iconSrc,
   ...InputProps
 }: InputProps) {
   const messageId = useRef(nanoid());
+
+  // Always prioritise error message over hint message
+  let message = null;
+  if (hasError && errorMsg) {
+    message = <Error id={messageId.current}>{errorMsg}</Error>;
+  } else if (hintMsg) {
+    message = <Hint id={messageId.current}>{hintMsg}</Hint>;
+  }
 
   return (
     <Container>
@@ -130,18 +138,12 @@ export function Input({
         <StyledInput
           aria-describedby={errorMsg || hintMsg ? messageId.current : undefined}
           iconSrc={iconSrc}
-          error={error}
+          hasError={hasError}
           {...InputProps}
         />
-        {error && <ErrorIcon />}
+        {hasError && <ErrorIcon />}
       </InputContainer>
-
-      {/* Preferentially display an error message over a hint message when both are present */}
-      {error && errorMsg ? (
-        <Error id={messageId.current}>{errorMsg}</Error>
-      ) : (
-        hintMsg && <Hint id={messageId.current}>{hintMsg}</Hint>
-      )}
+      {message}
     </Container>
   );
 }

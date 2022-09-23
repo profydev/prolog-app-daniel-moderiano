@@ -14,7 +14,7 @@ Default.args = {
   label: "Email",
   placeholder: "olivia@untitledui.com",
   iconSrc: "/icons/mail.svg",
-  error: false,
+  hasError: false,
   errorMsg: "This is an error message.",
   hintMsg: "This is a hint text to help user",
   disabled: false,
