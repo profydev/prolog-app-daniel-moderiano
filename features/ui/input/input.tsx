@@ -1,4 +1,4 @@
-import { color, textFont } from "@styles/theme";
+import { color, space, textFont } from "@styles/theme";
 import { InputHTMLAttributes, useRef } from "react";
 import styled from "styled-components";
 import { nanoid } from "nanoid";
@@ -20,7 +20,7 @@ const Container = styled.label`
 const LabelText = styled.span`
   ${textFont("sm", "medium")}
   color: ${color("gray", 700)};
-  padding-bottom: 6px;
+  padding-bottom: 0.375rem;
 `;
 
 const InputContainer = styled.div`
@@ -33,10 +33,10 @@ const StyledInput = styled.input<{
 }>`
   box-sizing: border-box;
   width: 100%;
-  padding-top: 9px;
-  padding-bottom: 9px;
-  padding-left: ${(props) => (props.iconSrc ? "42px" : "14px")};
-  padding-right: ${(props) => (props.error ? "38px" : "14px")};
+  padding-top: 0.5625rem;
+  padding-bottom: 0.5625rem;
+  padding-left: ${(props) => (props.iconSrc ? "2.625rem" : "0.875rem")};
+  padding-right: ${(props) => (props.error ? "2.375rem" : "0.875rem")};
   background: #ffffff;
   border: 1px solid
     ${(props) => (props.error ? color("error", 300) : color("gray", 300))};
@@ -54,7 +54,9 @@ const StyledInput = styled.input<{
     border-color: ${(props) =>
       props.error ? color("error", 300) : color("primary", 300)};
     box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05),
-      0px 0px 0px 4px ${(props) => (props.error ? "#FEE4E2" : "#F4EBFF")};
+      0px 0px 0px 4px
+        ${(props) =>
+          props.error ? color("error", 100) : color("primary", 100)};
     outline: none;
   }
 
@@ -66,30 +68,30 @@ const StyledInput = styled.input<{
 
 const Icon = styled.img`
   position: absolute;
-  height: 20px;
-  width: 20px;
-  left: 14px;
-  top: 12px;
+  height: ${space(5)};
+  width: ${space(5)};
+  left: 0.875rem;
+  top: ${space(3)};
 `;
 
 const Error = styled.span`
   ${textFont("sm", "regular")}
   color: ${color("error", 500)};
-  padding-top: 6px;
+  padding-top: 0.375rem;
 `;
 
 const Hint = styled.span`
   ${textFont("sm", "regular")}
   color: ${color("gray", 500)};
-  padding-top: 6px;
+  padding-top: 0.375rem;
 `;
 
 const StyledErrorIcon = styled.svg`
   position: absolute;
-  right: 14px;
-  top: 14px;
-  width: 16px;
-  height: 16px;
+  right: 0.875rem;
+  top: 0.875rem;
+  width: ${space(4)};
+  height: ${space(4)};
 `;
 
 const ErrorIcon = () => (
