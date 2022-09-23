@@ -1,5 +1,6 @@
 import { IssueLevel, IssueStatus } from "@features/issues/types/issue.types";
 import { Input, SelectComponent } from "@features/ui";
+import { space } from "@styles/theme";
 import styled from "styled-components";
 
 interface OptionType {
@@ -19,8 +20,12 @@ const levelOptions: OptionType[] = [
 ];
 
 const Container = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: 10rem 10rem 17.5rem;
   align-items: center;
+  justify-content: end;
+  gap: ${space(4)};
+  padding-bottom: 1.125rem;
 `;
 
 export function IssueFilters() {
