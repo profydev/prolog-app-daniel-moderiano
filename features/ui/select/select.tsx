@@ -146,7 +146,7 @@ const customStyles: StylesConfig = {
         ? "0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #FEE4E2"
         : "0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #F4EBFF;"
       : "0px 1px 2px rgba(16, 24, 40, 0.05)",
-    padding: "0.625rem 0.8125rem",
+    padding: "0.5625rem 0.8125rem",
     margin: "6px 0",
     backgroundColor: state.isDisabled
       ? `${color("gray", 50)({ theme })}`

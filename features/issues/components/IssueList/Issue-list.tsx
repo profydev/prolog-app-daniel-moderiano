@@ -4,7 +4,6 @@ import { useIssues } from "@features/issues";
 import { ProjectLanguage, useProjects } from "@features/projects";
 import { color, space, textFont } from "@styles/theme";
 import { IssueRow } from "./Issue-row";
-import { useEffect } from "react";
 
 const Container = styled.div`
   background: white;
