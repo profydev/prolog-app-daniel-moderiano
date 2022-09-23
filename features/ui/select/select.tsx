@@ -21,9 +21,10 @@ declare module "react-select/dist/declarations/src/Select" {
   > {
     label?: string;
     hintMsg?: string;
-    error?: boolean;
+    hasError?: boolean;
     errorMsg?: string;
     iconSrc?: string;
+    disabled?: boolean;
   }
 }
 
@@ -135,14 +136,14 @@ const customStyles: StylesConfig = {
     ...provided,
     maxWidth: "20rem",
     borderWidth: "1px",
-    borderColor: state.selectProps.error
+    borderColor: state.selectProps.hasError
       ? `${color("error", 300)({ theme })}`
       : state.isFocused
       ? `${color("primary", 300)({ theme })}`
       : `${color("gray", 300)({ theme })}`,
     borderRadius: "8px",
     boxShadow: state.isFocused
-      ? state.selectProps.error
+      ? state.selectProps.hasError
         ? "0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #FEE4E2"
         : "0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #F4EBFF;"
       : "0px 1px 2px rgba(16, 24, 40, 0.05)",
@@ -153,7 +154,7 @@ const customStyles: StylesConfig = {
       : "#FFFFFF",
 
     "&:hover": {
-      borderColor: state.selectProps.error
+      borderColor: state.selectProps.hasError
         ? `${color("error", 300)({ theme })}`
         : state.isFocused
         ? `${color("primary", 300)({ theme })}`
@@ -222,17 +223,27 @@ export function SelectComponent({
   label,
   hintMsg,
   errorMsg,
-  error,
+  hasError,
   iconSrc,
+  disabled,
   ...Props
 }: Props) {
+  // Always prioritis error message over hint message
+  let message = null;
+  if (hasError && errorMsg) {
+    message = <Error>{errorMsg}</Error>;
+  } else if (hintMsg) {
+    message = <Hint>{hintMsg}</Hint>;
+  }
+
   return (
     <div>
       {label && <Label id="reactSelectId">{label}</Label>}
       <Select
         {...Props}
+        isDisabled={disabled}
         iconSrc={iconSrc}
-        error={Props.isDisabled ? false : error}
+        hasError={disabled ? false : hasError}
         isSearchable={false}
         styles={customStyles}
         aria-labelledby="reactSelectId"
@@ -244,13 +255,7 @@ export function SelectComponent({
           IndicatorSeparator: null,
         }}
       />
-
-      {/* Always prioritise error message over hint message */}
-      {error && errorMsg ? (
-        <Error>{errorMsg}</Error>
-      ) : (
-        hintMsg && <Hint>{hintMsg}</Hint>
-      )}
+      {message}
     </div>
   );
 }
