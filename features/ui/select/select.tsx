@@ -226,6 +226,14 @@ export function SelectComponent({
   iconSrc,
   ...Props
 }: Props) {
+  // Always prioritis error message over hint message
+  let message = null;
+  if (hasError && errorMsg) {
+    message = <Error>{errorMsg}</Error>;
+  } else if (hintMsg) {
+    message = <Hint>{hintMsg}</Hint>;
+  }
+
   return (
     <div>
       {label && <Label id="reactSelectId">{label}</Label>}
@@ -244,13 +252,7 @@ export function SelectComponent({
           IndicatorSeparator: null,
         }}
       />
-
-      {/* Always prioritise error message over hint message */}
-      {hasError && errorMsg ? (
-        <Error>{errorMsg}</Error>
-      ) : (
-        hintMsg && <Hint>{hintMsg}</Hint>
-      )}
+      {message}
     </div>
   );
 }
