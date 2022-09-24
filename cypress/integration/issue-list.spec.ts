@@ -1,6 +1,8 @@
 import mockIssues1 from "../fixtures/issues-page-1.json";
 import mockIssues2 from "../fixtures/issues-page-2.json";
 import mockIssues3 from "../fixtures/issues-page-3.json";
+import filteredIssuesStatus from "../fixtures/issues-filtered-status.json";
+import filteredIssuesLevel from "../fixtures/issues-filtered-level.json";
 
 describe("Issue List", () => {
   beforeEach(() => {
@@ -41,6 +43,46 @@ describe("Issue List", () => {
         .find("tr")
         .each(($el, index) => {
           const issue = mockIssues1.items[index];
+          const firstLineOfStackTrace = issue.stack.split("\n")[1].trim();
+          cy.wrap($el).contains(issue.name);
+          cy.wrap($el).contains(issue.message);
+          cy.wrap($el).contains(issue.numEvents);
+          cy.wrap($el).contains(issue.numUsers);
+          cy.wrap($el).contains(firstLineOfStackTrace);
+        });
+    });
+
+    it("filters the issues by status", () => {
+      cy.get("main").contains("Status").click();
+      // Filter by status = resolved
+      cy.get("[id$=option-0]").click();
+
+      cy.get("main")
+        .find("tbody")
+        .find("tr")
+        .should("have.length", 3)
+        .each(($el, index) => {
+          const issue = filteredIssuesStatus.items[index];
+          const firstLineOfStackTrace = issue.stack.split("\n")[1].trim();
+          cy.wrap($el).contains(issue.name);
+          cy.wrap($el).contains(issue.message);
+          cy.wrap($el).contains(issue.numEvents);
+          cy.wrap($el).contains(issue.numUsers);
+          cy.wrap($el).contains(firstLineOfStackTrace);
+        });
+    });
+
+    it("filters the issues by level", () => {
+      cy.get("main").contains("Level").click();
+      // Filter by level = error
+      cy.get("[id$=option-2]").click();
+
+      cy.get("main")
+        .find("tbody")
+        .find("tr")
+        .should("have.length", 5)
+        .each(($el, index) => {
+          const issue = filteredIssuesLevel.items[index];
           const firstLineOfStackTrace = issue.stack.split("\n")[1].trim();
           cy.wrap($el).contains(issue.name);
           cy.wrap($el).contains(issue.message);
