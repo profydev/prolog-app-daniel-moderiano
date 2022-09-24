@@ -1,12 +1,18 @@
 import { IssueLevel, IssueStatus } from "@features/issues/types/issue.types";
 import { Input, SelectComponent } from "@features/ui";
 import { space } from "@styles/theme";
+import { useRouter } from "next/router";
 import styled from "styled-components";
 
 interface OptionType {
   label: string;
   value: string;
 }
+
+const statusNames: Record<string, string> = {
+  open: "Unresolved",
+  resolved: "Resolved",
+};
 
 const statusOptions: OptionType[] = [
   { label: "Resolved", value: IssueStatus.resolved },
@@ -29,12 +35,55 @@ const Container = styled.div`
 `;
 
 export function IssueFilters() {
+  const router = useRouter();
+  const statusFilter = (router.query.status as string) || null;
+
+  const handleStatusChange = (newValue: string | null) => {
+    const { status, ...routerQuery } = router.query;
+    if (newValue) {
+      // add the filter URL query string
+      router.push({
+        pathname: router.pathname,
+        query: { ...router.query, status: newValue },
+      });
+    } else {
+      // remove any existing status filter form the URL
+      router.push({
+        pathname: router.pathname,
+        query: { ...routerQuery },
+      });
+    }
+  };
+
+  function checkOptionTypeIsValid(option: unknown): option is OptionType {
+    if (option && typeof option == "object") {
+      return true;
+    }
+
+    return false;
+  }
+
   return (
     <Container>
       <SelectComponent
         placeholder="Status"
         options={statusOptions}
         clearable={true}
+        onOptionChange={(newValue) => {
+          if (checkOptionTypeIsValid(newValue)) {
+            handleStatusChange(newValue.value);
+          } else {
+            handleStatusChange(null);
+          }
+        }}
+        value={
+          statusFilter
+            ? {
+                label: statusNames[statusFilter],
+                value: statusNames[statusFilter],
+              }
+            : null
+        }
       />
       <SelectComponent
         placeholder="Level"

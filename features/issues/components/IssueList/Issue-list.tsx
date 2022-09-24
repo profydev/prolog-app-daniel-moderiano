@@ -1,6 +1,12 @@
 import { useRouter } from "next/router";
 import styled from "styled-components";
-import { Issue, IssueFilters, useIssues } from "@features/issues";
+import {
+  Issue,
+  IssueFilters,
+  IssueLevel,
+  IssueStatus,
+  useIssues,
+} from "@features/issues";
 import { ProjectLanguage, useProjects } from "@features/projects";
 import { color, space, textFont } from "@styles/theme";
 import { IssueRow } from "./Issue-row";
@@ -82,10 +88,6 @@ export function IssueList() {
   // Do not feed the direct issues data to the component for rendering; instead, set it to render a filtered list of issues (even if the filtered list is equivalent ot the raw data)
   useEffect(() => {
     if (items) {
-      items.forEach((item) => {
-        console.log(item.status);
-      });
-
       setFilteredIssues(items);
     }
   }, [items]);

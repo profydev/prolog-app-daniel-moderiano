@@ -236,7 +236,7 @@ const customStyles: StylesConfig = {
   clearIndicator: (provided) => ({
     ...provided,
     margin: "0",
-    padding: "0 0.25rem",
+    padding: "0 0.1rem",
   }),
 };
 
