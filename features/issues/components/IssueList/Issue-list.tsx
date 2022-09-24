@@ -75,7 +75,7 @@ export function IssueList() {
   const navigateToPage = (newPage: number) =>
     router.push({
       pathname: router.pathname,
-      query: { page: newPage },
+      query: { ...router.query, page: newPage },
     });
 
   const issuesPage = useIssues(page);
