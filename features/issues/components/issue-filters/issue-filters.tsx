@@ -2,7 +2,6 @@ import { IssueLevel, IssueStatus } from "@features/issues/types/issue.types";
 import { Input, SelectComponent } from "@features/ui";
 import { space } from "@styles/theme";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 import styled from "styled-components";
 
 interface OptionType {

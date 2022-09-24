@@ -13,6 +13,27 @@ import { IssueRow } from "./Issue-row";
 import { useEffect, useState } from "react";
 import * as React from "react";
 
+const filterIssuesByStatus = (
+  issues: Issue[],
+  desiredStatus: string | null
+) => {
+  if (!desiredStatus) {
+    // no filter provided
+    return issues;
+  } else {
+    return issues.filter((issue) => issue.status === desiredStatus);
+  }
+};
+
+const filterIssuesByLevel = (issues: Issue[], desiredLevel: string | null) => {
+  if (!desiredLevel) {
+    // no filter provided
+    return issues;
+  } else {
+    return issues.filter((issue) => issue.level === desiredLevel);
+  }
+};
+
 const ListContainer = styled.div`
   background: white;
   border: 1px solid ${color("gray", 200)};
@@ -92,10 +113,16 @@ export function IssueList() {
 
   // Do not feed the direct issues data to the component for rendering; instead, set it to render a filtered list of issues (even if the filtered list is equivalent ot the raw data)
   useEffect(() => {
+    let tempData: Issue[];
     if (items) {
-      setFilteredIssues(items);
+      tempData = items;
+      // Step through each filter, mutating the tempData at each step. This allows us to apply or remove multiple filters
+      tempData = filterIssuesByStatus(tempData, statusFilter);
+      tempData = filterIssuesByLevel(tempData, levelFilter);
+      // Only set the filtered issues once all filtering is complete
+      setFilteredIssues(tempData);
     }
-  }, [items]);
+  }, [items, levelFilter, statusFilter]);
 
   if (projects.isLoading || issuesPage.isLoading) {
     return <div>Loading</div>;
