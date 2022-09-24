@@ -72,6 +72,11 @@ const PageNumber = styled.span`
 export function IssueList() {
   const router = useRouter();
   const page = Number(router.query.page || 1);
+  const statusFilter =
+    typeof router.query.status === "string" ? router.query.status : null;
+  const levelFilter =
+    typeof router.query.level === "string" ? router.query.level : null;
+
   const navigateToPage = (newPage: number) =>
     router.push({
       pathname: router.pathname,

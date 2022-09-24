@@ -2,6 +2,7 @@ import { IssueLevel, IssueStatus } from "@features/issues/types/issue.types";
 import { Input, SelectComponent } from "@features/ui";
 import { space } from "@styles/theme";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import styled from "styled-components";
 
 interface OptionType {
@@ -43,8 +44,10 @@ const Container = styled.div`
 
 export function IssueFilters() {
   const router = useRouter();
-  const statusFilter = (router.query.status as string) || null;
-  const levelFilter = (router.query.level as string) || null;
+  const statusFilter =
+    typeof router.query.status === "string" ? router.query.status : null;
+  const levelFilter =
+    typeof router.query.level === "string" ? router.query.level : null;
 
   const handleStatusChange = (newValue: string | null) => {
     const { status, ...routerQuery } = router.query;
