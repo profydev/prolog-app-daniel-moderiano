@@ -232,6 +232,12 @@ const customStyles: StylesConfig = {
     alignContent: "center",
     margin: "0",
   }),
+
+  clearIndicator: (provided) => ({
+    ...provided,
+    margin: "0",
+    padding: "0 0.25rem",
+  }),
 };
 
 export function SelectComponent({
