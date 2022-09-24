@@ -9,9 +9,16 @@ interface OptionType {
   value: string;
 }
 
+// Uses the Record type to allow us to index via string names
 const statusNames: Record<string, string> = {
   open: "Unresolved",
   resolved: "Resolved",
+};
+
+const levelNames: Record<string, string> = {
+  info: "Info",
+  warning: "Warning",
+  error: "Error",
 };
 
 const statusOptions: OptionType[] = [
@@ -37,6 +44,7 @@ const Container = styled.div`
 export function IssueFilters() {
   const router = useRouter();
   const statusFilter = (router.query.status as string) || null;
+  const levelFilter = (router.query.level as string) || null;
 
   const handleStatusChange = (newValue: string | null) => {
     const { status, ...routerQuery } = router.query;
@@ -55,11 +63,27 @@ export function IssueFilters() {
     }
   };
 
+  const handleLevelChange = (newValue: string | null) => {
+    const { level, ...routerQuery } = router.query;
+    if (newValue) {
+      // add the filter URL query string
+      router.push({
+        pathname: router.pathname,
+        query: { ...router.query, level: newValue },
+      });
+    } else {
+      // remove any existing level filter form the URL
+      router.push({
+        pathname: router.pathname,
+        query: { ...routerQuery },
+      });
+    }
+  };
+
   function checkOptionTypeIsValid(option: unknown): option is OptionType {
     if (option && typeof option == "object") {
       return true;
     }
-
     return false;
   }
 
@@ -89,6 +113,21 @@ export function IssueFilters() {
         placeholder="Level"
         options={levelOptions}
         clearable={true}
+        onOptionChange={(newValue) => {
+          if (checkOptionTypeIsValid(newValue)) {
+            handleLevelChange(newValue.value);
+          } else {
+            handleLevelChange(null);
+          }
+        }}
+        value={
+          levelFilter
+            ? {
+                label: levelNames[levelFilter],
+                value: levelNames[levelFilter],
+              }
+            : null
+        }
       />
       <Input placeholder="Project Name" iconSrc="/icons/search.svg" />
     </Container>
