@@ -1,10 +1,11 @@
 import { useRouter } from "next/router";
 import styled from "styled-components";
-import { IssueFilters, useIssues } from "@features/issues";
+import { Issue, IssueFilters, useIssues } from "@features/issues";
 import { ProjectLanguage, useProjects } from "@features/projects";
 import { color, space, textFont } from "@styles/theme";
 import { IssueRow } from "./Issue-row";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import * as React from "react";
 
 const ListContainer = styled.div`
   background: white;
@@ -74,6 +75,17 @@ export function IssueList() {
   const issuesPage = useIssues(page);
   const projects = useProjects();
 
+  const [filteredIssues, setFilteredIssues] = useState<Issue[] | undefined>();
+
+  const { items, meta } = issuesPage.data || {};
+
+  // Do not feed the direct issues data to the component for rendering; instead, set it to render a filtered list of issues (even if the filtered list is equivalent ot the raw data)
+  useEffect(() => {
+    if (items) {
+      setFilteredIssues(items);
+    }
+  }, [items]);
+
   if (projects.isLoading || issuesPage.isLoading) {
     return <div>Loading</div>;
   }
@@ -95,7 +107,6 @@ export function IssueList() {
     }),
     {} as Record<string, ProjectLanguage>
   );
-  const { items, meta } = issuesPage.data || {};
 
   return (
     <div>
@@ -111,7 +122,7 @@ export function IssueList() {
             </HeaderRow>
           </thead>
           <tbody>
-            {(items || []).map((issue) => (
+            {(filteredIssues || []).map((issue) => (
               <IssueRow
                 key={issue.id}
                 issue={issue}
