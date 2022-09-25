@@ -3,6 +3,7 @@ import mockIssues2 from "../fixtures/issues-page-2.json";
 import mockIssues3 from "../fixtures/issues-page-3.json";
 import filteredIssuesStatus from "../fixtures/issues-filtered-status.json";
 import filteredIssuesLevel from "../fixtures/issues-filtered-level.json";
+import filteredIssuesProject from "../fixtures/issues-filtered-project.json";
 
 describe("Issue List", () => {
   beforeEach(() => {
@@ -33,6 +34,13 @@ describe("Issue List", () => {
         fixture: "issues-filtered-level.json",
       }
     ).as("getFilteredByLevel");
+    cy.intercept(
+      "GET",
+      "https://prolog-api.profy.dev/issue?page=1&project=backend",
+      {
+        fixture: "issues-filtered-project.json",
+      }
+    ).as("getFilteredByProject");
 
     // open issues page
     cy.visit(`http://localhost:3000/dashboard/issues`);
@@ -113,6 +121,33 @@ describe("Issue List", () => {
         .find("tr")
         .each(($el, index) => {
           const issue = filteredIssuesLevel.items[index];
+          const firstLineOfStackTrace = issue.stack.split("\n")[1].trim();
+          cy.wrap($el).contains(issue.name);
+          cy.wrap($el).contains(issue.message);
+          cy.wrap($el).contains(issue.numEvents);
+          cy.wrap($el).contains(issue.numUsers);
+          cy.wrap($el).contains(firstLineOfStackTrace);
+        });
+    });
+
+    it("filters the issues by project name", () => {
+      // Filter by project = "backend"
+      cy.get("[data-cy='projectInput']").type("backend");
+
+      // Check the URL query params have been constructed correctly
+      cy.url().should(
+        "eq",
+        "http://localhost:3000/dashboard/issues?project=backend"
+      );
+
+      // Wait for the specific filtered request to resolve
+      cy.wait("@getFilteredByProject");
+
+      cy.get("main")
+        .find("tbody")
+        .find("tr")
+        .each(($el, index) => {
+          const issue = filteredIssuesProject.items[index];
           const firstLineOfStackTrace = issue.stack.split("\n")[1].trim();
           cy.wrap($el).contains(issue.name);
           cy.wrap($el).contains(issue.message);

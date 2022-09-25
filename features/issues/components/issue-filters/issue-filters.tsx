@@ -82,6 +82,24 @@ export function IssueFilters() {
     }
   };
 
+  const handleProjectChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.currentTarget.value;
+    const { project, ...routerQuery } = router.query;
+    if (newValue.length > 0) {
+      // add the filter URL query string
+      router.push({
+        pathname: router.pathname,
+        query: { ...router.query, project: newValue },
+      });
+    } else {
+      // remove any existing level filter form the URL
+      router.push({
+        pathname: router.pathname,
+        query: { ...routerQuery },
+      });
+    }
+  };
+
   function checkOptionTypeIsValid(option: unknown): option is OptionType {
     if (option && typeof option == "object") {
       return true;
@@ -131,7 +149,12 @@ export function IssueFilters() {
             : null
         }
       />
-      <Input placeholder="Project Name" iconSrc="/icons/search.svg" />
+      <Input
+        placeholder="Project Name"
+        iconSrc="/icons/search.svg"
+        onChange={handleProjectChange}
+        data-cy="projectInput"
+      />
     </Container>
   );
 }

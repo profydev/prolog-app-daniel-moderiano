@@ -69,6 +69,8 @@ export function IssueList() {
     typeof router.query.status === "string" ? router.query.status : null;
   const levelFilter =
     typeof router.query.level === "string" ? router.query.level : null;
+  const projectFilter =
+    typeof router.query.project === "string" ? router.query.project : null;
 
   const navigateToPage = (newPage: number) =>
     router.push({
@@ -79,7 +81,7 @@ export function IssueList() {
   const issuesPage = useIssues(page, {
     status: statusFilter,
     level: levelFilter,
-    project: null,
+    project: projectFilter,
   });
 
   const projects = useProjects();
