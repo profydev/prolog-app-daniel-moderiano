@@ -19,6 +19,20 @@ describe("Issue List", () => {
     cy.intercept("GET", "https://prolog-api.profy.dev/issue?page=3", {
       fixture: "issues-page-3.json",
     });
+    cy.intercept(
+      "GET",
+      "https://prolog-api.profy.dev/issue?page=1&status=resolved",
+      {
+        fixture: "issues-filtered-status.json",
+      }
+    ).as("getFilteredByStatus");
+    cy.intercept(
+      "GET",
+      "https://prolog-api.profy.dev/issue?page=1&level=error",
+      {
+        fixture: "issues-filtered-level.json",
+      }
+    ).as("getFilteredByLevel");
 
     // open issues page
     cy.visit(`http://localhost:3000/dashboard/issues`);
@@ -57,10 +71,18 @@ describe("Issue List", () => {
       // Filter by status = resolved
       cy.get("[id$=option-0]").click();
 
+      // Check the URL query params have been constructed correctly
+      cy.url().should(
+        "eq",
+        "http://localhost:3000/dashboard/issues?status=resolved"
+      );
+
+      // Wait for the specific filtered request to resolve
+      cy.wait("@getFilteredByStatus");
+
       cy.get("main")
         .find("tbody")
         .find("tr")
-        .should("have.length", 3)
         .each(($el, index) => {
           const issue = filteredIssuesStatus.items[index];
           const firstLineOfStackTrace = issue.stack.split("\n")[1].trim();
@@ -77,10 +99,18 @@ describe("Issue List", () => {
       // Filter by level = error
       cy.get("[id$=option-2]").click();
 
+      // Check the URL query params have been constructed correctly
+      cy.url().should(
+        "eq",
+        "http://localhost:3000/dashboard/issues?level=error"
+      );
+
+      // Wait for the specific filtered request to resolve
+      cy.wait("@getFilteredByLevel");
+
       cy.get("main")
         .find("tbody")
         .find("tr")
-        .should("have.length", 5)
         .each(($el, index) => {
           const issue = filteredIssuesLevel.items[index];
           const firstLineOfStackTrace = issue.stack.split("\n")[1].trim();

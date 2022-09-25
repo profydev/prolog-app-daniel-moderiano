@@ -1,32 +1,10 @@
 import { useRouter } from "next/router";
 import styled from "styled-components";
-import { Issue, IssueFilters, useIssues } from "@features/issues";
+import { IssueFilters, useIssues } from "@features/issues";
 import { ProjectLanguage, useProjects } from "@features/projects";
 import { color, space, textFont } from "@styles/theme";
 import { IssueRow } from "./Issue-row";
-import { useEffect, useState } from "react";
 import * as React from "react";
-
-const filterIssuesByStatus = (
-  issues: Issue[],
-  desiredStatus: string | null
-) => {
-  if (!desiredStatus) {
-    // no filter provided
-    return issues;
-  } else {
-    return issues.filter((issue) => issue.status === desiredStatus);
-  }
-};
-
-const filterIssuesByLevel = (issues: Issue[], desiredLevel: string | null) => {
-  if (!desiredLevel) {
-    // no filter provided
-    return issues;
-  } else {
-    return issues.filter((issue) => issue.level === desiredLevel);
-  }
-};
 
 const ListContainer = styled.div`
   background: white;
@@ -103,24 +81,10 @@ export function IssueList() {
     level: levelFilter,
     project: null,
   });
+
   const projects = useProjects();
 
-  const [filteredIssues, setFilteredIssues] = useState<Issue[] | undefined>();
-
   const { items, meta } = issuesPage.data || {};
-
-  // Do not feed the direct issues data to the component for rendering; instead, set it to render a filtered list of issues (even if the filtered list is equivalent ot the raw data)
-  // useEffect(() => {
-  //   let tempData: Issue[];
-  //   if (items) {
-  //     tempData = items;
-  //     // Step through each filter, mutating the tempData at each step. This allows us to apply or remove multiple filters
-  //     tempData = filterIssuesByStatus(tempData, statusFilter)
-  //     tempData = filterIssuesByLevel(tempData, levelFilter);
-  //     // Only set the filtered issues once all filtering is complete
-  //     setFilteredIssues(tempData);
-  //   }
-  // }, [items, levelFilter, statusFilter]);
 
   if (projects.isLoading || issuesPage.isLoading) {
     return <div>Loading</div>;
