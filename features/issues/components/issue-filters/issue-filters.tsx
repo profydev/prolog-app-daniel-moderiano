@@ -4,7 +4,7 @@ import { space } from "@styles/theme";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
-import { useDebouncedValue } from "./use-debounced-value";
+import { useDebounceValue } from "./use-debounce-value";
 
 interface OptionType {
   label: string;
@@ -49,10 +49,12 @@ export function IssueFilters() {
     typeof router.query.status === "string" ? router.query.status : null;
   const levelFilter =
     typeof router.query.level === "string" ? router.query.level : null;
+  const projectFilter =
+    typeof router.query.project === "string" ? router.query.project : null;
 
   // We must debounce the project filter to avoid an API call on every character the user types.
   const [realTimeValue, setRealTimeValue] = useState("");
-  const debouncedValue = useDebouncedValue(realTimeValue, 1000);
+  const debouncedValue = useDebounceValue(realTimeValue, 1000);
 
   const handleStatusChange = (newValue: string | null) => {
     const { status, ...routerQuery } = router.query;
@@ -88,44 +90,6 @@ export function IssueFilters() {
     }
   };
 
-  const handleProjectChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = event.currentTarget.value;
-    const { project, ...routerQuery } = router.query;
-    if (newValue.length > 0) {
-      // add the filter URL query string
-      router.push({
-        pathname: router.pathname,
-        query: { ...router.query, project: newValue },
-      });
-    } else {
-      // remove any existing level filter form the URL
-      router.push({
-        pathname: router.pathname,
-        query: { ...routerQuery },
-      });
-    }
-  };
-
-  const handleRouter = useCallback(
-    (input: string) => {
-      const { project, ...routerQuery } = router.query;
-      if (input.length > 0) {
-        // add the filter URL query string
-        router.push({
-          pathname: router.pathname,
-          query: { ...router.query, project: input },
-        });
-      } else {
-        // remove any existing level filter form the URL
-        router.push({
-          pathname: router.pathname,
-          query: { ...routerQuery },
-        });
-      }
-    },
-    [router]
-  );
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRealTimeValue(event.currentTarget.value);
   };
@@ -139,7 +103,7 @@ export function IssueFilters() {
         query: { ...router.query, project: debouncedValue },
       });
     } else {
-      // remove any existing level filter form the URL
+      // remove any existing project filter form the URL
       router.push({
         pathname: router.pathname,
         query: { ...routerQuery },
@@ -204,7 +168,7 @@ export function IssueFilters() {
         iconSrc="/icons/search.svg"
         onChange={handleChange}
         data-cy="projectInput"
-        // value={realTimeValue}
+        value={realTimeValue} // ? Is it helpful to make this a controlled input?
       />
     </Container>
   );
