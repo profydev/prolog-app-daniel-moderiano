@@ -4,6 +4,8 @@ import axios from "axios";
 import type { Page } from "@typings/page.types";
 import type { Issue } from "../types/issue.types";
 
+// * Filters defined here are NOT affecting test failures in pagination and reload
+
 export interface Filters {
   status: string | null;
   level: string | null;

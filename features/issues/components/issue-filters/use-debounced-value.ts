@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
 
-export function useDebouncedValue(input: string, time = 1000) {
-  const [debouncedValue, setDebouncedValue] = useState(input);
+export function useDebouncedValue(inputValue: string, delay = 1000) {
+  const [debouncedValue, setDebouncedValue] = useState(inputValue);
 
-  // every time input value has changed - set interval before it's actually commited
+  // Re-run this effect, and hence reset the timer every time the input value changes (i.e. user has entered a character). The debounced value is not set until the delay has elapsed (i.e. user stops typing for 1000 ms by default).
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setDebouncedValue(input);
-    }, time);
+      setDebouncedValue(inputValue);
+    }, delay);
 
     return () => {
       clearTimeout(timeout);
     };
-  }, [input, time]);
+  }, [inputValue, delay]);
 
   return debouncedValue;
 }
