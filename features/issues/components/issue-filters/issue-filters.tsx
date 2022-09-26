@@ -2,7 +2,7 @@ import { IssueLevel, IssueStatus } from "@features/issues/types/issue.types";
 import { Input, SelectComponent } from "@features/ui";
 import { space } from "@styles/theme";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDebounceValue } from "./use-debounce-value";
 
@@ -43,6 +43,13 @@ const Container = styled.div`
   padding-bottom: 1.125rem;
 `;
 
+function checkOptionTypeIsValid(option: unknown): option is OptionType {
+  if (option && typeof option == "object") {
+    return true;
+  }
+  return false;
+}
+
 export function IssueFilters() {
   const router = useRouter();
   const statusFilter =
@@ -52,74 +59,33 @@ export function IssueFilters() {
   const projectFilter =
     typeof router.query.project === "string" ? router.query.project : null;
 
-  // We must debounce the project filter to avoid an API call on every character the user types.
+  // We must debounce the project filter input to avoid an API call every time the user types a character.
   const [realTimeValue, setRealTimeValue] = useState("");
   const debouncedValue = useDebounceValue(realTimeValue, 1000);
 
-  const handleStatusChange = (newValue: string | null) => {
-    const { status, ...routerQuery } = router.query;
+  // * This might be useful to move outside the component for eadability and to make the router dependency more obvious. It does mean router will be a required argument however.
+  const updateQueryParams = (param: string, newValue: string | null) => {
     if (newValue) {
       // add the filter URL query string
       router.push({
         pathname: router.pathname,
-        query: { ...router.query, status: newValue },
+        query: { ...router.query, [param]: newValue },
       });
     } else {
-      // remove any existing status filter form the URL
+      // remove any existing filters for this param form the URL
+      delete router.query[param];
       router.push({
         pathname: router.pathname,
-        query: { ...routerQuery },
+        query: { ...router.query },
       });
     }
   };
 
-  const handleLevelChange = (newValue: string | null) => {
-    const { level, ...routerQuery } = router.query;
-    if (newValue) {
-      // add the filter URL query string
-      router.push({
-        pathname: router.pathname,
-        query: { ...router.query, level: newValue },
-      });
-    } else {
-      // remove any existing level filter form the URL
-      router.push({
-        pathname: router.pathname,
-        query: { ...routerQuery },
-      });
-    }
-  };
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRealTimeValue(event.currentTarget.value);
-  };
-
+  // Update router params when debouncedValue changes. However, the intended behaviour is NOT to re-run everytime router (and therefore updateQueryParams) changes. Hence it is left out of the deps array. Also it's includion causes an infinite loop.
   useEffect(() => {
-    const { project, ...routerQuery } = router.query;
-    if (debouncedValue.length > 0) {
-      // add the filter URL query string
-      router.push({
-        pathname: router.pathname,
-        query: { ...router.query, project: debouncedValue },
-      });
-    } else {
-      // remove any existing project filter form the URL
-      router.push({
-        pathname: router.pathname,
-        query: { ...routerQuery },
-      });
-    }
-
-    // router dependency will cause infinite loop, and this effect does not need to run on unrelated router changes.
+    updateQueryParams("project", debouncedValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedValue]);
-
-  function checkOptionTypeIsValid(option: unknown): option is OptionType {
-    if (option && typeof option == "object") {
-      return true;
-    }
-    return false;
-  }
 
   return (
     <Container>
@@ -129,9 +95,9 @@ export function IssueFilters() {
         clearable={true}
         onOptionChange={(newValue) => {
           if (checkOptionTypeIsValid(newValue)) {
-            handleStatusChange(newValue.value);
+            updateQueryParams("status", newValue.value);
           } else {
-            handleStatusChange(null);
+            updateQueryParams("status", null);
           }
         }}
         value={
@@ -149,9 +115,9 @@ export function IssueFilters() {
         clearable={true}
         onOptionChange={(newValue) => {
           if (checkOptionTypeIsValid(newValue)) {
-            handleLevelChange(newValue.value);
+            updateQueryParams("level", newValue.value);
           } else {
-            handleLevelChange(null);
+            updateQueryParams("level", null);
           }
         }}
         value={
@@ -166,7 +132,7 @@ export function IssueFilters() {
       <Input
         placeholder="Project Name"
         iconSrc="/icons/search.svg"
-        onChange={handleChange}
+        onChange={(event) => setRealTimeValue(event.currentTarget.value)}
         data-cy="projectInput"
         value={realTimeValue} // ? Is it helpful to make this a controlled input?
       />
