@@ -2,7 +2,9 @@ import { IssueLevel, IssueStatus } from "@features/issues/types/issue.types";
 import { Input, SelectComponent } from "@features/ui";
 import { space } from "@styles/theme";
 import { useRouter } from "next/router";
+import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
+import { useDebouncedValue } from "./use-debounced-value";
 
 interface OptionType {
   label: string;
@@ -47,6 +49,10 @@ export function IssueFilters() {
     typeof router.query.status === "string" ? router.query.status : null;
   const levelFilter =
     typeof router.query.level === "string" ? router.query.level : null;
+
+  // We must debounce the project filter to avoid an API call on every character the user types.
+  const [realTimeValue, setRealTimeValue] = useState("");
+  const debouncedValue = useDebouncedValue(realTimeValue, 1000);
 
   const handleStatusChange = (newValue: string | null) => {
     const { status, ...routerQuery } = router.query;
@@ -100,6 +106,50 @@ export function IssueFilters() {
     }
   };
 
+  const handleRouter = useCallback(
+    (input: string) => {
+      const { project, ...routerQuery } = router.query;
+      if (input.length > 0) {
+        // add the filter URL query string
+        router.push({
+          pathname: router.pathname,
+          query: { ...router.query, project: input },
+        });
+      } else {
+        // remove any existing level filter form the URL
+        router.push({
+          pathname: router.pathname,
+          query: { ...routerQuery },
+        });
+      }
+    },
+    [router]
+  );
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRealTimeValue(event.currentTarget.value);
+  };
+
+  useEffect(() => {
+    const { project, ...routerQuery } = router.query;
+    if (debouncedValue.length > 0) {
+      // add the filter URL query string
+      router.push({
+        pathname: router.pathname,
+        query: { ...router.query, project: debouncedValue },
+      });
+    } else {
+      // remove any existing level filter form the URL
+      router.push({
+        pathname: router.pathname,
+        query: { ...routerQuery },
+      });
+    }
+
+    // router dependency will cause infinite loop, and this effect does not need to run on unrelated router changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedValue]);
+
   function checkOptionTypeIsValid(option: unknown): option is OptionType {
     if (option && typeof option == "object") {
       return true;
@@ -152,8 +202,9 @@ export function IssueFilters() {
       <Input
         placeholder="Project Name"
         iconSrc="/icons/search.svg"
-        onChange={handleProjectChange}
+        onChange={handleChange}
         data-cy="projectInput"
+        // value={realTimeValue}
       />
     </Container>
   );
