@@ -13,12 +13,12 @@ export interface Filters {
 }
 
 async function getIssues(page: number, filters: Filters) {
+  const { status, level, project } = filters;
+
   const { data } = await axios.get(
     `https://prolog-api.profy.dev/issue?page=${page}${
-      filters.status ? `&status=${filters.status}` : ""
-    }${filters.level ? `&level=${filters.level}` : ""}${
-      filters.project ? `&project=${filters.project}` : ""
-    }`
+      status ? `&status=${status}` : ""
+    }${level ? `&level=${level}` : ""}${project ? `&project=${project}` : ""}`
   );
   return data;
 }
