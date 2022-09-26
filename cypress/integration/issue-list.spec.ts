@@ -74,6 +74,38 @@ describe("Issue List", () => {
         });
     });
 
+    it("paginates the data", () => {
+      // test first page
+      cy.contains("Page 1 of 3");
+      cy.get("@prev-button").should("have.attr", "disabled");
+
+      // test navigation to second page
+      cy.get("@next-button").click();
+      cy.get("@prev-button").should("not.have.attr", "disabled");
+      cy.contains("Page 2 of 3");
+      cy.get("tbody tr:first").contains(mockIssues2.items[0].message);
+
+      // test navigation to third and last page
+      cy.get("@next-button").click();
+      cy.get("@next-button").should("have.attr", "disabled");
+      cy.contains("Page 3 of 3");
+      cy.get("tbody tr:first").contains(mockIssues3.items[0].message);
+
+      // test navigation back to second page
+      cy.get("@prev-button").click();
+      cy.get("@next-button").should("not.have.attr", "disabled");
+      cy.contains("Page 2 of 3");
+      cy.get("tbody tr:first").contains(mockIssues2.items[0].message);
+    });
+
+    it("persists page after reload", () => {
+      cy.get("@next-button").click();
+      cy.contains("Page 2 of 3");
+
+      cy.reload();
+      cy.contains("Page 2 of 3");
+    });
+
     it("filters the issues by status", () => {
       cy.get("main").contains("Status").click();
       // Filter by status = resolved
@@ -107,13 +139,11 @@ describe("Issue List", () => {
       // Filter by level = error
       cy.get("[id$=option-2]").click();
 
-      // Check the URL query params have been constructed correctly
       cy.url().should(
         "eq",
         "http://localhost:3000/dashboard/issues?level=error"
       );
 
-      // Wait for the specific filtered request to resolve
       cy.wait("@getFilteredByLevel");
 
       cy.get("main")
@@ -134,13 +164,14 @@ describe("Issue List", () => {
       // Filter by project = "backend"
       cy.get("[data-cy='projectInput']").type("backend");
 
-      // Check the URL query params have been constructed correctly
+      // Wait for 1000 ms input debounce
+      cy.wait(1100);
+
       cy.url().should(
         "eq",
         "http://localhost:3000/dashboard/issues?project=backend"
       );
 
-      // Wait for the specific filtered request to resolve
       cy.wait("@getFilteredByProject");
 
       cy.get("main")
@@ -155,38 +186,6 @@ describe("Issue List", () => {
           cy.wrap($el).contains(issue.numUsers);
           cy.wrap($el).contains(firstLineOfStackTrace);
         });
-    });
-
-    it("paginates the data", () => {
-      // test first page
-      cy.contains("Page 1 of 3");
-      cy.get("@prev-button").should("have.attr", "disabled");
-
-      // test navigation to second page
-      cy.get("@next-button").click();
-      cy.get("@prev-button").should("not.have.attr", "disabled");
-      cy.contains("Page 2 of 3");
-      cy.get("tbody tr:first").contains(mockIssues2.items[0].message);
-
-      // test navigation to third and last page
-      cy.get("@next-button").click();
-      cy.get("@next-button").should("have.attr", "disabled");
-      cy.contains("Page 3 of 3");
-      cy.get("tbody tr:first").contains(mockIssues3.items[0].message);
-
-      // test navigation back to second page
-      cy.get("@prev-button").click();
-      cy.get("@next-button").should("not.have.attr", "disabled");
-      cy.contains("Page 2 of 3");
-      cy.get("tbody tr:first").contains(mockIssues2.items[0].message);
-    });
-
-    it("persists page after reload", () => {
-      cy.get("@next-button").click();
-      cy.contains("Page 2 of 3");
-
-      cy.reload();
-      cy.contains("Page 2 of 3");
     });
   });
 });
