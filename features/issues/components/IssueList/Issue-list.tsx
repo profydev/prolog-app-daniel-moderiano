@@ -4,7 +4,6 @@ import { IssueFilters, useIssues } from "@features/issues";
 import { ProjectLanguage, useProjects } from "@features/projects";
 import { color, space, textFont } from "@styles/theme";
 import { IssueRow } from "./Issue-row";
-import * as React from "react";
 
 const ListContainer = styled.div`
   background: white;
@@ -78,13 +77,12 @@ export function IssueList() {
       query: { ...router.query, page: newPage },
     });
 
+  const projects = useProjects();
   const issuesPage = useIssues(page, {
     status: statusFilter,
     level: levelFilter,
     project: projectFilter,
   });
-
-  const projects = useProjects();
 
   const { items, meta } = issuesPage.data || {};
 
