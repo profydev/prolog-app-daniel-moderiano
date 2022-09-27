@@ -1,7 +1,7 @@
 import { IssueLevel, IssueStatus } from "@features/issues/types/issue.types";
 import { Input, SelectComponent } from "@features/ui";
 import { space } from "@styles/theme";
-import { useRouter } from "next/router";
+import { NextRouter, useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDebounceValue } from "./use-debounce-value";
@@ -50,6 +50,28 @@ function checkOptionTypeIsValid(option: unknown): option is OptionType {
   return false;
 }
 
+// Defined outside the component to make useCallback/useEffect dependency decisions easier to understand
+const updateQueryParams = (
+  router: NextRouter,
+  param: string,
+  newValue: string | null
+) => {
+  if (newValue) {
+    // add the filter URL query string
+    router.push({
+      pathname: router.pathname,
+      query: { ...router.query, [param]: newValue },
+    });
+  } else {
+    // remove any existing filters for this param form the URL
+    delete router.query[param];
+    router.push({
+      pathname: router.pathname,
+      query: { ...router.query },
+    });
+  }
+};
+
 export function IssueFilters() {
   const router = useRouter();
   const statusFilter =
@@ -63,27 +85,9 @@ export function IssueFilters() {
   const [realTimeValue, setRealTimeValue] = useState("");
   const debouncedValue = useDebounceValue(realTimeValue, 1000);
 
-  // * This might be useful to move outside the component for eadability and to make the router dependency more obvious. It does mean router will be a required argument however.
-  const updateQueryParams = (param: string, newValue: string | null) => {
-    if (newValue) {
-      // add the filter URL query string
-      router.push({
-        pathname: router.pathname,
-        query: { ...router.query, [param]: newValue },
-      });
-    } else {
-      // remove any existing filters for this param form the URL
-      delete router.query[param];
-      router.push({
-        pathname: router.pathname,
-        query: { ...router.query },
-      });
-    }
-  };
-
-  // Update router params when debouncedValue changes. However, the intended behaviour is NOT to re-run everytime router (and therefore updateQueryParams) changes. Hence it is left out of the deps array. Also it's includion causes an infinite loop.
+  // Adding router as a dependency causes an infinite render loop! The intended behaviour is to only run this effect for changes to debounced value, not for router changes. It is appropriate to omit router as a dependency here.
   useEffect(() => {
-    updateQueryParams("project", debouncedValue);
+    updateQueryParams(router, "project", debouncedValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedValue]);
 
@@ -95,9 +99,9 @@ export function IssueFilters() {
         clearable={true}
         onOptionChange={(newValue) => {
           if (checkOptionTypeIsValid(newValue)) {
-            updateQueryParams("status", newValue.value);
+            updateQueryParams(router, "status", newValue.value);
           } else {
-            updateQueryParams("status", null);
+            updateQueryParams(router, "status", null);
           }
         }}
         value={
@@ -115,9 +119,9 @@ export function IssueFilters() {
         clearable={true}
         onOptionChange={(newValue) => {
           if (checkOptionTypeIsValid(newValue)) {
-            updateQueryParams("level", newValue.value);
+            updateQueryParams(router, "level", newValue.value);
           } else {
-            updateQueryParams("level", null);
+            updateQueryParams(router, "level", null);
           }
         }}
         value={
