@@ -85,7 +85,7 @@ export function IssueFilters() {
   const [realTimeValue, setRealTimeValue] = useState("");
   const debouncedValue = useDebounceValue(realTimeValue, 1000);
 
-  // Adding router as a dependency causes an infinite render loop! The intended behaviour is to only run this effect for changes to debounced value, not for router changes. It is appropriate to omit router as a dependency here.
+  // Adding router as a dependency causes an infinite render loop! The intended behaviour is to only run this effect for changes to debounced value, not for router changes. It is appropriate to omit router as a dependency here (NextJS docs also do the same).
   useEffect(() => {
     updateQueryParams(router, "project", debouncedValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -97,13 +97,13 @@ export function IssueFilters() {
         placeholder="Status"
         options={statusOptions}
         clearable={true}
-        onOptionChange={(newValue) => {
-          if (checkOptionTypeIsValid(newValue)) {
-            updateQueryParams(router, "status", newValue.value);
-          } else {
-            updateQueryParams(router, "status", null);
-          }
-        }}
+        onOptionChange={(newValue) =>
+          updateQueryParams(
+            router,
+            "status",
+            checkOptionTypeIsValid(newValue) ? newValue.value : null
+          )
+        }
         value={
           statusFilter
             ? {
@@ -117,13 +117,13 @@ export function IssueFilters() {
         placeholder="Level"
         options={levelOptions}
         clearable={true}
-        onOptionChange={(newValue) => {
-          if (checkOptionTypeIsValid(newValue)) {
-            updateQueryParams(router, "level", newValue.value);
-          } else {
-            updateQueryParams(router, "level", null);
-          }
-        }}
+        onOptionChange={(newValue) =>
+          updateQueryParams(
+            router,
+            "level",
+            checkOptionTypeIsValid(newValue) ? newValue.value : null
+          )
+        }
         value={
           levelFilter
             ? {
