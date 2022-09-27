@@ -81,7 +81,7 @@ export function IssueFilters() {
   // Adding router as a dependency causes an infinite render loop! The intended behaviour is to only run this effect for changes to debounced value, not for router changes. It is appropriate to omit router as a dependency here (NextJS docs also do the same).
   useEffect(() => {
     if (debouncedValue) {
-      // avoid modfying router on initial render as debouncedValue wont't yet exist
+      // avoid modfying router on initial render as debouncedValue wont't yet exist. Tests will also fail otherwise!
       updateQueryParams(router, "project", debouncedValue);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
