@@ -132,7 +132,7 @@ export function Input({
 
   return (
     <Container>
-      <LabelText>{label}</LabelText>
+      {label && <LabelText>{label}</LabelText>}
       <InputContainer>
         {iconSrc && <Icon src={iconSrc} alt="" />}
         <StyledInput

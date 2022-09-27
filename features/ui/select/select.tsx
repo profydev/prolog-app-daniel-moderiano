@@ -1,8 +1,10 @@
 import { color, textFont, theme } from "@styles/theme";
 import Select, {
+  ActionMeta,
   components,
   DropdownIndicatorProps,
   GroupBase,
+  OnChangeValue,
   OptionProps,
   PlaceholderProps,
   Props,
@@ -12,20 +14,33 @@ import Select, {
 import "@fontsource/inter"; // required to pass into react-select component (cannot access otherwise)
 import styled from "styled-components";
 
-// These props MUST be declared at module level to allow custom components and styles to access them via selectProps
+// Add new props here to cover any required features of the select component. This lets us avoid directly using react-select props across the codebase, thereby avoiding such tight coupling to react-select.
+type SelectProps<
+  Option,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> = {
+  label?: string;
+  hintMsg?: string;
+  hasError?: boolean;
+  errorMsg?: string;
+  iconSrc?: string;
+  disabled?: boolean;
+  clearable?: boolean;
+  onOptionChange?: (
+    newValue: OnChangeValue<Option, IsMulti>,
+    actionMeta: ActionMeta<Option>
+  ) => void;
+};
+
+// use SelectProps to define the react-select props
 declare module "react-select/dist/declarations/src/Select" {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
   export interface Props<
     Option,
     IsMulti extends boolean,
     Group extends GroupBase<Option>
-  > {
-    label?: string;
-    hintMsg?: string;
-    hasError?: boolean;
-    errorMsg?: string;
-    iconSrc?: string;
-    disabled?: boolean;
-  }
+  > extends SelectProps<Option, IsMulti, Group> {}
 }
 
 const Icon = styled.img`
@@ -147,7 +162,7 @@ const customStyles: StylesConfig = {
         ? "0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #FEE4E2"
         : "0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #F4EBFF;"
       : "0px 1px 2px rgba(16, 24, 40, 0.05)",
-    padding: "0.625rem 0.8125rem",
+    padding: "0.5625rem 0.8125rem",
     margin: "6px 0",
     backgroundColor: state.isDisabled
       ? `${color("gray", 50)({ theme })}`
@@ -217,6 +232,12 @@ const customStyles: StylesConfig = {
     alignContent: "center",
     margin: "0",
   }),
+
+  clearIndicator: (provided) => ({
+    ...provided,
+    margin: "0",
+    padding: "0 0.1rem",
+  }),
 };
 
 export function SelectComponent({
@@ -226,6 +247,8 @@ export function SelectComponent({
   hasError,
   iconSrc,
   disabled,
+  clearable,
+  onOptionChange,
   ...Props
 }: Props) {
   // Always prioritis error message over hint message
@@ -242,7 +265,9 @@ export function SelectComponent({
       <Select
         {...Props}
         isDisabled={disabled}
+        isClearable={clearable}
         iconSrc={iconSrc}
+        onChange={onOptionChange}
         hasError={disabled ? false : hasError}
         isSearchable={false}
         styles={customStyles}
