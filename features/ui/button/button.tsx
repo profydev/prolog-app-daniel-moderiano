@@ -35,8 +35,8 @@ export interface IconOptions {
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   icon?: IconOptions;
-  size: ButtonSize;
-  color: ButtonColor;
+  size?: ButtonSize;
+  color?: ButtonColor;
 };
 
 // Used in place of the previous "Button" export whose only purpose was essentially providing a CSS reset to button styles

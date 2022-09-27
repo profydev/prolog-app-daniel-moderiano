@@ -3,7 +3,6 @@ import Head from "next/head";
 import styled from "styled-components";
 import { SidebarNavigation, Footer } from "@features/ui";
 import { color, displayFont, textFont, space, breakpoint } from "@styles/theme";
-import { SelectComponent } from "../select";
 
 type PageContainerProps = {
   children: React.ReactNode;
@@ -15,6 +14,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   background: ${color("gray", 900)};
+  z-index: 100;
 
   @media (min-width: ${breakpoint("desktop")}) {
     flex-direction: row;
