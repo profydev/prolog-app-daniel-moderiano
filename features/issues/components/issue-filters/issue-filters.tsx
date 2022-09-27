@@ -11,6 +11,11 @@ interface OptionType {
   value: string;
 }
 
+// React-select deals in unknown option types. This is used to safely cast the select input values to our option type.
+function isOptionTypeValid(option: unknown): option is OptionType {
+  return option !== null && typeof option === "object" && "value" in option;
+}
+
 // Uses the Record type to allow us to index via string names
 const statusNames: Record<string, string> = {
   open: "Unresolved",
@@ -43,13 +48,6 @@ const Container = styled.div`
   padding-bottom: 1.125rem;
 `;
 
-function checkOptionTypeIsValid(option: unknown): option is OptionType {
-  if (option && typeof option == "object") {
-    return true;
-  }
-  return false;
-}
-
 // Defined outside the component to make useCallback/useEffect dependency decisions easier to understand
 const updateQueryParams = (
   router: NextRouter,
@@ -57,13 +55,11 @@ const updateQueryParams = (
   newValue: string | null
 ) => {
   if (newValue) {
-    // add the filter URL query string
     router.push({
       pathname: router.pathname,
       query: { ...router.query, [param]: newValue },
     });
   } else {
-    // remove any existing filters for this param form the URL
     delete router.query[param];
     router.push({
       pathname: router.pathname,
@@ -74,12 +70,9 @@ const updateQueryParams = (
 
 export function IssueFilters() {
   const router = useRouter();
-  const statusFilter =
-    typeof router.query.status === "string" ? router.query.status : null;
-  const levelFilter =
-    typeof router.query.level === "string" ? router.query.level : null;
-  const projectFilter =
-    typeof router.query.project === "string" ? router.query.project : null;
+  const { status, level } = router.query;
+  const statusFilter = typeof status === "string" ? status : null;
+  const levelFilter = typeof level === "string" ? level : null;
 
   // We must debounce the project filter input to avoid an API call every time the user types a character.
   const [realTimeValue, setRealTimeValue] = useState("");
@@ -101,7 +94,7 @@ export function IssueFilters() {
           updateQueryParams(
             router,
             "status",
-            checkOptionTypeIsValid(newValue) ? newValue.value : null
+            isOptionTypeValid(newValue) ? newValue.value : null
           )
         }
         value={
@@ -121,7 +114,7 @@ export function IssueFilters() {
           updateQueryParams(
             router,
             "level",
-            checkOptionTypeIsValid(newValue) ? newValue.value : null
+            isOptionTypeValid(newValue) ? newValue.value : null
           )
         }
         value={
@@ -138,7 +131,7 @@ export function IssueFilters() {
         iconSrc="/icons/search.svg"
         onChange={(event) => setRealTimeValue(event.currentTarget.value)}
         data-cy="projectInput"
-        value={realTimeValue} // ? Is it helpful to make this a controlled input?
+        value={realTimeValue}
       />
     </Container>
   );
