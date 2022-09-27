@@ -38,10 +38,9 @@ describe("Project List", () => {
             .should(
               "have.attr",
               "href",
-              `/dashboard/issues?project=${mockProjects[index].name.replace(
-                / /g,
-                "%20"
-              )}`
+              `/dashboard/issues?project=${mockProjects[index].name
+                .toLowerCase()
+                .replace(/ /g, "%20")}`
             );
         });
     });
