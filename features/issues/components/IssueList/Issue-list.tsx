@@ -10,8 +10,12 @@ import { ButtonSize, IconDisplay } from "@features/ui/button/button";
 const OptionsContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  max-height: 44px;
   padding-bottom: 1.56rem;
+  gap: ${space(4)};
+`;
+
+const ButtonContainer = styled.div`
+  flex-shrink: 0;
 `;
 
 const ListContainer = styled.div`
@@ -120,12 +124,17 @@ export function IssueList() {
   return (
     <div>
       <OptionsContainer>
-        <Button
-          size={ButtonSize.lg}
-          icon={{ src: "/icons/tick-white.svg", display: IconDisplay.leading }}
-        >
-          Resolve selected issues
-        </Button>
+        <ButtonContainer>
+          <Button
+            size={ButtonSize.lg}
+            icon={{
+              src: "/icons/tick-white.svg",
+              display: IconDisplay.leading,
+            }}
+          >
+            Resolve selected issues
+          </Button>
+        </ButtonContainer>
         <IssueFilters />
       </OptionsContainer>
       <ListContainer>
