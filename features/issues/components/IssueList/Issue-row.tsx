@@ -63,6 +63,7 @@ const Cell = styled.td`
 const IssueCell = styled(Cell)`
   display: flex;
   align-items: center;
+  padding: ${space(4, 0)};
 `;
 
 const StatsContainer = styled.div`
@@ -93,12 +94,18 @@ const LanguageIcon = styled.img`
   margin-right: ${space(3)};
 `;
 
+const ErrorContainer = styled.div`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
 const ErrorTypeAndMessage = styled.div`
   color: ${color("gray", 900)};
 `;
 
 const ErrorType = styled.span`
-  ${textFont("sm", "medium")}
+  ${textFont("sm", "medium")};
 `;
 
 export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
@@ -115,7 +122,7 @@ export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
           <div>
             <ErrorTypeAndMessage>
               <ErrorType>{name}:&nbsp;</ErrorType>
-              {message}
+              <span>{message}</span>
             </ErrorTypeAndMessage>
             <div>{firstLineOfStackTrace}</div>
           </div>
@@ -135,13 +142,13 @@ export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
             src={`/icons/${projectLanguage}.svg`}
             alt={projectLanguage}
           />
-          <div>
+          <ErrorContainer>
             <ErrorTypeAndMessage>
               <ErrorType>{name}:&nbsp;</ErrorType>
               {message}
             </ErrorTypeAndMessage>
             <div>{firstLineOfStackTrace}</div>
-          </div>
+          </ErrorContainer>
         </IssueCell>
         <StatsContainer>
           <MobileCell>

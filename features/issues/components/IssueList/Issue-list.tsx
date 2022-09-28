@@ -53,6 +53,11 @@ const ListContainer = styled.div`
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
+
+  @media (min-width: ${breakpoint("desktop")}) {
+    table-layout: auto;
+  }
 `;
 
 const HeaderRow = styled.tr`
