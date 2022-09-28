@@ -43,7 +43,7 @@ const ListContainer = styled.div`
   border-radius: ${space(2)};
   overflow: hidden;
 
-  @media (min-width: ${breakpoint("desktop")}) {
+  @media (min-width: ${breakpoint("issueTableBreak")}) {
     border: 1px solid ${color("gray", 200)};
     box-shadow: 0px 4px 8px -2px rgba(16, 24, 40, 0.1),
       0px 2px 4px -2px rgba(16, 24, 40, 0.06);
@@ -55,7 +55,7 @@ const Table = styled.table`
   border-collapse: collapse;
   table-layout: fixed;
 
-  @media (min-width: ${breakpoint("desktop")}) {
+  @media (min-width: ${breakpoint("issueTableBreak")}) {
     table-layout: auto;
   }
 `;
@@ -69,7 +69,7 @@ const TableHead = styled.thead`
   position: absolute;
   visibility: hidden;
 
-  @media (min-width: ${breakpoint("desktop")}) {
+  @media (min-width: ${breakpoint("issueTableBreak")}) {
     position: static;
     left: auto;
     visibility: visible;

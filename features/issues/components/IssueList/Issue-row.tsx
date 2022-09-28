@@ -20,7 +20,7 @@ const levelColors = {
 const Row = styled.tr`
   display: none;
 
-  @media (min-width: ${breakpoint("desktop")}) {
+  @media (min-width: ${breakpoint("issueTableBreak")}) {
     border: none;
     display: table-row;
     margin-bottom: 0;
@@ -38,14 +38,14 @@ const MobileRow = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${space(2)};
-  margin-bottom: 2rem;
+  margin-bottom: ${space(4)};
   border-collapse: separate;
   border-radius: ${space(2)};
   border-spacing: 0;
   box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
     0px 1px 2px rgba(16, 24, 40, 0.06);
 
-  @media (min-width: ${breakpoint("desktop")}) {
+  @media (min-width: ${breakpoint("issueTableBreak")}) {
     display: none;
   }
 `;
@@ -55,7 +55,7 @@ const Cell = styled.td`
   color: ${color("gray", 500)};
   ${textFont("sm", "regular")};
 
-  @media (min-width: ${breakpoint("desktop")}) {
+  @media (min-width: ${breakpoint("issueTableBreak")}) {
     padding: ${space(4, 6)};
   }
 `;
@@ -64,6 +64,10 @@ const IssueCell = styled(Cell)`
   display: flex;
   align-items: center;
   padding: ${space(4, 0)};
+
+  @media (min-width: ${breakpoint("issueTableBreak")}) {
+    padding: ${space(4, 6)};
+  }
 `;
 
 const StatsContainer = styled.div`
