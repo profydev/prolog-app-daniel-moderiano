@@ -34,8 +34,10 @@ const Row = styled.tr`
 
 const MobileRow = styled.div`
   border: 1px solid ${color("gray", 200)};
+  padding: ${space(3, 6)};
   display: flex;
   flex-direction: column;
+  gap: ${space(2)};
   margin-bottom: 2rem;
   border-collapse: separate;
   border-radius: ${space(2)};
@@ -49,9 +51,13 @@ const MobileRow = styled.div`
 `;
 
 const Cell = styled.td`
-  padding: ${space(4, 6)};
+  padding: 0;
   color: ${color("gray", 500)};
-  ${textFont("sm", "regular")}
+  ${textFont("sm", "regular")};
+
+  @media (min-width: ${breakpoint("desktop")}) {
+    padding: ${space(4, 6)};
+  }
 `;
 
 const IssueCell = styled(Cell)`
@@ -62,7 +68,8 @@ const IssueCell = styled(Cell)`
 const StatsContainer = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
+  gap: 0.625rem;
   padding: ${space(4, 0)};
 `;
 
@@ -71,6 +78,9 @@ const MobileCell = styled(Cell)`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  gap: ${space(2)};
+  padding: 0;
+  width: 100%;
 `;
 
 const CellTitle = styled.span`
