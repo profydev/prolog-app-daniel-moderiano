@@ -65,7 +65,7 @@ export const Container = styled.button<{
   iconDisplay: IconDisplay;
 }>`
   ${ButtonCSSReset}
-
+  width: 100%;
   box-sizing: border-box;
   display: flex;
   justify-content: center;

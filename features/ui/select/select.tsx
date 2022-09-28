@@ -149,7 +149,6 @@ const Placeholder = ({ children, ...props }: PlaceholderProps) => (
 const customStyles: StylesConfig = {
   control: (provided, state) => ({
     ...provided,
-    maxWidth: "20rem",
     borderWidth: "1px",
     borderColor: state.selectProps.hasError
       ? `${color("error", 300)({ theme })}`
@@ -185,7 +184,6 @@ const customStyles: StylesConfig = {
 
   menu: (provided) => ({
     ...provided,
-    maxWidth: "20rem",
     boxShadow:
       "0px 12px 16px -4px rgba(16, 24, 40, 0.1), 0px 4px 6px -2px rgba(16, 24, 40, 0.05)",
     borderRadius: "8px",

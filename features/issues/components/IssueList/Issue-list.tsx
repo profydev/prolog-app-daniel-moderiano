@@ -2,20 +2,26 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import { IssueFilters, useIssues } from "@features/issues";
 import { ProjectLanguage, useProjects } from "@features/projects";
-import { color, space, textFont } from "@styles/theme";
+import { breakpoint, color, space, textFont } from "@styles/theme";
 import { IssueRow } from "./Issue-row";
 import { Button } from "@features/ui";
 import { ButtonSize, IconDisplay } from "@features/ui/button/button";
 
 const OptionsContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   padding-bottom: 1.56rem;
   gap: ${space(4)};
+
+  @media (min-width: ${breakpoint("desktop")}) {
+    flex-direction: column;
+    justify-content: space-between;
+  }
 `;
 
 const ButtonContainer = styled.div`
   flex-shrink: 0;
+  width: 100%;
 `;
 
 const ListContainer = styled.div`
