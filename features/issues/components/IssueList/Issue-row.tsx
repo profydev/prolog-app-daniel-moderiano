@@ -18,15 +18,7 @@ const levelColors = {
 };
 
 const Row = styled.tr`
-  border: 1px solid ${color("gray", 200)};
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 2rem;
-  border-collapse: separate;
-  border-radius: ${space(2)};
-  border-spacing: 0;
-  box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
-    0px 1px 2px rgba(16, 24, 40, 0.06);
+  display: none;
 
   @media (min-width: ${breakpoint("desktop")}) {
     border: none;
@@ -40,6 +32,22 @@ const Row = styled.tr`
   }
 `;
 
+const MobileRow = styled.div`
+  border: 1px solid ${color("gray", 200)};
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+  border-collapse: separate;
+  border-radius: ${space(2)};
+  border-spacing: 0;
+  box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
+    0px 1px 2px rgba(16, 24, 40, 0.06);
+
+  @media (min-width: ${breakpoint("desktop")}) {
+    display: none;
+  }
+`;
+
 const Cell = styled.td`
   padding: ${space(4, 6)};
   color: ${color("gray", 500)};
@@ -49,6 +57,25 @@ const Cell = styled.td`
 const IssueCell = styled(Cell)`
   display: flex;
   align-items: center;
+`;
+
+const StatsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: ${space(4, 0)};
+`;
+
+const MobileCell = styled(Cell)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const CellTitle = styled.span`
+  color: ${color("gray", 500)};
+  ${textFont("sm", "medium")}
 `;
 
 const LanguageIcon = styled.img`
@@ -68,27 +95,61 @@ export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
   const { name, message, stack, level, numEvents, numUsers } = issue;
   const firstLineOfStackTrace = stack.split("\n")[1];
   return (
-    <Row>
-      <IssueCell>
-        <LanguageIcon
-          src={`/icons/${projectLanguage}.svg`}
-          alt={projectLanguage}
-        />
-        <div>
-          <ErrorTypeAndMessage>
-            <ErrorType>{name}:&nbsp;</ErrorType>
-            {message}
-          </ErrorTypeAndMessage>
-          <div>{firstLineOfStackTrace}</div>
-        </div>
-      </IssueCell>
-      <Cell>
-        <Badge color={levelColors[level]} size={BadgeSize.sm}>
-          {capitalize(level)}
-        </Badge>
-      </Cell>
-      <Cell>{numEvents}</Cell>
-      <Cell>{numUsers}</Cell>
-    </Row>
+    <>
+      <Row>
+        <IssueCell>
+          <LanguageIcon
+            src={`/icons/${projectLanguage}.svg`}
+            alt={projectLanguage}
+          />
+          <div>
+            <ErrorTypeAndMessage>
+              <ErrorType>{name}:&nbsp;</ErrorType>
+              {message}
+            </ErrorTypeAndMessage>
+            <div>{firstLineOfStackTrace}</div>
+          </div>
+        </IssueCell>
+        <Cell>
+          <Badge color={levelColors[level]} size={BadgeSize.sm}>
+            {capitalize(level)}
+          </Badge>
+        </Cell>
+        <Cell>{numEvents}</Cell>
+        <Cell>{numUsers}</Cell>
+      </Row>
+
+      <MobileRow>
+        <IssueCell>
+          <LanguageIcon
+            src={`/icons/${projectLanguage}.svg`}
+            alt={projectLanguage}
+          />
+          <div>
+            <ErrorTypeAndMessage>
+              <ErrorType>{name}:&nbsp;</ErrorType>
+              {message}
+            </ErrorTypeAndMessage>
+            <div>{firstLineOfStackTrace}</div>
+          </div>
+        </IssueCell>
+        <StatsContainer>
+          <MobileCell>
+            <CellTitle>Status</CellTitle>
+            <Badge color={levelColors[level]} size={BadgeSize.sm}>
+              {capitalize(level)}
+            </Badge>
+          </MobileCell>
+          <MobileCell>
+            <CellTitle>Events</CellTitle>
+            {numEvents}
+          </MobileCell>
+          <MobileCell>
+            <CellTitle>Users</CellTitle>
+            {numUsers}
+          </MobileCell>
+        </StatsContainer>
+      </MobileRow>
+    </>
   );
 }
