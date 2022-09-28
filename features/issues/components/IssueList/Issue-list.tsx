@@ -4,6 +4,15 @@ import { IssueFilters, useIssues } from "@features/issues";
 import { ProjectLanguage, useProjects } from "@features/projects";
 import { color, space, textFont } from "@styles/theme";
 import { IssueRow } from "./Issue-row";
+import { Button } from "@features/ui";
+import { ButtonSize, IconDisplay } from "@features/ui/button/button";
+
+const OptionsContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  max-height: 44px;
+  padding-bottom: 1.56rem;
+`;
 
 const ListContainer = styled.div`
   background: white;
@@ -110,7 +119,15 @@ export function IssueList() {
 
   return (
     <div>
-      <IssueFilters />
+      <OptionsContainer>
+        <Button
+          size={ButtonSize.lg}
+          icon={{ src: "/icons/tick-white.svg", display: IconDisplay.leading }}
+        >
+          Resolve selected issues
+        </Button>
+        <IssueFilters />
+      </OptionsContainer>
       <ListContainer>
         <Table>
           <thead>

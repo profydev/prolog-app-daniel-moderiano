@@ -14,7 +14,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   background: ${color("gray", 900)};
-  z-index: 100;
 
   @media (min-width: ${breakpoint("desktop")}) {
     flex-direction: row;

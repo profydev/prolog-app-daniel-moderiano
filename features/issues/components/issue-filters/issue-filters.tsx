@@ -1,11 +1,5 @@
 import { IssueLevel, IssueStatus } from "@features/issues/types/issue.types";
-import { Button, Checkbox, Input, SelectComponent } from "@features/ui";
-import {
-  ButtonColor,
-  ButtonSize,
-  IconDisplay,
-} from "@features/ui/button/button";
-import { CheckboxSize, CheckboxState } from "@features/ui/checkbox/checkbox";
+import { Input, SelectComponent } from "@features/ui";
 import { space } from "@styles/theme";
 import { NextRouter, useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -51,7 +45,6 @@ const Container = styled.div`
   align-items: center;
   justify-content: end;
   gap: ${space(4)};
-  padding-bottom: 1.125rem;
 `;
 
 // Defined outside the component to make useCallback/useEffect dependency decisions easier to understand
@@ -95,11 +88,6 @@ export function IssueFilters() {
 
   return (
     <Container>
-      <Checkbox
-        label="Test"
-        checkboxState={CheckboxState.unchecked}
-        checkboxSize={CheckboxSize.md}
-      />
       <SelectComponent
         placeholder="Status"
         options={statusOptions}
@@ -142,7 +130,7 @@ export function IssueFilters() {
       />
       <Input
         placeholder="Project Name"
-        // iconSrc="/icons/search.svg"
+        iconSrc="/icons/search.svg"
         onChange={(event) => setRealTimeValue(event.currentTarget.value)}
         data-cy="projectInput"
         value={realTimeValue}
