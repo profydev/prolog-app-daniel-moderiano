@@ -27,6 +27,10 @@ const Cell = styled.td`
   padding: ${space(4, 6)};
   color: ${color("gray", 500)};
   ${textFont("sm", "regular")}
+  &:nth-of-type(3) {
+    border-radius: 6px;
+    width: 100%;
+  }
 `;
 
 const IssueCell = styled(Cell)`

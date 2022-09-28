@@ -9,29 +9,45 @@ import { ButtonSize, IconDisplay } from "@features/ui/button/button";
 
 const OptionsContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   padding-bottom: 1.56rem;
   gap: ${space(4)};
+  max-width: 40rem;
 
-  @media (min-width: ${breakpoint("desktop")}) {
+  /* @media (min-width: ${breakpoint("desktop")}) {
     flex-direction: column;
     justify-content: space-between;
+  } */
+
+  /* Issues table breaks below 650px */
+  @media (min-width: 650px) {
+    /* flex-direction: row;
+    justify-content: space-between; */
+    max-width: 30rem;
   }
 `;
 
 const ButtonContainer = styled.div`
   flex-shrink: 0;
   width: 100%;
+  @media (min-width: 500px) {
+    flex-shrink: 1;
+  }
 `;
 
 const ListContainer = styled.div`
   background: white;
-  border: 1px solid ${color("gray", 200)};
+  border: none;
   box-sizing: border-box;
-  box-shadow: 0px 4px 8px -2px rgba(16, 24, 40, 0.1),
-    0px 2px 4px -2px rgba(16, 24, 40, 0.06);
+  box-shadow: none;
   border-radius: ${space(2)};
   overflow: hidden;
+
+  @media (min-width: ${breakpoint("desktop")}) {
+    border: 1px solid ${color("gray", 200)};
+    box-shadow: 0px 4px 8px -2px rgba(16, 24, 40, 0.1),
+      0px 2px 4px -2px rgba(16, 24, 40, 0.06);
+  }
 `;
 
 const Table = styled.table`
@@ -41,6 +57,18 @@ const Table = styled.table`
 
 const HeaderRow = styled.tr`
   border-bottom: 1px solid ${color("gray", 200)};
+`;
+
+const TableHead = styled.thead`
+  left: -9999px;
+  position: absolute;
+  visibility: hidden;
+
+  @media (min-width: ${breakpoint("desktop")}) {
+    position: static;
+    left: auto;
+    visibility: visible;
+  }
 `;
 
 const HeaderCell = styled.th`
@@ -145,14 +173,14 @@ export function IssueList() {
       </OptionsContainer>
       <ListContainer>
         <Table>
-          <thead>
+          <TableHead>
             <HeaderRow>
               <HeaderCell>Issue</HeaderCell>
               <HeaderCell>Level</HeaderCell>
               <HeaderCell>Events</HeaderCell>
               <HeaderCell>Users</HeaderCell>
             </HeaderRow>
-          </thead>
+          </TableHead>
           <tbody>
             {(items || []).map((issue) => (
               <IssueRow
