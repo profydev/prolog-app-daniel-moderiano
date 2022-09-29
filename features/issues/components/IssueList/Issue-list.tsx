@@ -5,7 +5,11 @@ import { ProjectLanguage, useProjects } from "@features/projects";
 import { breakpoint, color, space, textFont } from "@styles/theme";
 import { IssueRow } from "./Issue-row";
 import { Button } from "@features/ui";
-import { ButtonSize, IconDisplay } from "@features/ui/button/button";
+import {
+  ButtonColor,
+  ButtonSize,
+  IconDisplay,
+} from "@features/ui/button/button";
 
 const OptionsContainer = styled.div`
   display: flex;
@@ -84,11 +88,15 @@ const HeaderCell = styled.th`
 `;
 
 const PaginationContainer = styled.div`
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: space-between;
   padding: ${space(4, 6)};
   border-top: 1px solid ${color("gray", 200)};
+
+  @media (min-width: ${breakpoint("issueTableBreak")}) {
+    display: flex;
+  }
 `;
 
 const PaginationButton = styled.button`
@@ -101,6 +109,15 @@ const PaginationButton = styled.button`
 
   &:not(:first-of-type) {
     margin-left: ${space(3)};
+  }
+`;
+
+const MobilePaginationContainer = styled.div`
+  margin-bottom: ${space(4)};
+  overflow: visible;
+
+  @media (min-width: ${breakpoint("issueTableBreak")}) {
+    display: none;
   }
 `;
 
@@ -216,6 +233,15 @@ export function IssueList() {
             <PageNumber>{meta?.totalPages}</PageNumber>
           </PageInfo>
         </PaginationContainer>
+
+        <MobilePaginationContainer>
+          <Button
+            onClick={() => alert("To be implemented")}
+            color={ButtonColor.gray}
+          >
+            Load more
+          </Button>
+        </MobilePaginationContainer>
       </ListContainer>
     </div>
   );
