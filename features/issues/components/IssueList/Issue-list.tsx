@@ -16,7 +16,6 @@ const OptionsContainer = styled.div`
   flex-direction: column-reverse;
   padding-bottom: 1.56rem;
   gap: ${space(4)};
-  max-width: 40rem;
 
   @media (min-width: ${breakpoint("issueTableBreak")}) {
     flex-direction: row;
@@ -37,10 +36,8 @@ const ButtonContainer = styled.div`
   }
 
   @media (min-width: ${breakpoint("issueOptionsBreak")}) {
-    flex-shrink: 1;
     width: auto;
     max-width: auto;
-    display: block;
   }
 `;
 
@@ -119,7 +116,6 @@ const PaginationButton = styled.button`
 
 const MobilePaginationContainer = styled.div`
   margin-bottom: ${space(4)};
-  overflow: visible;
 
   @media (min-width: ${breakpoint("issueTableBreak")}) {
     display: none;
