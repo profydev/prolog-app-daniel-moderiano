@@ -32,7 +32,7 @@ const Row = styled.tr`
   }
 `;
 
-const MobileRow = styled.div`
+const MobileRow = styled.tr`
   border: 1px solid ${color("gray", 200)};
   padding: ${space(3, 6)};
   display: flex;
@@ -70,7 +70,7 @@ const IssueCell = styled(Cell)`
   }
 `;
 
-const StatsContainer = styled.div`
+const StatsCell = styled.td`
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -78,7 +78,7 @@ const StatsContainer = styled.div`
   padding: ${space(4, 0)};
 `;
 
-const MobileCell = styled(Cell)`
+const InnerCellContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -86,6 +86,8 @@ const MobileCell = styled(Cell)`
   gap: ${space(2)};
   padding: 0;
   width: 100%;
+  color: ${color("gray", 500)};
+  ${textFont("sm", "regular")};
 `;
 
 const CellTitle = styled.span`
@@ -154,22 +156,22 @@ export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
             <div>{firstLineOfStackTrace}</div>
           </ErrorContainer>
         </IssueCell>
-        <StatsContainer>
-          <MobileCell>
+        <StatsCell>
+          <InnerCellContainer>
             <CellTitle>Status</CellTitle>
             <Badge color={levelColors[level]} size={BadgeSize.sm}>
               {capitalize(level)}
             </Badge>
-          </MobileCell>
-          <MobileCell>
+          </InnerCellContainer>
+          <InnerCellContainer>
             <CellTitle>Events</CellTitle>
             {numEvents}
-          </MobileCell>
-          <MobileCell>
+          </InnerCellContainer>
+          <InnerCellContainer>
             <CellTitle>Users</CellTitle>
             {numUsers}
-          </MobileCell>
-        </StatsContainer>
+          </InnerCellContainer>
+        </StatsCell>
       </MobileRow>
     </>
   );
