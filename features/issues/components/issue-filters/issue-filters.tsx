@@ -51,7 +51,6 @@ const Container = styled.div`
   @media (min-width: ${breakpoint("issueOptionsBreak")}) {
     display: grid;
     grid-template-columns: 10rem minmax(8.5rem, 10rem) minmax(10rem, 17.5rem);
-    align-items: center;
     justify-content: end;
   }
 `;

@@ -184,6 +184,7 @@ export function IssueList() {
         <ButtonContainer>
           <Button
             size={ButtonSize.lg}
+            onClick={() => alert("To be implemented")}
             icon={{
               src: "/icons/tick-white.svg",
               display: IconDisplay.leading,
