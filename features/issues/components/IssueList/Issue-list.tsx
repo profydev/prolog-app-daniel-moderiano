@@ -18,24 +18,29 @@ const OptionsContainer = styled.div`
   gap: ${space(4)};
   max-width: 40rem;
 
-  /* @media (min-width: ${breakpoint("desktop")}) {
-    flex-direction: column;
+  @media (min-width: ${breakpoint("issueTableBreak")}) {
+    flex-direction: row;
     justify-content: space-between;
-  } */
-
-  /* Issues table breaks below 650px */
-  @media (min-width: 650px) {
-    /* flex-direction: row;
-    justify-content: space-between; */
-    max-width: 30rem;
+    max-width: 100%;
   }
 `;
 
 const ButtonContainer = styled.div`
   flex-shrink: 0;
   width: 100%;
-  @media (min-width: 500px) {
+  display: flex;
+  align-items: center;
+
+  @media (min-width: ${breakpoint("issueTableBreak")}) {
     flex-shrink: 1;
+    max-width: 50%;
+  }
+
+  @media (min-width: ${breakpoint("issueOptionsBreak")}) {
+    flex-shrink: 1;
+    width: auto;
+    max-width: auto;
+    display: block;
   }
 `;
 

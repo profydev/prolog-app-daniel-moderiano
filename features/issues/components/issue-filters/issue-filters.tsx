@@ -44,9 +44,13 @@ const Container = styled.div`
   flex-direction: column;
   gap: ${space(4)};
 
-  @media (min-width: ${breakpoint("desktop")}) {
+  @media (min-width: ${breakpoint("issueTableBreak")}) {
+    width: 50%;
+  }
+
+  @media (min-width: ${breakpoint("issueOptionsBreak")}) {
     display: grid;
-    grid-template-columns: 10rem 10rem minmax(10rem, 17.5rem);
+    grid-template-columns: 10rem minmax(8.5rem, 10rem) minmax(10rem, 17.5rem);
     align-items: center;
     justify-content: end;
   }
