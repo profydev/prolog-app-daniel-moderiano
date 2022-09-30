@@ -149,7 +149,6 @@ const Placeholder = ({ children, ...props }: PlaceholderProps) => (
 const customStyles: StylesConfig = {
   control: (provided, state) => ({
     ...provided,
-    maxWidth: "20rem",
     borderWidth: "1px",
     borderColor: state.selectProps.hasError
       ? `${color("error", 300)({ theme })}`
@@ -163,7 +162,12 @@ const customStyles: StylesConfig = {
         : "0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #F4EBFF;"
       : "0px 1px 2px rgba(16, 24, 40, 0.05)",
     padding: "0.5625rem 0.8125rem",
-    margin: "6px 0",
+    margin:
+      state.selectProps.label ||
+      state.selectProps.errorMsg ||
+      state.selectProps.hintMsg
+        ? "6px 0"
+        : "0",
     backgroundColor: state.isDisabled
       ? `${color("gray", 50)({ theme })}`
       : "#FFFFFF",
@@ -180,7 +184,6 @@ const customStyles: StylesConfig = {
 
   menu: (provided) => ({
     ...provided,
-    maxWidth: "20rem",
     boxShadow:
       "0px 12px 16px -4px rgba(16, 24, 40, 0.1), 0px 4px 6px -2px rgba(16, 24, 40, 0.05)",
     borderRadius: "8px",

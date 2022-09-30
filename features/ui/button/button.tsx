@@ -35,8 +35,8 @@ export interface IconOptions {
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   icon?: IconOptions;
-  size: ButtonSize;
-  color: ButtonColor;
+  size?: ButtonSize;
+  color?: ButtonColor;
 };
 
 // Used in place of the previous "Button" export whose only purpose was essentially providing a CSS reset to button styles
@@ -65,7 +65,7 @@ export const Container = styled.button<{
   iconDisplay: IconDisplay;
 }>`
   ${ButtonCSSReset}
-
+  width: 100%;
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -80,24 +80,24 @@ export const Container = styled.button<{
     switch (props.size) {
       case ButtonSize.sm:
         return css`
-          padding: 0.5rem 0.875rem;
+          padding: 0.4375rem 0.875rem;
         `;
 
       case ButtonSize.md:
         return css`
-          padding: 0.625rem 1rem;
+          padding: 0.5625rem 1rem;
         `;
 
       case ButtonSize.lg:
         return css`
           ${textFont("md", "medium")}
-          padding: 0.625rem 1.125rem;
+          padding: 0.5625rem 1.125rem;
         `;
 
       case ButtonSize.xl:
         return css`
           ${textFont("md", "medium")}
-          padding: 0.75rem 1.25rem;
+          padding: 0.6875rem 1.25rem;
         `;
     }
   }}

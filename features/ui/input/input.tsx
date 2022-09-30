@@ -14,7 +14,6 @@ export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
 const Container = styled.label`
   display: flex;
   flex-direction: column;
-  max-width: 20rem;
 `;
 
 const LabelText = styled.span`

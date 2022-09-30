@@ -2,26 +2,84 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import { IssueFilters, useIssues } from "@features/issues";
 import { ProjectLanguage, useProjects } from "@features/projects";
-import { color, space, textFont } from "@styles/theme";
+import { breakpoint, color, space, textFont } from "@styles/theme";
 import { IssueRow } from "./Issue-row";
+import { Button } from "@features/ui";
+import {
+  ButtonColor,
+  ButtonSize,
+  IconDisplay,
+} from "@features/ui/button/button";
+
+const OptionsContainer = styled.div`
+  display: flex;
+  flex-direction: column-reverse;
+  padding-bottom: 1.56rem;
+  gap: ${space(4)};
+
+  @media (min-width: ${breakpoint("issueTableBreak")}) {
+    flex-direction: row;
+    justify-content: space-between;
+    max-width: 100%;
+  }
+`;
+
+const ButtonContainer = styled.div`
+  flex-shrink: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+  @media (min-width: ${breakpoint("issueTableBreak")}) {
+    flex-shrink: 1;
+    max-width: 50%;
+  }
+
+  @media (min-width: ${breakpoint("issueOptionsBreak")}) {
+    width: auto;
+    max-width: auto;
+  }
+`;
 
 const ListContainer = styled.div`
   background: white;
-  border: 1px solid ${color("gray", 200)};
+  border: none;
   box-sizing: border-box;
-  box-shadow: 0px 4px 8px -2px rgba(16, 24, 40, 0.1),
-    0px 2px 4px -2px rgba(16, 24, 40, 0.06);
+  box-shadow: none;
   border-radius: ${space(2)};
   overflow: hidden;
+
+  @media (min-width: ${breakpoint("issueTableBreak")}) {
+    border: 1px solid ${color("gray", 200)};
+    box-shadow: 0px 4px 8px -2px rgba(16, 24, 40, 0.1),
+      0px 2px 4px -2px rgba(16, 24, 40, 0.06);
+  }
 `;
 
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
+
+  @media (min-width: ${breakpoint("issueTableBreak")}) {
+    table-layout: auto;
+  }
 `;
 
 const HeaderRow = styled.tr`
   border-bottom: 1px solid ${color("gray", 200)};
+`;
+
+const TableHead = styled.thead`
+  left: -9999px;
+  position: absolute;
+  visibility: hidden;
+
+  @media (min-width: ${breakpoint("issueTableBreak")}) {
+    position: static;
+    left: auto;
+    visibility: visible;
+  }
 `;
 
 const HeaderCell = styled.th`
@@ -31,12 +89,16 @@ const HeaderCell = styled.th`
   ${textFont("xs", "medium")};
 `;
 
-const PaginationContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: ${space(4, 6)};
-  border-top: 1px solid ${color("gray", 200)};
+const DesktopPagination = styled.div`
+  display: none;
+
+  @media (min-width: ${breakpoint("issueTableBreak")}) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid ${color("gray", 200)};
+    padding: ${space(4, 6)};
+  }
 `;
 
 const PaginationButton = styled.button`
@@ -54,11 +116,19 @@ const PaginationButton = styled.button`
 
 const PageInfo = styled.div`
   color: ${color("gray", 700)};
-  ${textFont("sm", "regular")}
+  ${textFont("sm", "regular")};
 `;
 
 const PageNumber = styled.span`
-  ${textFont("sm", "medium")}
+  ${textFont("sm", "medium")};
+`;
+
+const MobilePagination = styled.div`
+  margin-bottom: ${space(4)};
+
+  @media (min-width: ${breakpoint("issueTableBreak")}) {
+    display: none;
+  }
 `;
 
 export function IssueList() {
@@ -110,17 +180,31 @@ export function IssueList() {
 
   return (
     <div>
-      <IssueFilters />
+      <OptionsContainer>
+        <ButtonContainer>
+          <Button
+            size={ButtonSize.lg}
+            onClick={() => alert("To be implemented")}
+            icon={{
+              src: "/icons/tick-white.svg",
+              display: IconDisplay.leading,
+            }}
+          >
+            Resolve selected issues
+          </Button>
+        </ButtonContainer>
+        <IssueFilters />
+      </OptionsContainer>
       <ListContainer>
         <Table>
-          <thead>
+          <TableHead>
             <HeaderRow>
               <HeaderCell>Issue</HeaderCell>
               <HeaderCell>Level</HeaderCell>
               <HeaderCell>Events</HeaderCell>
               <HeaderCell>Users</HeaderCell>
             </HeaderRow>
-          </thead>
+          </TableHead>
           <tbody>
             {(items || []).map((issue) => (
               <IssueRow
@@ -131,26 +215,36 @@ export function IssueList() {
             ))}
           </tbody>
         </Table>
-        <PaginationContainer>
-          <div>
-            <PaginationButton
-              onClick={() => navigateToPage(page - 1)}
-              disabled={page === 1}
+        <div>
+          <DesktopPagination>
+            <div>
+              <PaginationButton
+                onClick={() => navigateToPage(page - 1)}
+                disabled={page === 1}
+              >
+                Previous
+              </PaginationButton>
+              <PaginationButton
+                onClick={() => navigateToPage(page + 1)}
+                disabled={page === meta?.totalPages}
+              >
+                Next
+              </PaginationButton>
+            </div>
+            <PageInfo>
+              Page <PageNumber>{meta?.currentPage}</PageNumber> of{" "}
+              <PageNumber>{meta?.totalPages}</PageNumber>
+            </PageInfo>
+          </DesktopPagination>
+          <MobilePagination>
+            <Button
+              onClick={() => alert("To be implemented")}
+              color={ButtonColor.gray}
             >
-              Previous
-            </PaginationButton>
-            <PaginationButton
-              onClick={() => navigateToPage(page + 1)}
-              disabled={page === meta?.totalPages}
-            >
-              Next
-            </PaginationButton>
-          </div>
-          <PageInfo>
-            Page <PageNumber>{meta?.currentPage}</PageNumber> of{" "}
-            <PageNumber>{meta?.totalPages}</PageNumber>
-          </PageInfo>
-        </PaginationContainer>
+              Load more
+            </Button>
+          </MobilePagination>
+        </div>
       </ListContainer>
     </div>
   );

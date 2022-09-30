@@ -1,6 +1,6 @@
 import { IssueLevel, IssueStatus } from "@features/issues/types/issue.types";
 import { Input, SelectComponent } from "@features/ui";
-import { space } from "@styles/theme";
+import { breakpoint, space } from "@styles/theme";
 import { NextRouter, useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -40,12 +40,19 @@ const levelOptions: OptionType[] = [
 ];
 
 const Container = styled.div`
-  display: grid;
-  grid-template-columns: 10rem 10rem 17.5rem;
-  align-items: center;
-  justify-content: end;
+  display: flex;
+  flex-direction: column;
   gap: ${space(4)};
-  padding-bottom: 1.125rem;
+
+  @media (min-width: ${breakpoint("issueTableBreak")}) {
+    width: 50%;
+  }
+
+  @media (min-width: ${breakpoint("issueOptionsBreak")}) {
+    display: grid;
+    grid-template-columns: 10rem minmax(8.5rem, 10rem) minmax(10rem, 17.5rem);
+    justify-content: end;
+  }
 `;
 
 // Defined outside the component to make useCallback/useEffect dependency decisions easier to understand

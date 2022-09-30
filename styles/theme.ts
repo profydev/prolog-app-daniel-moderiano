@@ -48,6 +48,8 @@ export type Theme = {
   };
   breakpoint: {
     desktop: string;
+    issueOptionsBreak: string;
+    issueTableBreak: string;
   };
   zIndex: {
     header: number;
@@ -155,6 +157,8 @@ export const theme = {
   },
   breakpoint: {
     desktop: "64em",
+    issueOptionsBreak: "1120px",
+    issueTableBreak: "650px",
   },
   zIndex: {
     header: 1000,
