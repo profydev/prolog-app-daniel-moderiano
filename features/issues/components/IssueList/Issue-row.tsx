@@ -18,7 +18,20 @@ const levelColors = {
 };
 
 const Row = styled.tr`
-  display: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  row-gap: 0.5625rem;
+  column-gap: 0.625rem;
+
+  border: 1px solid ${color("gray", 200)};
+  padding: ${space(3, 6)};
+  margin-bottom: ${space(4)};
+  border-collapse: separate;
+  border-radius: ${space(2)};
+  border-spacing: 0;
+  box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
+    0px 1px 2px rgba(16, 24, 40, 0.06);
 
   @media (min-width: ${breakpoint("issueTableBreak")}) {
     border: none;
@@ -32,67 +45,41 @@ const Row = styled.tr`
   }
 `;
 
-const MobileRow = styled.tr`
-  border: 1px solid ${color("gray", 200)};
-  padding: ${space(3, 6)};
-  display: flex;
-  flex-direction: column;
-  gap: ${space(2)};
-  margin-bottom: ${space(4)};
-  border-collapse: separate;
-  border-radius: ${space(2)};
-  border-spacing: 0;
-  box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
-    0px 1px 2px rgba(16, 24, 40, 0.06);
-
-  @media (min-width: ${breakpoint("issueTableBreak")}) {
-    display: none;
-  }
-`;
-
 const Cell = styled.td`
-  padding: 0;
+  padding: ${space(4, 0)};
   color: ${color("gray", 500)};
   ${textFont("sm", "regular")};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: ${space(2)};
+  width: 100%;
 
   @media (min-width: ${breakpoint("issueTableBreak")}) {
+    display: table-cell;
+    width: auto;
+    gap: 0;
     padding: ${space(4, 6)};
   }
 `;
 
 const IssueCell = styled(Cell)`
   display: flex;
-  align-items: center;
+  flex-direction: row;
   padding: ${space(4, 0)};
+  grid-column: 1 / span 3;
 
   @media (min-width: ${breakpoint("issueTableBreak")}) {
     padding: ${space(4, 6)};
   }
 `;
 
-const StatsCell = styled.td`
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  gap: 0.625rem;
-  padding: ${space(4, 0)};
-`;
-
-const InnerCellContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  gap: ${space(2)};
-  padding: 0;
-  width: 100%;
-  color: ${color("gray", 500)};
-  ${textFont("sm", "regular")};
-`;
-
 const CellTitle = styled.span`
-  color: ${color("gray", 500)};
-  ${textFont("sm", "medium")}
+  ${textFont("sm", "medium")};
+
+  @media (min-width: ${breakpoint("issueTableBreak")}) {
+    display: none;
+  }
 `;
 
 const LanguageIcon = styled.img`
@@ -102,8 +89,11 @@ const LanguageIcon = styled.img`
 
 const ErrorContainer = styled.div`
   overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
+
+  @media (min-width: ${breakpoint("issueTableBreak")}) {
+    white-space: normal;
+  }
 `;
 
 const ErrorTypeAndMessage = styled.div`
@@ -118,61 +108,34 @@ export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
   const { name, message, stack, level, numEvents, numUsers } = issue;
   const firstLineOfStackTrace = stack.split("\n")[1];
   return (
-    <>
-      <Row>
-        <IssueCell>
-          <LanguageIcon
-            src={`/icons/${projectLanguage}.svg`}
-            alt={projectLanguage}
-          />
-          <div>
-            <ErrorTypeAndMessage>
-              <ErrorType>{name}:&nbsp;</ErrorType>
-              <span>{message}</span>
-            </ErrorTypeAndMessage>
-            <div>{firstLineOfStackTrace}</div>
-          </div>
-        </IssueCell>
-        <Cell>
-          <Badge color={levelColors[level]} size={BadgeSize.sm}>
-            {capitalize(level)}
-          </Badge>
-        </Cell>
-        <Cell>{numEvents}</Cell>
-        <Cell>{numUsers}</Cell>
-      </Row>
-
-      <MobileRow>
-        <IssueCell>
-          <LanguageIcon
-            src={`/icons/${projectLanguage}.svg`}
-            alt={projectLanguage}
-          />
-          <ErrorContainer>
-            <ErrorTypeAndMessage>
-              <ErrorType>{name}:&nbsp;</ErrorType>
-              {message}
-            </ErrorTypeAndMessage>
-            <div>{firstLineOfStackTrace}</div>
-          </ErrorContainer>
-        </IssueCell>
-        <StatsCell>
-          <InnerCellContainer>
-            <CellTitle>Status</CellTitle>
-            <Badge color={levelColors[level]} size={BadgeSize.sm}>
-              {capitalize(level)}
-            </Badge>
-          </InnerCellContainer>
-          <InnerCellContainer>
-            <CellTitle>Events</CellTitle>
-            {numEvents}
-          </InnerCellContainer>
-          <InnerCellContainer>
-            <CellTitle>Users</CellTitle>
-            {numUsers}
-          </InnerCellContainer>
-        </StatsCell>
-      </MobileRow>
-    </>
+    <Row>
+      <IssueCell>
+        <LanguageIcon
+          src={`/icons/${projectLanguage}.svg`}
+          alt={projectLanguage}
+        />
+        <ErrorContainer>
+          <ErrorTypeAndMessage>
+            <ErrorType>{name}:&nbsp;</ErrorType>
+            <span>{message}</span>
+          </ErrorTypeAndMessage>
+          <div>{firstLineOfStackTrace}</div>
+        </ErrorContainer>
+      </IssueCell>
+      <Cell>
+        <CellTitle>Status</CellTitle>
+        <Badge color={levelColors[level]} size={BadgeSize.sm}>
+          {capitalize(level)}
+        </Badge>
+      </Cell>
+      <Cell>
+        <CellTitle>Events</CellTitle>
+        {numEvents}
+      </Cell>
+      <Cell>
+        <CellTitle>Users</CellTitle>
+        {numUsers}
+      </Cell>
+    </Row>
   );
 }
