@@ -23,13 +23,10 @@ const Row = styled.tr`
   grid-template-rows: auto;
   row-gap: 0.5625rem;
   column-gap: 0.625rem;
-
   border: 1px solid ${color("gray", 200)};
   padding: ${space(3, 6)};
   margin-bottom: ${space(4)};
-  border-collapse: separate;
   border-radius: ${space(2)};
-  border-spacing: 0;
   box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
     0px 1px 2px rgba(16, 24, 40, 0.06);
 
