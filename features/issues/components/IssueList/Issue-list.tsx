@@ -89,15 +89,15 @@ const HeaderCell = styled.th`
   ${textFont("xs", "medium")};
 `;
 
-const PaginationContainer = styled.div`
+const DesktopPagination = styled.div`
   display: none;
-  align-items: center;
-  justify-content: space-between;
-  padding: ${space(4, 6)};
-  border-top: 1px solid ${color("gray", 200)};
 
   @media (min-width: ${breakpoint("issueTableBreak")}) {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid ${color("gray", 200)};
+    padding: ${space(4, 6)};
   }
 `;
 
@@ -114,21 +114,21 @@ const PaginationButton = styled.button`
   }
 `;
 
-const MobilePaginationContainer = styled.div`
+const PageInfo = styled.div`
+  color: ${color("gray", 700)};
+  ${textFont("sm", "regular")};
+`;
+
+const PageNumber = styled.span`
+  ${textFont("sm", "medium")};
+`;
+
+const MobilePagination = styled.div`
   margin-bottom: ${space(4)};
 
   @media (min-width: ${breakpoint("issueTableBreak")}) {
     display: none;
   }
-`;
-
-const PageInfo = styled.div`
-  color: ${color("gray", 700)};
-  ${textFont("sm", "regular")}
-`;
-
-const PageNumber = styled.span`
-  ${textFont("sm", "medium")}
 `;
 
 export function IssueList() {
@@ -215,35 +215,36 @@ export function IssueList() {
             ))}
           </tbody>
         </Table>
-        <PaginationContainer>
-          <div>
-            <PaginationButton
-              onClick={() => navigateToPage(page - 1)}
-              disabled={page === 1}
+        <div>
+          <DesktopPagination>
+            <div>
+              <PaginationButton
+                onClick={() => navigateToPage(page - 1)}
+                disabled={page === 1}
+              >
+                Previous
+              </PaginationButton>
+              <PaginationButton
+                onClick={() => navigateToPage(page + 1)}
+                disabled={page === meta?.totalPages}
+              >
+                Next
+              </PaginationButton>
+            </div>
+            <PageInfo>
+              Page <PageNumber>{meta?.currentPage}</PageNumber> of{" "}
+              <PageNumber>{meta?.totalPages}</PageNumber>
+            </PageInfo>
+          </DesktopPagination>
+          <MobilePagination>
+            <Button
+              onClick={() => alert("To be implemented")}
+              color={ButtonColor.gray}
             >
-              Previous
-            </PaginationButton>
-            <PaginationButton
-              onClick={() => navigateToPage(page + 1)}
-              disabled={page === meta?.totalPages}
-            >
-              Next
-            </PaginationButton>
-          </div>
-          <PageInfo>
-            Page <PageNumber>{meta?.currentPage}</PageNumber> of{" "}
-            <PageNumber>{meta?.totalPages}</PageNumber>
-          </PageInfo>
-        </PaginationContainer>
-
-        <MobilePaginationContainer>
-          <Button
-            onClick={() => alert("To be implemented")}
-            color={ButtonColor.gray}
-          >
-            Load more
-          </Button>
-        </MobilePaginationContainer>
+              Load more
+            </Button>
+          </MobilePagination>
+        </div>
       </ListContainer>
     </div>
   );
