@@ -61,16 +61,18 @@ const updateQueryParams = (
   param: string,
   newValue: string | null
 ) => {
+  const query = { ...router.query };
+
   if (newValue) {
     router.push({
       pathname: router.pathname,
       query: { ...router.query, [param]: newValue },
     });
   } else {
-    delete router.query[param];
+    delete query[param]; // do not mutate the router.query object directly
     router.push({
       pathname: router.pathname,
-      query: { ...router.query },
+      query: { ...query },
     });
   }
 };
