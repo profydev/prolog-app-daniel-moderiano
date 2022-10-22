@@ -4,8 +4,6 @@ import axios from "axios";
 import type { Page } from "@typings/page.types";
 import type { Issue } from "../types/issue.types";
 
-// * Filters defined here are NOT affecting test failures in pagination and reload
-
 export interface Filters {
   status: string | null;
   level: string | null;
@@ -13,12 +11,11 @@ export interface Filters {
 }
 
 async function getIssues(page: number, filters: Filters) {
-  const { status, level, project } = filters;
-
   const { data } = await axios.get(
-    `https://prolog-api.profy.dev/issue?page=${page}${
-      status ? `&status=${status}` : ""
-    }${level ? `&level=${level}` : ""}${project ? `&project=${project}` : ""}`
+    `https://prolog-api.profy.dev/issue?page=${page}`,
+    {
+      params: filters,
+    }
   );
   return data;
 }
