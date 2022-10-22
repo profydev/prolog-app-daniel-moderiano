@@ -2,9 +2,9 @@ import { IssueLevel, IssueStatus } from "@features/issues/types/issue.types";
 import { Input, SelectComponent } from "@features/ui";
 import { breakpoint, space } from "@styles/theme";
 import { NextRouter, useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import * as React from "react";
 import styled from "styled-components";
-import { useDebounceValue } from "./use-debounce-value";
+import debounce from "lodash/debounce";
 
 interface OptionType {
   label: string;
@@ -80,19 +80,7 @@ export function IssueFilters() {
   const { status, level } = router.query;
   const statusFilter = typeof status === "string" ? status : null;
   const levelFilter = typeof level === "string" ? level : null;
-
-  // We must debounce the project filter input to avoid an API call every time the user types a character.
-  const [realTimeValue, setRealTimeValue] = useState("");
-  const debouncedValue = useDebounceValue(realTimeValue, 1000);
-
-  // Adding router as a dependency causes an infinite render loop! The intended behaviour is to only run this effect for changes to debounced value, not for router changes. It is appropriate to omit router as a dependency here (NextJS docs also do the same).
-  useEffect(() => {
-    if (debouncedValue) {
-      // avoid modfying router on initial render as debouncedValue wont't yet exist. Tests will also fail otherwise!
-      updateQueryParams(router, "project", debouncedValue);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedValue]);
+  const debouncedHandler = debounce(updateQueryParams, 1000);
 
   return (
     <Container>
@@ -139,9 +127,10 @@ export function IssueFilters() {
       <Input
         placeholder="Project Name"
         iconSrc="/icons/search.svg"
-        onChange={(event) => setRealTimeValue(event.currentTarget.value)}
+        onChange={(event) =>
+          debouncedHandler(router, "project", event.target.value)
+        }
         data-cy="projectInput"
-        value={realTimeValue}
       />
     </Container>
   );
